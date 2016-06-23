@@ -1,0 +1,20 @@
+Use double quotes for variables.
+
+If want something from session then use $this->request->session()->read('Auth.User.id');
+
+To logg for debugging use $this->log('Got here', 'debug');
+
+use <?= $this->Form->postButton(__('Confirm borrow'), ['action' => 'confirmBorrow', $book->id]) ?> to create buttons.
+use  $this->Form->postButton
+
+to change a specific field use $book->set(array('is_borrowed' => '1')); where $book is fetched by  $book = $this->Books->get($id, ['contain' => ['Users', 'Reviews']]);
+
+
+For specific conditions in query use 
+$this->paginate = [
+            'contain' => ['Users']
+            'conditions' => array(
+                "Books.user_id = $user_id"
+                //'Books.user_id = 1'
+            )
+             ];

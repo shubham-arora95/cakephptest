@@ -1,0 +1,3 @@
+if no post request on borrow page then show a search box.
+
+if a post request  is present then show details of the book along with confirm borrow button.

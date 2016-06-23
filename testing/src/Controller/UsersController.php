@@ -116,7 +116,7 @@ class UsersController extends AppController
                if($user)
                {
                    $this->Auth->setUser($user);
-                   return $this->redirect(['controller' => 'posts']);
+                   return $this->redirect(['controller' => 'users']);
                }
         }
         
