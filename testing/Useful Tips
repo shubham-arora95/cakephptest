@@ -1,16 +1,16 @@
-Use double quotes for variables.
+1.Use double quotes for variables.
 
-If want something from session then use $this->request->session()->read('Auth.User.id');
+2.If want something from session then use $this->request->session()->read('Auth.User.id');
 
-To logg for debugging use $this->log('Got here', 'debug');
+3. To logg for debugging use $this->log('Got here', 'debug');
 
-use <?= $this->Form->postButton(__('Confirm borrow'), ['action' => 'confirmBorrow', $book->id]) ?> to create buttons.
-use  $this->Form->postButton
+4. use <?= $this->Form->postButton(__('Confirm borrow'), ['action' => 'confirmBorrow', $book->id]) ?> to create buttons.
+        use  $this->Form->postButton
 
-to change a specific field use $book->set(array('is_borrowed' => '1')); where $book is fetched by  $book = $this->Books->get($id, ['contain' => ['Users', 'Reviews']]);
+5. To change a specific field use $book->set(array('is_borrowed' => '1')); where $book is fetched by  $book = $this->Books->get($id, ['contain' => ['Users', 'Reviews']]);
 
 
-For specific conditions in query use 
+6. For specific conditions in query use 
 $this->paginate = [
             'contain' => ['Users']
             'conditions' => array(
@@ -18,3 +18,24 @@ $this->paginate = [
                 //'Books.user_id = 1'
             )
              ];
+             
+             
+7. If showing error helper class can't be converted into string then remove double quotes.
+
+8. Using relational operators $row['attended'] == 1 ? 'yes' : 'no'
+
+
+9. We did following to create a menu
+$this->loadModel('Menus');
+        $menus = $this->Menus->find('all');
+        $this->set('menus', $menus);
+        $this->set('_serialize', ['menu']);
+        
+        
+10. To get 1 step up in he url use ../
+
+11. To allow a specific method use this in beforeFilter method
+ public function beforeFilter(Event $event)
+    {
+        $this->Auth->allow('index');
+    }

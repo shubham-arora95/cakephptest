@@ -1,3 +1,16 @@
-if no post request on borrow page then show a search box.
+1. if no post request on borrow page then show a search box.
 
-if a post request  is present then show details of the book along with confirm borrow button.
+2. if a post request is present then show details of the book along with confirm borrow button.
+
+3. Creating a stable menu.-- Done
+
+4. Creating a relation between borrowed books and the user who has borrowed it along with issueing date and time and returning date and time. 
+    IDEAS:
+    i.) Create a borrowedBooks table that contains Book id associated with books table, user-id associated with user            table, borrowed date & time and returning date & time. So, when a user confirm borrow then a new entity is created in      the borrowedBooks table.
+    
+    
+5. Creating a dashboard.
+6. Home page shows listing page.
+7. When user login show dashboard.
+8. When user logout show home page.
+9. when click on home show listing again.
