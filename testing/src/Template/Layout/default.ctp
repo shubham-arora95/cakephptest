@@ -46,10 +46,20 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <?php if($loggedIn):?>
                     <li><?= $this->html->link('Logout',['controller' => 'users','action' => 'logout']); ?></li>
                 <?php else:?>
-                    <li><?= $this->html->link('Register',['controller' => 'users','action' => 'register']); ?></li>
+                <li><?= $this->html->link('Login',['controller' => 'users','action' => 'login']); ?></li>
+                <li><?= $this->html->link('Register',['controller' => 'users','action' => 'register']); ?></li>
                 <!-- <li><a target="_blank" href="http://book.cakephp.org/3.0/">Documentation</a></li>
                 <li><a target="_blank" href="http://api.cakephp.org/3.0/">API</a></li> -->
                 <?php endif ?>
+            </ul>
+            
+            <!-- Left menu manually created -->
+            <ul class="left">
+                <?php if($loggedIn): ?>
+                    <?= $this->element('../menus/main'); ?>
+                <?php else: ?>
+                <?php endif ?>
+                
             </ul>
         </div>
     </nav>

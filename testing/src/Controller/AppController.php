@@ -80,5 +80,22 @@ class AppController extends Controller
         }
         else
             $this->set('loggedIn', false);
+        
+        
+        
+        
+        //$menus = $this->paginate($this->Menus);
+        /*
+        *To crate a menu do:
+        *   1. Load the model of the class with $this->loadModel('model-name); method
+        *   2.create a object with a resultset of all the menu item 
+        */
+        $this->loadModel('Menus');
+        $menus = $this->Menus->find('all', ['order' => ['name' => 'ASC']]);
+        $this->set('menus', $menus);
+        $this->set('_serialize', ['menu']);
+    
     }
+    
+    
 }

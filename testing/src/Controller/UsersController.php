@@ -116,7 +116,7 @@ class UsersController extends AppController
                if($user)
                {
                    $this->Auth->setUser($user);
-                   return $this->redirect(['controller' => 'users']);
+                   return $this->redirect(['controller' => 'home']);
                }
         }
         
@@ -127,8 +127,9 @@ class UsersController extends AppController
     //Logout action
     public function logout()
     {
-        $this->Flash->success('You have logout successfully.');
-        return $this->redirect($this->Auth->logout());
+        $this->Flash->success('You have logged out successfully.');
+        $this->Auth->logout();
+        return $this->redirect(['controller' => 'home']);
     }
 
     public function register()
@@ -157,5 +158,6 @@ class UsersController extends AppController
         // cause problems with normal functioning of AuthComponent.
         $this->Auth->allow(['add', 'logout']);
         $this->Auth->allow(['register']);
+        $this->Auth->allow(['home']);
     }
 }
