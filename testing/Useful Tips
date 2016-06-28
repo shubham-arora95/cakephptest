@@ -44,3 +44,13 @@ $this->loadModel('Menus');
     $time = date("Y-m-d H:i:s");
 
 13. We can use only one model at a time also to save data in a table we have to load that model. To do so load only the model which is required. 
+
+14. 
+To get a field from a entity fetched from table use  
+    $book->is_borrowed == 1;
+where book was fethched by using
+    $book = $this->Books->get($id, [
+            'contain' => ['Users', 'Reviews']
+        ]);
+
+        
