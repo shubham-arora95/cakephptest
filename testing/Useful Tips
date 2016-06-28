@@ -39,3 +39,8 @@ $this->loadModel('Menus');
     {
         $this->Auth->allow('index');
     }
+
+12. To get current date and time use 
+    $time = date("Y-m-d H:i:s");
+
+13. We can use only one model at a time also to save data in a table we have to load that model. To do so load only the model which is required. 

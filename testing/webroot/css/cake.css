@@ -4,7 +4,11 @@ a.disabled {
 }
 
 a:hover {
-    color: #15848F;
+    color: black;
+}
+
+a:active { 
+    background-color: yellow;
 }
 
 a {
@@ -386,6 +390,11 @@ pre {
 }
 
 .top-bar-section li:not(.has-form) a:not(.button):hover {
+    background-color: #308e97;
+    background: #308e97;
+}
+
+.top-bar-section li:not(.has-form) a:not(.button):active {
     background-color: #308e97;
     background: #308e97;
 }
