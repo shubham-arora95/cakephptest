@@ -7,6 +7,8 @@
         <li><?= $this->Html->link(__('New Request'), ['action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Books'), ['controller' => 'Books', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Book'), ['controller' => 'Books', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="requests view large-9 medium-8 columns content">
@@ -17,16 +19,16 @@
             <td><?= $request->has('book') ? $this->Html->link($request->book->title, ['controller' => 'Books', 'action' => 'view', $request->book->id]) : '' ?></td>
         </tr>
         <tr>
+            <th><?= __('User') ?></th>
+            <td><?= $request->has('user') ? $this->Html->link($request->user->name, ['controller' => 'Users', 'action' => 'view', $request->user->id]) : '' ?></td>
+        </tr>
+        <tr>
             <th><?= __('Id') ?></th>
             <td><?= $this->Number->format($request->id) ?></td>
         </tr>
         <tr>
-            <th><?= __('User Id Borrower') ?></th>
-            <td><?= $this->Number->format($request->user_id_borrower) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('User Id Owner') ?></th>
-            <td><?= $this->Number->format($request->user_id_owner) ?></td>
+            <th><?= __('Borrowerid') ?></th>
+            <td><?= $this->Number->format($request->borrowerid) ?></td>
         </tr>
         <tr>
             <th><?= __('Weeks') ?></th>

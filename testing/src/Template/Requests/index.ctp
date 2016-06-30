@@ -4,6 +4,8 @@
         <li><?= $this->Html->link(__('New Request'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Books'), ['controller' => 'Books', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Book'), ['controller' => 'Books', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="requests index large-9 medium-8 columns content">
@@ -13,8 +15,8 @@
             <tr>
                 <th><?= $this->Paginator->sort('id') ?></th>
                 <th><?= $this->Paginator->sort('book_id') ?></th>
-                <th><?= $this->Paginator->sort('user_id_borrower') ?></th>
-                <th><?= $this->Paginator->sort('user_id_owner') ?></th>
+                <th><?= $this->Paginator->sort('borrowerid') ?></th>
+                <th><?= $this->Paginator->sort('user_id') ?>Owner</th>
                 <th><?= $this->Paginator->sort('Weeks') ?></th>
                 <th><?= $this->Paginator->sort('ownerAck') ?></th>
                 <th><?= $this->Paginator->sort('rentPaid') ?></th>
@@ -26,8 +28,8 @@
             <tr>
                 <td><?= $this->Number->format($request->id) ?></td>
                 <td><?= $request->has('book') ? $this->Html->link($request->book->title, ['controller' => 'Books', 'action' => 'view', $request->book->id]) : '' ?></td>
-                <td><?= $this->Number->format($request->user_id_borrower) ?></td>
-                <td><?= $this->Number->format($request->user_id_owner) ?></td>
+                <td><?= $this->Number->format($request->borrowerid) ?></td>
+                <td><?= $request->has('user') ? $this->Html->link($request->user->name, ['controller' => 'Users', 'action' => 'view', $request->user->id]) : '' ?></td>
                 <td><?= $this->Number->format($request->Weeks) ?></td>
                 <td><?= h($request->ownerAck) ?></td>
                 <td><?= h($request->rentPaid) ?></td>

@@ -19,7 +19,7 @@ class RequestsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Books']
+            'contain' => ['Books', 'Users']
         ];
         $requests = $this->paginate($this->Requests);
 
@@ -37,7 +37,7 @@ class RequestsController extends AppController
     public function view($id = null)
     {
         $request = $this->Requests->get($id, [
-            'contain' => ['Books']
+            'contain' => ['Books', 'Users']
         ]);
 
         $this->set('request', $request);
@@ -62,7 +62,8 @@ class RequestsController extends AppController
             }
         }
         $books = $this->Requests->Books->find('list', ['limit' => 200]);
-        $this->set(compact('request', 'books'));
+        $users = $this->Requests->Users->find('list', ['limit' => 200]);
+        $this->set(compact('request', 'books', 'users'));
         $this->set('_serialize', ['request']);
     }
 
@@ -88,7 +89,8 @@ class RequestsController extends AppController
             }
         }
         $books = $this->Requests->Books->find('list', ['limit' => 200]);
-        $this->set(compact('request', 'books'));
+        $users = $this->Requests->Users->find('list', ['limit' => 200]);
+        $this->set(compact('request', 'books', 'users'));
         $this->set('_serialize', ['request']);
     }
 

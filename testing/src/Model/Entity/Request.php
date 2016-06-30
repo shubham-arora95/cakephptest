@@ -9,8 +9,9 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $book_id
  * @property \App\Model\Entity\Book $book
- * @property int $user_id_borrower
- * @property int $user_id_owner
+ * @property int $borrowerid
+ * @property int $user_id
+ * @property \App\Model\Entity\User $user
  * @property int $Weeks
  * @property bool $ownerAck
  * @property bool $rentPaid
