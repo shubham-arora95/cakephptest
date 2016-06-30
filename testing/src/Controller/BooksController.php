@@ -193,6 +193,50 @@ class BooksController extends AppController
         //return $this->response->redirect(['action' => 'index']);
     }
     
+    public function generateRequest($id = null)
+    {
+        /*
+        1. Fetch current user id
+        2. Fetch the book for which the request is to be generated.
+        3. Fetch the user_id of the owner by the book result
+        4. Fetch the no. of weeks
+        5. Save all this info (load model for requests and then save)
+        6. Give request-id to the user
+        */
+        
+        
+        $this->request->allowMethod(['post', 'confirmBorrow']);
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $book = $this->Books->get($id, [
+            'contain' => ['Users', 'Reviews']
+        ]);
+        $owner_id = $book->user_id;
+        $Weeks = $this->request->data['Weeks'];
+        
+        $this->loadModel('requests');
+        $request = $this->requests->newEntity();
+        $request->set(array(
+            'book_id' => "$id",
+            'user_id_borrower' => "$user_id",
+            'user_id_owner' => "$owner_id",
+            'Weeks' => "$Weeks",
+            'ownerAck' => 1,
+            'rentPaid' => 1
+        ));
+        
+        if($this->requests->save($request))
+        {    
+            $this->Flash->success('Request successfully saved');
+            return $this->redirect(['action' => 'index']);
+        }
+        else
+        {
+            $this->Flash->error('Something went wrong!');
+            return $this->redirect(['action' => 'index']);
+        }
+        
+        
+    }
     
     
     public function myBooks($id = null)

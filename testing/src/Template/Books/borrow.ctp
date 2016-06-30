@@ -77,7 +77,7 @@
         </table>
         <?php endif; ?>
     </div>
-    <?= $this->Form->create(null,['url' => "/books/confirmBorrow/$book->id", 'method' => 'POST']) ?>
+    <?= $this->Form->create(null,['url' => "/books/generateRequest/$book->id", 'method' => 'POST']) ?>
     <fieldset>
         <legend><?= __('Select Weeks') ?></legend>
         <?php
@@ -97,7 +97,7 @@
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
-    <!-- <?= $this->Form->create($book,['url' => "/books/confirmBorrow/$book->id", $book->id]); ?>
+    <!-- <?= $this->Form->create($book,['url' => "/books/generateRequest/$book->id", $book->id]); ?>
 
              <?php echo $this->Form->select('Weeks', [
                 'select' => 'Select',
