@@ -47,21 +47,6 @@
             <th><?= __('Is Borrowed') ?></th>
             <td><?= $book->is_borrowed ? __('Yes') : __('No'); ?></td>
         </tr>
-        <tr>
-            <th><?= __('For how much time you want this book') ?></th>
-            <td> <?php echo $this->Form->select('noOfWeeks', [
-                'select' => 'Select',
-                '1 Week' => '1 Week',
-                '2 Week' => '2 Week',
-                '3 Week' => '3 Week'
-                ], 
-                /* 3rd parameter used to specify attributes in select */
-                [
-                'disabled' => ['select'],
-                'default' => ['select']
-                ]);?>
-            </td>
-        </tr>
     </table>
     <div class="row">
         <h4><?= __('Description') ?></h4>
@@ -94,8 +79,9 @@
     </div>
     <?= $this->Form->create(null,['url' => "/books/confirmBorrow/$book->id", 'method' => 'POST']) ?>
     <fieldset>
-        <legend><?= __('Add Book') ?></legend>
+        <legend><?= __('Select Weeks') ?></legend>
         <?php
+            echo '<b>For how many weeks you want this book? </b>';
             echo $this->Form->select('Weeks', [
                 'select' => 'Select',
                 '1' => '1 Week',
@@ -112,6 +98,7 @@
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
     <!-- <?= $this->Form->create($book,['url' => "/books/confirmBorrow/$book->id", $book->id]); ?>
+
              <?php echo $this->Form->select('Weeks', [
                 'select' => 'Select',
                 '1 Week' => '1 Week',
