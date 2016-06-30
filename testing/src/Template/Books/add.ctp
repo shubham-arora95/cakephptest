@@ -20,7 +20,18 @@
             echo $this->Form->input('description');
             echo $this->Form->input('price');
             echo $this->Form->input('is_borrowed');
-            //echo $this->Form->input('user_id', ['options' => $users]);
+            
+            echo $this->Form->select('Weeks', [
+                'select' => 'Select',
+                '1' => '1 Week',
+                '2' => '2 Week',
+                '3' => '3 Week'
+                ], 
+                /* 3rd parameter used to specify attributes in select */
+                [
+                'disabled' => ['select'],
+                'default' => ['select']
+                ]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

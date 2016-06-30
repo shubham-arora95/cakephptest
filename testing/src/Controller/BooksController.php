@@ -63,12 +63,13 @@ class BooksController extends AppController
     {
         $user_id = $this->request->session()->read('Auth.User.id');
         $book = $this->Books->newEntity();
+        $this->log($this->request->data, 'debug');
         if ($this->request->is('post')) {
             $book = $this->Books->patchEntity($book, $this->request->data);
             $book->set(array('user_id' => "$user_id"));
             if ($this->Books->save($book)) {
                 $this->Flash->success(__('The book has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                //return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The book could not be saved. Please, try again.'));
             }
@@ -143,10 +144,14 @@ class BooksController extends AppController
         //redirect if the book is already borrowed with an error
     }
     
+    
+    
     public function confirmBorrow($id = null)
     {
         $this->request->allowMethod(['post', 'confirmBorrow']);
-        
+        $Weeks = $this->request->data['Weeks'];
+        $this->log($Weeks, 'debug');
+    
         //Get book by id
         $book = $this->Books->get($id, [
             'contain' => ['Users', 'Reviews']
@@ -168,15 +173,10 @@ class BooksController extends AppController
         )); */
         
         //save the changed record in DB
-        if($this->Books->save($book))
+        /*if($this->Books->save($book))
         {
             $this->loadModel('transactions');
             $user_id = $this->request->session()->read('Auth.User.id');
-            /*$time = Time::createFromFormat(
-                'Y-m-d H:i:s',
-                Time::now(),
-                'America/New_York'
-                );*/
             $time = date("Y-m-d");
             $transaction = $this->transactions->newEntity();
             $transaction->set(array(
@@ -189,9 +189,11 @@ class BooksController extends AppController
                 $this->Flash->success('Success');
         }
         else
-            $this->Flash->error('Something went wrong!');
-        return $this->redirect(['action' => 'index']);
+            $this->Flash->error('Something went wrong!');*/
+        //return $this->response->redirect(['action' => 'index']);
     }
+    
+    
     
     public function myBooks($id = null)
     {
