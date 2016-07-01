@@ -210,40 +210,41 @@ class BooksController extends AppController
         $book = $this->Books->get($id, [
             'contain' => ['Users', 'Reviews']
         ]);
-        $owner_id = $book->user_id;
-        $Weeks = $this->request->data['Weeks'];
-        
-        $this->loadModel('requests');
-        $request = $this->requests->newEntity();
-        $request->set(array(
-            'book_id' => "$id",
-            'borrowerId' => "$user_id",
-            'user_id' => "$owner_id",
-            'Weeks' => "$Weeks",
-            'ownerAck' => 1,
-            'rentPaid' => 1
-        ));
-        
-        if($this->requests->save($request))
+        if($book->status == 0) // Status is 0 if book is available
         {    
-            /* $book = $this->Books->get($id, [
-            'contain' => ['Users', 'Reviews']
-            ]);
-            $book->set(array('status' => '1'));
-            $this->loadModel('Books');
-            if($this->Books->save($book))
-            { */
-                $this->Flash->success('Request successfully saved');
-                return $this->redirect(['action' => 'index']);
-           // }
-        }
-        else
-        {
-            $this->Flash->error('Something went wrong!');
-            return $this->redirect(['action' => 'index']);
-        }
-        
-        
+            $owner_id = $book->user_id;
+            $Weeks = $this->request->data['Weeks'];
+
+            $this->loadModel('requests');
+            $request = $this->requests->newEntity();
+            $request->set(array(
+                'book_id' => "$id",
+                'borrowerid' => "$user_id",
+                'user_id' => "$owner_id",
+                'Weeks' => "$Weeks",
+                'ownerAck' => 0,
+                'rentPaid' => 0
+            ));
+
+            if($this->requests->save($request))
+            {    
+                 $book = $this->Books->get($id, [
+                'contain' => ['Users', 'Reviews']
+                ]);
+                $book->set(array('status' => '1'));
+                $this->loadModel('Books');
+                if($this->Books->save($book))
+                { 
+                    $this->Flash->success('Request successfully saved');
+                    return $this->redirect(['controller' => 'requests', 'action' => 'index']);
+                }
+            }
+            else
+            {
+                $this->Flash->error('Something went wrong!');
+                return $this->redirect(['controller' => 'requests', 'action' => 'index']);
+            }
+        }    
     }
     
     

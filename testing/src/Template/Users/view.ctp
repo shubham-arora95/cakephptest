@@ -36,6 +36,10 @@
             <th><?= __('Modified') ?></th>
             <td><?= h($user->modified) ?></td>
         </tr>
+        <tr>
+            <th><?= __('Role') ?></th>
+            <td><?= $user->role ? __('Admin') : __('Normal'); ?></td>
+        </tr>
     </table>
     <div class="related">
         <h4><?= __('Related Posts') ?></h4>

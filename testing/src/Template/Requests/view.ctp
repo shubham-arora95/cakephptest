@@ -28,7 +28,7 @@
         </tr>
         <tr>
             <th><?= __('Borrowerid') ?></th>
-            <td><?= $this->Number->format($request->borrowerid) ?></td>
+             <td><?= $request->has('user') ? $this->Html->link($request->borrowerid, ['controller' => 'Users', 'action' => 'view', $request->borrowerid]) : '' ?></td>
         </tr>
         <tr>
             <th><?= __('Weeks') ?></th>
