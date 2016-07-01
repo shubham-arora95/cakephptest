@@ -52,5 +52,15 @@ where book was fethched by using
     $book = $this->Books->get($id, [
             'contain' => ['Users', 'Reviews']
         ]);
+        
+15.
+For making 2 foreign keys change requestTable as
+ $this->belongsTo('Borrowers', [
+            'className' => 'Users',
+            'foreignKey' => 'borrower_id',
+            'joinType' => 'INNER'
+        ]);
+        
+where borrower_id is another foreign key
 
         

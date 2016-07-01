@@ -114,4 +114,18 @@ class RequestsController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+    
+    public function myIssueRequests()
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $this->paginate = [
+            'contain' => ['Books','Users'],
+             'conditions' => array(
+                "Requests.user_id = $user_id")
+        ];
+        $requests = $this->paginate($this->Requests);
+
+        $this->set(compact('requests'));
+        $this->set('_serialize', ['requests']);
+    }
 }

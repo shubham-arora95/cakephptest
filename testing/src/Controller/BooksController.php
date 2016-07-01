@@ -219,7 +219,7 @@ class BooksController extends AppController
             $request = $this->requests->newEntity();
             $request->set(array(
                 'book_id' => "$id",
-                'borrowerid' => "$user_id",
+                'borrower_id' => "$user_id",
                 'user_id' => "$owner_id",
                 'Weeks' => "$Weeks",
                 'ownerAck' => 0,

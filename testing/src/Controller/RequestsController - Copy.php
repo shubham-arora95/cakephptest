@@ -113,7 +113,7 @@ class RequestsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
     
-    public function issueRequests()
+    public function myIssueRequests()
     {
         $user_id = $this->request->session()->read('Auth.User.id');
         $this->paginate = [
