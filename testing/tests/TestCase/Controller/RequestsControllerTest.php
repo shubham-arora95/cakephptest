@@ -23,7 +23,7 @@ class RequestsControllerTest extends IntegrationTestCase
         'app.posts',
         'app.transactions',
         'app.reviews',
-        'app.borrower'
+        'app.borrowers'
     ];
 
     /**

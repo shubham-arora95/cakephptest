@@ -19,7 +19,7 @@ class RequestsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Books', 'Users']
+            'contain' => ['Books', 'Borrowers', 'Users']
         ];
         $requests = $this->paginate($this->Requests);
 
@@ -37,7 +37,7 @@ class RequestsController extends AppController
     public function view($id = null)
     {
         $request = $this->Requests->get($id, [
-            'contain' => ['Books', 'Borrower', 'Users']
+            'contain' => ['Books', 'Borrowers', 'Users']
         ]);
 
         $this->set('request', $request);
@@ -62,9 +62,9 @@ class RequestsController extends AppController
             }
         }
         $books = $this->Requests->Books->find('list', ['limit' => 200]);
-        $borrower = $this->Requests->Borrower->find('list', ['limit' => 200]);
+        $borrowers = $this->Requests->Borrowers->find('list', ['limit' => 200]);
         $users = $this->Requests->Users->find('list', ['limit' => 200]);
-        $this->set(compact('request', 'books', 'borrower', 'users'));
+        $this->set(compact('request', 'books', 'borrowers', 'users'));
         $this->set('_serialize', ['request']);
     }
 
@@ -90,9 +90,9 @@ class RequestsController extends AppController
             }
         }
         $books = $this->Requests->Books->find('list', ['limit' => 200]);
-        $borrower = $this->Requests->Borrower->find('list', ['limit' => 200]);
+        $borrowers = $this->Requests->Borrowers->find('list', ['limit' => 200]);
         $users = $this->Requests->Users->find('list', ['limit' => 200]);
-        $this->set(compact('request', 'books', 'borrower', 'users'));
+        $this->set(compact('request', 'books', 'borrowers', 'users'));
         $this->set('_serialize', ['request']);
     }
 
