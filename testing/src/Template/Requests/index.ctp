@@ -16,7 +16,7 @@
                 <th><?= $this->Paginator->sort('id') ?></th>
                 <th><?= $this->Paginator->sort('book_id') ?></th>
                 <th><?= $this->Paginator->sort('borrowerid') ?></th>
-                <th><?= $this->Paginator->sort('user_id') ?>Owner</th>
+                <th><?= $this->Paginator->sort('user_id') ?></th>
                 <th><?= $this->Paginator->sort('Weeks') ?></th>
                 <th><?= $this->Paginator->sort('ownerAck') ?></th>
                 <th><?= $this->Paginator->sort('rentPaid') ?></th>

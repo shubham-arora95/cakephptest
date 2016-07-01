@@ -11,7 +11,10 @@ use Cake\Validation\Validator;
  * Books Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Users
+ * @property \Cake\ORM\Association\HasMany $BookTransactions
+ * @property \Cake\ORM\Association\HasMany $Requests
  * @property \Cake\ORM\Association\HasMany $Reviews
+ * @property \Cake\ORM\Association\HasMany $Transactions
  */
 class BooksTable extends Table
 {
@@ -34,7 +37,16 @@ class BooksTable extends Table
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
         ]);
+        $this->hasMany('BookTransactions', [
+            'foreignKey' => 'book_id'
+        ]);
+        $this->hasMany('Requests', [
+            'foreignKey' => 'book_id'
+        ]);
         $this->hasMany('Reviews', [
+            'foreignKey' => 'book_id'
+        ]);
+        $this->hasMany('Transactions', [
             'foreignKey' => 'book_id'
         ]);
     }
@@ -77,9 +89,9 @@ class BooksTable extends Table
             ->notEmpty('price');
 
         $validator
-            ->boolean('is_borrowed')
-            ->requirePresence('is_borrowed', 'create')
-            ->notEmpty('is_borrowed');
+            ->boolean('status')
+            ->requirePresence('status', 'create')
+            ->notEmpty('status');
 
         return $validator;
     }

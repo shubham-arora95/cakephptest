@@ -20,7 +20,7 @@
                 <th><?= $this->Paginator->sort('edition') ?></th>
                 <th><?= $this->Paginator->sort('course') ?></th>
                 <th><?= $this->Paginator->sort('price') ?></th>
-                <th><?= $this->Paginator->sort('borrowed') ?></th>
+                <th><?= $this->Paginator->sort('status') ?></th>
                 <th><?= $this->Paginator->sort('user_id') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -35,7 +35,10 @@
                 <td><?= h($book->edition) ?></td>
                 <td><?= h($book->course) ?></td>
                 <td><?= $this->Number->format($book->price) ?></td>
-                <td><?= h($book->is_borrowed?'Yes':'No') ?></td>
+                <td><?php if($book->status == 0) echo "Available"; 
+                    elseif($book->status == 1) echo "Requeted"; 
+                    elseif($book->status == 2) echo "Not Available"; 
+                         ?></td>
                 <td><?= $book->has('user') ? $this->Html->link($book->user->name, ['controller' => 'Users', 'action' => 'view', $book->user->id]) : '' ?></td>
                 <td class="actions">
                     <!-- Show edit and delete buttons only if the current user has added this book also hide borrow button in this case. -->

@@ -44,8 +44,11 @@
             <td><?= $this->Number->format($book->price) ?></td>
         </tr>
         <tr>
-            <th><?= __('Is Borrowed') ?></th>
-            <td><?= $book->is_borrowed ? __('Yes') : __('No'); ?></td>
+            <th><?= __('Status') ?></th>
+            <td><?php if($book->status == 0) echo "Available"; 
+                    elseif($book->status == 1) echo "Requeted"; 
+                    elseif($book->status == 2) echo "Not Available"; 
+                         ?></td>
         </tr>
     </table>
     <div class="row">

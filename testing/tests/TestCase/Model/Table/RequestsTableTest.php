@@ -28,7 +28,9 @@ class RequestsTableTest extends TestCase
         'app.books',
         'app.users',
         'app.posts',
-        'app.reviews'
+        'app.book_transactions',
+        'app.reviews',
+        'app.transactions'
     ];
 
     /**

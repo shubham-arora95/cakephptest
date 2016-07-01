@@ -3,8 +3,7 @@
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('Edit Book'), ['action' => 'edit', $book->id]) ?> </li>
         <li><?= $this->Form->postLink(__('Delete Book'), ['action' => 'delete', $book->id], ['confirm' => __('Are you sure you want to delete # {0}?', $book->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List All Books'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('My Books'), ['action' => 'myBooks']) ?></li>
+        <li><?= $this->Html->link(__('List Books'), ['action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Book'), ['action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?> </li>
@@ -44,8 +43,12 @@
             <td><?= $this->Number->format($book->price) ?></td>
         </tr>
         <tr>
-            <th><?= __('Is Borrowed') ?></th>
-            <td><?= $book->is_borrowed ? __('Yes') : __('No'); ?></td>
+            <th><?= __('Status') ?></th>
+            <td><?php if($book->status == 0) echo "Available"; 
+                    elseif($book->status == 1) echo "Requeted"; 
+                    elseif($book->status == 2) echo "Not Available"; 
+                 ?>
+            </td>
         </tr>
     </table>
     <div class="row">

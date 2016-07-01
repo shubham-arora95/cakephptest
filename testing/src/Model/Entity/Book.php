@@ -13,7 +13,7 @@ use Cake\ORM\Entity;
  * @property string $course
  * @property string $description
  * @property float $price
- * @property bool $is_borrowed
+ * @property bool $status
  * @property int $user_id
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Review[] $reviews

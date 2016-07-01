@@ -43,7 +43,7 @@
                         $user_id = $this->request->session()->read('Auth.User.id');
                         //echo "$user_id";       
                     ?>
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $book->id]) ?>
+                    <?= $this->Html->link(__('View'), ['controller' => 'books','action' => 'view', $book->id]) ?>
                    
                 </td>
             </tr>

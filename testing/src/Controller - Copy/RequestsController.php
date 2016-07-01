@@ -19,7 +19,7 @@ class RequestsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Books','Users']
+            'contain' => ['Books', 'Users']
         ];
         $requests = $this->paginate($this->Requests);
 

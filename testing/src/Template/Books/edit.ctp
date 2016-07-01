@@ -7,7 +7,7 @@
                 ['confirm' => __('Are you sure you want to delete # {0}?', $book->id)]
             )
         ?></li>
-        <li><?= $this->Html->link(__('List All Books'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Books'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Reviews'), ['controller' => 'Reviews', 'action' => 'index']) ?></li>
@@ -25,8 +25,8 @@
             echo $this->Form->input('course');
             echo $this->Form->input('description');
             echo $this->Form->input('price');
-            echo $this->Form->input('is_borrowed');
-            //echo $this->Form->input('user_id', ['options' => $users]);
+            echo $this->Form->input('status');
+            echo $this->Form->input('user_id', ['options' => $users]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

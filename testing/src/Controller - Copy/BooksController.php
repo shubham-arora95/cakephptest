@@ -134,7 +134,7 @@ class BooksController extends AppController
         ]);
     
         $this->set('book', $book);
-        if($book->status == 1)
+        if($book->is_borrowed == 1)
         {
             $this->Flash->error("Book is already borrowed");
             return $this->redirect(['action' => 'index']);
@@ -157,8 +157,8 @@ class BooksController extends AppController
             'contain' => ['Users', 'Reviews']
         ]);
         
-        //Change borrow field 
-        $book->set(array('status' => '1'));
+        //Change is_borrow field 
+        $book->set(array('is_borrowed' => '1'));
         
         //Adding a transaction
         /*$this->loadModel('transaction');
@@ -205,7 +205,7 @@ class BooksController extends AppController
         */
         
         
-        //$this->request->allowMethod(['post', 'confirmBorrow']);
+        $this->request->allowMethod(['post', 'confirmBorrow']);
         $user_id = $this->request->session()->read('Auth.User.id');
         $book = $this->Books->get($id, [
             'contain' => ['Users', 'Reviews']
@@ -217,8 +217,8 @@ class BooksController extends AppController
         $request = $this->requests->newEntity();
         $request->set(array(
             'book_id' => "$id",
-            'borrowerId' => "$user_id",
-            'user_id' => "$owner_id",
+            'user_id_borrower' => "$user_id",
+            'user_id_owner' => "$owner_id",
             'Weeks' => "$Weeks",
             'ownerAck' => 1,
             'rentPaid' => 1
@@ -226,16 +226,8 @@ class BooksController extends AppController
         
         if($this->requests->save($request))
         {    
-            /* $book = $this->Books->get($id, [
-            'contain' => ['Users', 'Reviews']
-            ]);
-            $book->set(array('status' => '1'));
-            $this->loadModel('Books');
-            if($this->Books->save($book))
-            { */
-                $this->Flash->success('Request successfully saved');
-                return $this->redirect(['action' => 'index']);
-           // }
+            $this->Flash->success('Request successfully saved');
+            return $this->redirect(['action' => 'index']);
         }
         else
         {
@@ -274,7 +266,7 @@ class BooksController extends AppController
             //Show only the books added by the user by using condition
             'conditions' => array(
                 "Books.user_id != $user_id",
-                "Books.status = 0"
+                "Books.is_borrowed = 0"
                 //'Books.user_id = 1'
             )];
         $books = $this->paginate($this->Books);
