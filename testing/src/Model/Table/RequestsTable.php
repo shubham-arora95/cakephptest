@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
  * Requests Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Books
+ * @property \Cake\ORM\Association\BelongsTo $Borrowers
  * @property \Cake\ORM\Association\BelongsTo $Users
  */
 class RequestsTable extends Table
@@ -34,6 +35,11 @@ class RequestsTable extends Table
             'foreignKey' => 'book_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('Borrowers', [
+            'className' => 'Users',
+            'foreignKey' => 'borrower_id',
+            'joinType' => 'INNER'
+        ]);
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
@@ -51,11 +57,6 @@ class RequestsTable extends Table
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
-
-        $validator
-            ->integer('borrowerid')
-            ->requirePresence('borrowerid', 'create')
-            ->notEmpty('borrowerid');
 
         $validator
             ->integer('Weeks')
@@ -85,6 +86,7 @@ class RequestsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['book_id'], 'Books'));
+        $rules->add($rules->existsIn(['borrower_id'], 'Borrowers'));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         return $rules;
     }

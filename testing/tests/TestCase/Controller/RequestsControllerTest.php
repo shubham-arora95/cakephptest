@@ -19,10 +19,11 @@ class RequestsControllerTest extends IntegrationTestCase
         'app.requests',
         'app.books',
         'app.users',
-        'app.posts',
         'app.book_transactions',
+        'app.posts',
+        'app.transactions',
         'app.reviews',
-        'app.transactions'
+        'app.borrower'
     ];
 
     /**

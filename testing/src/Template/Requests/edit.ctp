@@ -20,7 +20,7 @@
         <legend><?= __('Edit Request') ?></legend>
         <?php
             echo $this->Form->input('book_id', ['options' => $books]);
-            echo $this->Form->input('borrowerid');
+            echo $this->Form->input('borrower_id');
             echo $this->Form->input('user_id', ['options' => $users]);
             echo $this->Form->input('Weeks');
             echo $this->Form->input('ownerAck');

@@ -19,7 +19,7 @@ class RequestsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Books','Users']
+            'contain' => ['Books', 'Users']
         ];
         $requests = $this->paginate($this->Requests);
 
@@ -37,7 +37,7 @@ class RequestsController extends AppController
     public function view($id = null)
     {
         $request = $this->Requests->get($id, [
-            'contain' => ['Books', 'Users']
+            'contain' => ['Books', 'Borrower', 'Users']
         ]);
 
         $this->set('request', $request);
@@ -62,8 +62,9 @@ class RequestsController extends AppController
             }
         }
         $books = $this->Requests->Books->find('list', ['limit' => 200]);
+        $borrower = $this->Requests->Borrower->find('list', ['limit' => 200]);
         $users = $this->Requests->Users->find('list', ['limit' => 200]);
-        $this->set(compact('request', 'books', 'users'));
+        $this->set(compact('request', 'books', 'borrower', 'users'));
         $this->set('_serialize', ['request']);
     }
 
@@ -89,8 +90,9 @@ class RequestsController extends AppController
             }
         }
         $books = $this->Requests->Books->find('list', ['limit' => 200]);
+        $borrower = $this->Requests->Borrower->find('list', ['limit' => 200]);
         $users = $this->Requests->Users->find('list', ['limit' => 200]);
-        $this->set(compact('request', 'books', 'users'));
+        $this->set(compact('request', 'books', 'borrower', 'users'));
         $this->set('_serialize', ['request']);
     }
 
@@ -112,20 +114,4 @@ class RequestsController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
-    
-    public function issueRequests()
-    {
-        $user_id = $this->request->session()->read('Auth.User.id');
-        $this->paginate = [
-            'contain' => ['Books','Users'],
-             'conditions' => array(
-                "Requests.user_id = $user_id")
-        ];
-        $requests = $this->paginate($this->Requests);
-
-        $this->set(compact('requests'));
-        $this->set('_serialize', ['requests']);
-    }
-    
-    
 }

@@ -15,7 +15,7 @@
             <tr>
                 <th><?= $this->Paginator->sort('id') ?></th>
                 <th><?= $this->Paginator->sort('book_id') ?></th>
-                <th><?= $this->Paginator->sort('borrowerid') ?></th>
+                <th><?= $this->Paginator->sort('borrower_id') ?></th>
                 <th><?= $this->Paginator->sort('user_id') ?></th>
                 <th><?= $this->Paginator->sort('Weeks') ?></th>
                 <th><?= $this->Paginator->sort('ownerAck') ?></th>
@@ -28,11 +28,11 @@
             <tr>
                 <td><?= $this->Number->format($request->id) ?></td>
                 <td><?= $request->has('book') ? $this->Html->link($request->book->title, ['controller' => 'Books', 'action' => 'view', $request->book->id]) : '' ?></td>
-                <td><?= $request->has('user') ? $this->Html->link($request->borrowerid, ['controller' => 'Users', 'action' => 'view', $request->borrowerid]) : '' ?></td>
+                <td><?= $this->Number->format($request->borrower_id) ?></td>
                 <td><?= $request->has('user') ? $this->Html->link($request->user->name, ['controller' => 'Users', 'action' => 'view', $request->user->id]) : '' ?></td>
                 <td><?= $this->Number->format($request->Weeks) ?></td>
-                <td><?= h($request->ownerAck) ? 'Yes' : 'No' ?></td>
-                <td><?= h($request->rentPaid) ? 'Yes' : 'No' ?></td>
+                <td><?= h($request->ownerAck) ?></td>
+                <td><?= h($request->rentPaid) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $request->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $request->id]) ?>
