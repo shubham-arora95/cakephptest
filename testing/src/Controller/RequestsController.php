@@ -63,8 +63,8 @@ class RequestsController extends AppController
         }
         $books = $this->Requests->Books->find('list', ['limit' => 200]);
         $borrowers = $this->Requests->Borrowers->find('list', ['limit' => 200]);
-        $users = $this->Requests->Users->find('list', ['limit' => 200]);
-        $this->set(compact('request', 'books', 'borrowers', 'users'));
+        $owners = $this->Requests->owners->find('list', ['limit' => 200]);
+        $this->set(compact('request', 'books', 'borrowers', 'owners'));
         $this->set('_serialize', ['request']);
     }
 
@@ -91,8 +91,8 @@ class RequestsController extends AppController
         }
         $books = $this->Requests->Books->find('list', ['limit' => 200]);
         $borrowers = $this->Requests->Borrowers->find('list', ['limit' => 200]);
-        $users = $this->Requests->Users->find('list', ['limit' => 200]);
-        $this->set(compact('request', 'books', 'borrowers', 'users'));
+        $owners = $this->Requests->owners->find('list', ['limit' => 200]);
+        $this->set(compact('request', 'books', 'borrowers', 'owners'));
         $this->set('_serialize', ['request']);
     }
 
@@ -113,5 +113,63 @@ class RequestsController extends AppController
             $this->Flash->error(__('The request could not be deleted. Please, try again.'));
         }
         return $this->redirect(['action' => 'index']);
+    }
+    
+    public function myIssueRequests()
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $this->paginate = [
+            'contain' => ['Books', 'Borrowers', 'Owners'],
+            'conditions' => array(
+                "Requests.owner_id = $user_id",
+                'Requests.ownerAck = 0'
+            )
+        ];
+        $requests = $this->paginate($this->Requests);
+
+        $this->set(compact('requests'));
+        $this->set('_serialize', ['requests']);
+    }
+    
+    public function acceptIssueRequest($id = null)
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $request = $this->Requests->get($id, [
+            'contain' => []
+        ]);
+        if($request->owner_id == $user_id)
+        {
+            $request->set(array('ownerAck' => '1'));
+            if($this->Requests->save($request))
+                $this->Flash->success(__('Request has been accepted successfully'));
+            else
+                $this->Flash->error(__('Something went wrong.'));
+        }
+        else
+        {
+            $this->Flash->error(__('Something went wrong.'));
+        }
+        return $this->redirect(['action' => 'view', $id]);
+    }
+    
+    public function declineIssueRequest($id = null)
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $request = $this->Requests->get($id, [
+            'contain' => []
+        ]);
+        if($request->owner_id == $user_id)
+        {
+            $request->set(array('ownerAck' => '3'));
+            if($this->Requests->save($request))
+                $this->Flash->success(__('Request has been declined successfully'));
+            else
+                $this->Flash->error(__('Something went wrong.'));
+        }
+        else
+        {
+            $this->Flash->error(__('Something went wrong.'));
+        }
+        return $this->redirect(['action' => 'view', $id]);
     }
 }

@@ -65,7 +65,7 @@ class RequestsTable extends Table
             ->notEmpty('Weeks');
 
         $validator
-            ->boolean('ownerAck')
+            ->integer('ownerAck')
             ->requirePresence('ownerAck', 'create')
             ->notEmpty('ownerAck');
 

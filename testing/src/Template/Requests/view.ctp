@@ -36,7 +36,12 @@
         </tr>
         <tr>
             <th><?= __('OwnerAck') ?></th>
-            <td><?= $request->ownerAck ? __('Yes') : __('No'); ?></td>
+            <td><?php 
+                        if($request->ownerAck == 0) echo 'Pending';
+                        elseif($request->ownerAck == 1) echo 'Accepted';
+                        elseif($request->ownerAck == 2) echo 'Declined';
+                    ?>
+            </td>
         </tr>
         <tr>
             <th><?= __('RentPaid') ?></th>
