@@ -12,7 +12,7 @@ use Cake\Validation\Validator;
  *
  * @property \Cake\ORM\Association\BelongsTo $Books
  * @property \Cake\ORM\Association\BelongsTo $Borrowers
- * @property \Cake\ORM\Association\BelongsTo $Users
+ * @property \Cake\ORM\Association\BelongsTo $Owners
  */
 class RequestsTable extends Table
 {
@@ -40,8 +40,9 @@ class RequestsTable extends Table
             'foreignKey' => 'borrower_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
+        $this->belongsTo('Owners', [
+            'className' => 'Users',
+            'foreignKey' => 'owner_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -87,7 +88,7 @@ class RequestsTable extends Table
     {
         $rules->add($rules->existsIn(['book_id'], 'Books'));
         $rules->add($rules->existsIn(['borrower_id'], 'Borrowers'));
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
+        $rules->add($rules->existsIn(['owner_id'], 'Owners'));
         return $rules;
     }
 }

@@ -23,12 +23,12 @@
             <td><?= $request->has('borrower') ? $this->Html->link($request->borrower->name, ['controller' => 'Users', 'action' => 'view', $request->borrower->id]) : '' ?></td>
         </tr>
         <tr>
-            <th><?= __('User') ?></th>
-            <td><?= $request->has('user') ? $this->Html->link($request->user->name, ['controller' => 'Users', 'action' => 'view', $request->user->id]) : '' ?></td>
-        </tr>
-        <tr>
             <th><?= __('Id') ?></th>
             <td><?= $this->Number->format($request->id) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Owner') ?></th>
+            <td><?= $request->has('owner') ? $this->Html->link($request->owner->name, ['controller' => 'Users', 'action' => 'view', $request->owner->id]) : '' ?></td>
         </tr>
         <tr>
             <th><?= __('Weeks') ?></th>

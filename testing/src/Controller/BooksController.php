@@ -220,7 +220,7 @@ class BooksController extends AppController
             $request->set(array(
                 'book_id' => "$id",
                 'borrower_id' => "$user_id",
-                'user_id' => "$owner_id",
+                'owner_id' => "$owner_id",
                 'Weeks' => "$Weeks",
                 'ownerAck' => 0,
                 'rentPaid' => 0

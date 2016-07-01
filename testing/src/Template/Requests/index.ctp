@@ -16,7 +16,7 @@
                 <th><?= $this->Paginator->sort('id') ?></th>
                 <th><?= $this->Paginator->sort('book_id') ?></th>
                 <th><?= $this->Paginator->sort('borrower_id') ?></th>
-                <th><?= $this->Paginator->sort('user_id') ?></th>
+                <th><?= $this->Paginator->sort('owner_id') ?></th>
                 <th><?= $this->Paginator->sort('Weeks') ?></th>
                 <th><?= $this->Paginator->sort('ownerAck') ?></th>
                 <th><?= $this->Paginator->sort('rentPaid') ?></th>
@@ -29,7 +29,7 @@
                 <td><?= $this->Number->format($request->id) ?></td>
                 <td><?= $request->has('book') ? $this->Html->link($request->book->title, ['controller' => 'Books', 'action' => 'view', $request->book->id]) : '' ?></td>
                 <td><?= $request->has('borrower') ? $this->Html->link($request->borrower->name, ['controller' => 'Users', 'action' => 'view', $request->borrower->id]) : '' ?></td>
-                <td><?= $request->has('user') ? $this->Html->link($request->user->name, ['controller' => 'Users', 'action' => 'view', $request->user->id]) : '' ?></td>
+                <td><?= $request->has('owner') ? $this->Html->link($request->owner->name, ['controller' => 'Users', 'action' => 'view', $request->owner->id]) : '' ?></td>
                 <td><?= $this->Number->format($request->Weeks) ?></td>
                 <td><?= h($request->ownerAck) ?></td>
                 <td><?= h($request->rentPaid) ?></td>

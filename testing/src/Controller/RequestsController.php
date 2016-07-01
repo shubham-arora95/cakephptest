@@ -19,7 +19,7 @@ class RequestsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Books', 'Borrowers', 'Users']
+            'contain' => ['Books', 'Borrowers', 'Owners']
         ];
         $requests = $this->paginate($this->Requests);
 
@@ -37,7 +37,7 @@ class RequestsController extends AppController
     public function view($id = null)
     {
         $request = $this->Requests->get($id, [
-            'contain' => ['Books', 'Borrowers', 'Users']
+            'contain' => ['Books', 'Borrowers', 'Owners']
         ]);
 
         $this->set('request', $request);
@@ -113,19 +113,5 @@ class RequestsController extends AppController
             $this->Flash->error(__('The request could not be deleted. Please, try again.'));
         }
         return $this->redirect(['action' => 'index']);
-    }
-    
-    public function myIssueRequests()
-    {
-        $user_id = $this->request->session()->read('Auth.User.id');
-        $this->paginate = [
-            'contain' => ['Books','Users'],
-             'conditions' => array(
-                "Requests.user_id = $user_id")
-        ];
-        $requests = $this->paginate($this->Requests);
-
-        $this->set(compact('requests'));
-        $this->set('_serialize', ['requests']);
     }
 }
