@@ -40,8 +40,8 @@
                 <td><?= h($request->rentPaid)?'Yes':'No' ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $request->id]) ?>
-                    <?= $this->Html->link(__('  Accept'), ['action' => 'acceptIssueRequest', $request->id]) ?>
-                    <?= $this->Form->postLink(__('  Decline'), ['action' => 'declineIssueRequest', $request->id], ['confirm' => __('Are you sure you want to decline this request for this book?', $request->id)]) ?>
+                    <?= $this->Html->link(__(' | Accept'), ['action' => 'acceptIssueRequest', $request->id]) ?>
+                    <?= $this->Form->postLink(__(' | Decline'), ['action' => 'declineIssueRequest', $request->id], ['confirm' => __('Are you sure you want to decline this request for this book?', $request->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

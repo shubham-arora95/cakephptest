@@ -4,15 +4,21 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Transaction Entity.
+ * Request Entity.
  *
  * @property int $id
- * @property int $request_id
- * @property \App\Model\Entity\Request $request
- * @property \Cake\I18n\Time $issue_date
- * @property \Cake\I18n\Time $return_date
+ * @property int $book_id
+ * @property \App\Model\Entity\Book $book
+ * @property int $borrower_id
+ * @property \App\Model\Entity\User $borrower
+ * @property int $owner_id
+ * @property \App\Model\Entity\User $owner
+ * @property int $Weeks
+ * @property bool $ownerAck
+ * @property bool $rentPaid
+ * @property \App\Model\Entity\User $user
  */
-class Transaction extends Entity
+class Request extends Entity
 {
 
     /**

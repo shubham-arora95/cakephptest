@@ -25,6 +25,7 @@ class MenusFixture extends TestFixture
     // @codingStandardsIgnoreStart
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
+        'place' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'name' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => '', 'comment' => '', 'precision' => null, 'fixed' => null],
         'controller' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
         'action' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
@@ -48,11 +49,12 @@ class MenusFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
+            'place' => 1,
             'name' => 'Lorem ipsum dolor sit amet',
             'controller' => 'Lorem ipsum dolor sit amet',
             'action' => 'Lorem ipsum dolor sit amet',
-            'created' => '2016-06-28 06:12:03',
-            'modified' => '2016-06-28 06:12:03'
+            'created' => '2016-07-05 04:35:35',
+            'modified' => '2016-07-05 04:35:35'
         ],
     ];
 }

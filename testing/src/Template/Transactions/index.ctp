@@ -2,10 +2,8 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Transaction'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Books'), ['controller' => 'Books', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Book'), ['controller' => 'Books', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Requests'), ['controller' => 'Requests', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Request'), ['controller' => 'Requests', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="transactions index large-9 medium-8 columns content">
@@ -14,8 +12,7 @@
         <thead>
             <tr>
                 <th><?= $this->Paginator->sort('id') ?></th>
-                <th><?= $this->Paginator->sort('user_id') ?></th>
-                <th><?= $this->Paginator->sort('book_id') ?></th>
+                <th><?= $this->Paginator->sort('request_id') ?></th>
                 <th><?= $this->Paginator->sort('issue_date') ?></th>
                 <th><?= $this->Paginator->sort('return_date') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
@@ -25,8 +22,7 @@
             <?php foreach ($transactions as $transaction): ?>
             <tr>
                 <td><?= $this->Number->format($transaction->id) ?></td>
-                <td><?= $transaction->has('user') ? $this->Html->link($transaction->user->name, ['controller' => 'Users', 'action' => 'view', $transaction->user->id]) : '' ?></td>
-                <td><?= $transaction->has('book') ? $this->Html->link($transaction->book->title, ['controller' => 'Books', 'action' => 'view', $transaction->book->id]) : '' ?></td>
+                <td><?= $transaction->has('request') ? $this->Html->link($transaction->request->id, ['controller' => 'Requests', 'action' => 'view', $transaction->request->id]) : '' ?></td>
                 <td><?= h($transaction->issue_date) ?></td>
                 <td><?= h($transaction->return_date) ?></td>
                 <td class="actions">

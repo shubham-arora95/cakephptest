@@ -9,16 +9,16 @@
     </ul>
 </nav>
 <div class="requests index large-9 medium-8 columns content">
-    <h3><?= __('Requests') ?></h3>
+    <h3><?= __('Borrow Requests') ?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>
-            <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
+            <tr>  
+                 <th><?= $this->Paginator->sort('id', 'Request Id') ?></th>
                 <th><?= $this->Paginator->sort('book_id') ?></th>
-                <th><?= $this->Paginator->sort('borrower_id') ?></th>
+                <!-- <th><?= $this->Paginator->sort('borrower_id') ?></th> -->
                 <th><?= $this->Paginator->sort('owner_id') ?></th>
                 <th><?= $this->Paginator->sort('Weeks') ?></th>
-                <th><?= $this->Paginator->sort('ownerAck') ?></th>
+                <th><?= $this->Paginator->sort('ownerAck','Status') ?></th>
                 <th><?= $this->Paginator->sort('rentPaid') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -28,21 +28,27 @@
             <tr>
                 <td><?= $this->Number->format($request->id) ?></td>
                 <td><?= $request->has('book') ? $this->Html->link($request->book->title, ['controller' => 'Books', 'action' => 'view', $request->book->id]) : '' ?></td>
-                <td><?= $request->has('borrower') ? $this->Html->link($request->borrower->name, ['controller' => 'Users', 'action' => 'view', $request->borrower->id]) : '' ?></td>
+                <!-- <td><?= $request->has('borrower') ? $this->Html->link($request->borrower->name, ['controller' => 'Users', 'action' => 'view', $request->borrower->id]) : '' ?></td> -->
                 <td><?= $request->has('owner') ? $this->Html->link($request->owner->name, ['controller' => 'Users', 'action' => 'view', $request->owner->id]) : '' ?></td>
                 <td><?= $this->Number->format($request->Weeks) ?></td>
-               <td><?php 
+                <td><?php 
                         if($request->ownerAck == 0) echo 'Pending';
                         elseif($request->ownerAck == 1) echo 'Accepted';
                         elseif($request->ownerAck == 2) echo 'Declined';
                         elseif($request->ownerAck == 3) echo 'Cancelled by borrower';
                     ?>
                 </td>
-                <td><?= h($request->rentPaid) ?></td>
+                <td><?= h($request->rentPaid)?'Yes':'No' ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $request->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $request->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $request->id], ['confirm' => __('Are you sure you want to delete # {0}?', $request->id)]) ?>
+                    <?php
+                        /* Show cancel button only if the status is pending */
+                        if($request->ownerAck == 0 || $request->ownerAck == 1)
+                            echo $this->Form->postLink(__(' | Cancel'), ['action' => 'cancelIssueRequest', $request->id], ['confirm' => __('Are you sure you want to cancel this request for this book?', $request->id)]);
+                        if($request->ownerAck == '1')
+                            echo $this->Html->link(__(' | Pay Rent'), ['action' => 'payRent', $request->id]);
+                            
+                    ?>
                 </td>
             </tr>
             <?php endforeach; ?>

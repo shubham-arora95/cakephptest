@@ -21,7 +21,7 @@
                 <th><?= $this->Paginator->sort('course') ?></th>
                 <th><?= $this->Paginator->sort('price') ?></th>
                 <th><?= $this->Paginator->sort('status') ?></th>
-                <th><?= $this->Paginator->sort('user_id') ?></th>
+                <!-- <th><?= $this->Paginator->sort('user_id') ?></th> -->
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -40,7 +40,7 @@
                     elseif($book->status == 2) echo "Not Available"; 
                     ?>
                 </td>
-                <td><?= $book->has('user') ? $this->Html->link($book->user->name, ['controller' => 'Users', 'action' => 'view', $book->user->id]) : '' ?></td>
+                <!-- <td><?= $book->has('user') ? $this->Html->link($book->user->name, ['controller' => 'Users', 'action' => 'view', $book->user->id]) : '' ?></td> -->
                 <td class="actions">
                     <!-- Show edit and delete buttons only if the current user has added this book also hide borrow button in this case. -->
                     <?php 

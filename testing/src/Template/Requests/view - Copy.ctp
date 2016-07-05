@@ -22,30 +22,29 @@
             <th><?= __('Borrower') ?></th>
             <td><?= $request->has('borrower') ? $this->Html->link($request->borrower->name, ['controller' => 'Users', 'action' => 'view', $request->borrower->id]) : '' ?></td>
         </tr>
-        <!-- <tr>
-            <th><?= __('Owner') ?></th>
-            <td><?= $request->has('owner') ? $this->Html->link($request->owner->name, ['controller' => 'Users', 'action' => 'view', $request->owner->id]) : '' ?></td>
-        </tr> -->
         <tr>
             <th><?= __('Id') ?></th>
             <td><?= $this->Number->format($request->id) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Owner') ?></th>
+            <td><?= $request->has('owner') ? $this->Html->link($request->owner->name, ['controller' => 'Users', 'action' => 'view', $request->owner->id]) : '' ?></td>
         </tr>
         <tr>
             <th><?= __('Weeks') ?></th>
             <td><?= $this->Number->format($request->Weeks) ?></td>
         </tr>
         <tr>
-            <th><?= __('Status') ?></th>
+            <th><?= __('OwnerAck') ?></th>
             <td><?php 
                         if($request->ownerAck == 0) echo 'Pending';
                         elseif($request->ownerAck == 1) echo 'Accepted';
                         elseif($request->ownerAck == 2) echo 'Declined';
-                        elseif($request->ownerAck == 3) echo 'Cancelled by borrower';
                     ?>
             </td>
         </tr>
         <tr>
-            <th><?= __('Rent Paid') ?></th>
+            <th><?= __('RentPaid') ?></th>
             <td><?= $request->rentPaid ? __('Yes') : __('No'); ?></td>
         </tr>
     </table>

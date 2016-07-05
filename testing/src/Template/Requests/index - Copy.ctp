@@ -31,13 +31,7 @@
                 <td><?= $request->has('borrower') ? $this->Html->link($request->borrower->name, ['controller' => 'Users', 'action' => 'view', $request->borrower->id]) : '' ?></td>
                 <td><?= $request->has('owner') ? $this->Html->link($request->owner->name, ['controller' => 'Users', 'action' => 'view', $request->owner->id]) : '' ?></td>
                 <td><?= $this->Number->format($request->Weeks) ?></td>
-               <td><?php 
-                        if($request->ownerAck == 0) echo 'Pending';
-                        elseif($request->ownerAck == 1) echo 'Accepted';
-                        elseif($request->ownerAck == 2) echo 'Declined';
-                        elseif($request->ownerAck == 3) echo 'Cancelled by borrower';
-                    ?>
-                </td>
+                <td><?= h($request->ownerAck) ?></td>
                 <td><?= h($request->rentPaid) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $request->id]) ?>

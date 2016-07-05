@@ -15,7 +15,7 @@
         <?php
             echo $this->Form->input('book_id', ['options' => $books]);
             echo $this->Form->input('borrower_id', ['options' => $borrowers]);
-            echo $this->Form->input('owner_id');
+            echo $this->Form->input('owner_id', ['options' => $owners]);
             echo $this->Form->input('Weeks');
             echo $this->Form->input('ownerAck');
             echo $this->Form->input('rentPaid');

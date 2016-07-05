@@ -7,6 +7,7 @@ use Cake\ORM\Entity;
  * Menu Entity.
  *
  * @property int $id
+ * @property int $place
  * @property string $name
  * @property string $controller
  * @property string $action

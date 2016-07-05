@@ -19,7 +19,7 @@ class RequestsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Books','Users']
+            'contain' => ['Books', 'Borrowers', 'Owners']
         ];
         $requests = $this->paginate($this->Requests);
 
@@ -37,7 +37,7 @@ class RequestsController extends AppController
     public function view($id = null)
     {
         $request = $this->Requests->get($id, [
-            'contain' => ['Books', 'Users']
+            'contain' => ['Books', 'Borrowers', 'Owners']
         ]);
 
         $this->set('request', $request);
@@ -62,8 +62,9 @@ class RequestsController extends AppController
             }
         }
         $books = $this->Requests->Books->find('list', ['limit' => 200]);
-        $users = $this->Requests->Users->find('list', ['limit' => 200]);
-        $this->set(compact('request', 'books', 'users'));
+        $borrowers = $this->Requests->Borrowers->find('list', ['limit' => 200]);
+        $owners = $this->Requests->owners->find('list', ['limit' => 200]);
+        $this->set(compact('request', 'books', 'borrowers', 'owners'));
         $this->set('_serialize', ['request']);
     }
 
@@ -89,8 +90,9 @@ class RequestsController extends AppController
             }
         }
         $books = $this->Requests->Books->find('list', ['limit' => 200]);
-        $users = $this->Requests->Users->find('list', ['limit' => 200]);
-        $this->set(compact('request', 'books', 'users'));
+        $borrowers = $this->Requests->Borrowers->find('list', ['limit' => 200]);
+        $owners = $this->Requests->owners->find('list', ['limit' => 200]);
+        $this->set(compact('request', 'books', 'borrowers', 'owners'));
         $this->set('_serialize', ['request']);
     }
 
@@ -117,9 +119,11 @@ class RequestsController extends AppController
     {
         $user_id = $this->request->session()->read('Auth.User.id');
         $this->paginate = [
-            'contain' => ['Books','Users'],
-             'conditions' => array(
-                "Requests.user_id = $user_id")
+            'contain' => ['Books', 'Borrowers', 'Owners'],
+            'conditions' => array(
+                "Requests.owner_id = $user_id",
+                'Requests.ownerAck = 0'
+            )
         ];
         $requests = $this->paginate($this->Requests);
 
@@ -127,5 +131,45 @@ class RequestsController extends AppController
         $this->set('_serialize', ['requests']);
     }
     
+    public function acceptIssueRequest($id = null)
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $request = $this->Requests->get($id, [
+            'contain' => []
+        ]);
+        if($request->owner_id == $user_id)
+        {
+            $request->set(array('ownerAck' => '1'));
+            if($this->Requests->save($request))
+                $this->Flash->success(__('Request has been accepted successfully'));
+            else
+                $this->Flash->error(__('Something went wrong.'));
+        }
+        else
+        {
+            $this->Flash->error(__('Something went wrong.'));
+        }
+        return $this->redirect(['action' => 'view', $id]);
+    }
     
+    public function declineIssueRequest($id = null)
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $request = $this->Requests->get($id, [
+            'contain' => []
+        ]);
+        if($request->owner_id == $user_id)
+        {
+            $request->set(array('ownerAck' => '3'));
+            if($this->Requests->save($request))
+                $this->Flash->success(__('Request has been declined successfully'));
+            else
+                $this->Flash->error(__('Something went wrong.'));
+        }
+        else
+        {
+            $this->Flash->error(__('Something went wrong.'));
+        }
+        return $this->redirect(['action' => 'view', $id]);
+    }
 }

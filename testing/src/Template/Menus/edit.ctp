@@ -15,6 +15,7 @@
     <fieldset>
         <legend><?= __('Edit Menu') ?></legend>
         <?php
+            echo $this->Form->input('place');
             echo $this->Form->input('name');
             echo $this->Form->input('controller');
             echo $this->Form->input('action');

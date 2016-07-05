@@ -158,18 +158,84 @@ class RequestsController extends AppController
         $request = $this->Requests->get($id, [
             'contain' => []
         ]);
+        $book_id = $request->book_id;
         if($request->owner_id == $user_id)
         {
-            $request->set(array('ownerAck' => '3'));
+            $request->set(array('ownerAck' => '2'));
             if($this->Requests->save($request))
-                $this->Flash->success(__('Request has been declined successfully'));
+            {
+                $this->loadModel('Books');
+                $book = $this->Books->get($book_id);
+                $book->set(array('status' => '0'));
+                if($this->Books->save($book))
+                {
+                   $this->Flash->success(__('Request has been declined successfully')); 
+                }
+            }
             else
-                $this->Flash->error(__('Something went wrong.'));
+                $this->Flash->error(__('Something went wrong request was not saved.'));
         }
         else
         {
             $this->Flash->error(__('Something went wrong.'));
         }
         return $this->redirect(['action' => 'view', $id]);
+    }
+    
+    /* Function myBorrowRequests */
+    
+    public function myBorrowRequests()
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $this->paginate = [
+            'contain' => ['Books', 'Borrowers', 'Owners'],
+            'conditions' => array(
+                "Requests.borrower_id = $user_id",
+                /*'Requests.ownerAck = 0'*/
+            )
+        ];
+        $requests = $this->paginate($this->Requests);
+
+        $this->set(compact('requests'));
+        $this->set('_serialize', ['requests']);
+    }
+    
+    public function cancelIssueRequest($id = null)
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $request = $this->Requests->get($id, [
+            'contain' => []
+        ]);
+        $book_id = $request->book_id;
+        if($request->borrower_id == $user_id)
+        {
+            $request->set(array('ownerAck' => '3'));
+            if($this->Requests->save($request))
+            {
+                $this->loadModel('Books');
+                $book = $this->Books->get($book_id);
+                $book->set(array('status' => '0'));
+                if($this->Books->save($book))
+                {
+                   $this->Flash->success(__('Request has been canceled successfully')); 
+                }
+            }
+            else
+                $this->Flash->error(__('Something went wrong request was not saved.'));
+        }
+        else
+        {
+            $this->Flash->error(__('Something went wrong.'));
+        }
+        return $this->redirect(['action' => 'view', $id]);
+    }
+    
+    public function payRent($id = null)
+    {
+        /*
+        * 1. Add status to rentpaid = 1;
+        * 2. Add book status to issued
+        * 3. Add a new transaction
+        */ 
     }
 }

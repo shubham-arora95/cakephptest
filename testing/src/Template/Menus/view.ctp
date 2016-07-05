@@ -27,6 +27,10 @@
             <td><?= $this->Number->format($menu->id) ?></td>
         </tr>
         <tr>
+            <th><?= __('Place') ?></th>
+            <td><?= $this->Number->format($menu->place) ?></td>
+        </tr>
+        <tr>
             <th><?= __('Created') ?></th>
             <td><?= h($menu->created) ?></td>
         </tr>

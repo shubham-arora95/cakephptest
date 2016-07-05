@@ -10,6 +10,7 @@
         <thead>
             <tr>
                 <th><?= $this->Paginator->sort('id') ?></th>
+                <th><?= $this->Paginator->sort('place') ?></th>
                 <th><?= $this->Paginator->sort('name') ?></th>
                 <th><?= $this->Paginator->sort('controller') ?></th>
                 <th><?= $this->Paginator->sort('action') ?></th>
@@ -22,6 +23,7 @@
             <?php foreach ($menus as $menu): ?>
             <tr>
                 <td><?= $this->Number->format($menu->id) ?></td>
+                <td><?= $this->Number->format($menu->place) ?></td>
                 <td><?= h($menu->name) ?></td>
                 <td><?= h($menu->controller) ?></td>
                 <td><?= h($menu->action) ?></td>

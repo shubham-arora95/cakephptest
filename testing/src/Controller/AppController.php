@@ -91,7 +91,7 @@ class AppController extends Controller
         *   2.create a object with a resultset of all the menu item 
         */
         $this->loadModel('Menus');
-        $menus = $this->Menus->find('all', ['order' => ['name' => 'ASC']]);
+        $menus = $this->Menus->find('all', ['order' => ['place' => 'ASC']]);
         $this->set('menus', $menus);
         $this->set('_serialize', ['menu']);
     
