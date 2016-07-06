@@ -16,6 +16,8 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\I18n\Time;
+use Cake\I18n\Date;
 
 /**
  * Application Controller
@@ -94,6 +96,8 @@ class AppController extends Controller
         $menus = $this->Menus->find('all', ['order' => ['place' => 'ASC']]);
         $this->set('menus', $menus);
         $this->set('_serialize', ['menu']);
+        $now = Time::now();
+        $now->i18nFormat(null, 'Europe/Paris');
     
     }
     

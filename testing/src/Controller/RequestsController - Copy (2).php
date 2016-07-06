@@ -2,23 +2,6 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\I18n\Time;
-use Cake\I18n\Date;
-
-
-/*
-* Book Status
-0. Available
-1. Requested
-2. Issued
-
-* Request ownerAck field
-0. Pending
-1. Accepted
-2. Declined
-3. Cancelled
-4. Issued
-*/
 
 /**
  * Requests Controller
@@ -249,104 +232,10 @@ class RequestsController extends AppController
     
     public function payRent($id = null)
     {
-        // Only need to show transaction status along with the rent and security deposit to be paid according to the number of weeks and a pay rent button.
-        
-        $user_id = $this->request->session()->read('Auth.User.id');
-        $request = $this->Requests->get($id, [
-            'contain' => ['Books', 'Borrowers', 'Owners']
-        ]);
-        
-        if($request->ownerAck == '1' && $request->borower_id = $user_id)
-        {    
-            $book_id = $request->book_id;
-
-            $this->set('request', $request);
-            $this->set('_serialize', ['request']);
-
-            // Calculate rent from the no of weeks
-            $rent = $request->Weeks * 7 * 2;
-            $this->set('rent', $rent);
-
-            // Load books model and fethch the price to calculated security deposit
-            $this->loadModel('Books');
-            $book = $this->Books->get($book_id);
-            $securityDeposit = $book->price * 60/100;
-            $this->set('securityDeposit', $securityDeposit);
-
-            // Generate Total
-            $total = $rent + $securityDeposit;
-            $this->set('total', $total);
-        }
-        else
-        {
-            $this->Flash->error(__('You can\'t pay rent for this request.'));
-            return $this->redirect(['action' => 'view', $id]);
-        }
-    }
-    
-    public function confirmRentPaid($id = null)
-    {
         /*
         * 1. Add status to rentpaid = 1;
         * 2. Add book status to issued
         * 3. Add a new transaction
-        */
-        
-        $user_id = $this->request->session()->read('Auth.User.id');
-        $request = $this->Requests->get($id, [
-            'contain' => []
-        ]);
-        $book_id = $request->book_id;
-        
-        //Calculate no of days according to weeks
-        $weeks = $request->Weeks;
-        
-        if($weeks == 1)
-            $days = '7';
-        elseif($weeks == 2)
-            $days = '14';
-        elseif($weeks == 3)
-            $days = '21';
-        
-        
-        $dateIssue = Time::now();
-        $dateIssue = $dateIssue->modify('+5 hours 30 minutes');
-        $dateReturn = Time::now();
-        $dateReturn = $dateReturn->modify('+5 hours 30 minutes');
-        $dateReturn = $dateReturn->modify("+$days days");
-        
-        if($request->ownerAck == '1' && $request->borrower_id == $user_id)
-        {
-            $request->set(array('ownerAck' => '4'));
-            if($this->Requests->save($request))
-            {
-                $this->loadModel('Books');
-                $book = $this->Books->get($book_id);
-                $book->set(array('status' => '1', 'rentPaid' => '1'));
-                if($this->Books->save($book))
-                {
-                    //Adding a transaction
-                    $this->loadModel('transactions');
-                    $user_id = $this->request->session()->read('Auth.User.id');
-                    $transaction = $this->transactions->newEntity();
-                    $transaction->set(array(
-                        'request_id' => "$id",
-                        'status' => '0',
-                        'issue_date' => $dateIssue,
-                        'return_date' => $dateReturn));
-                    if($this->transactions->save($transaction))
-                        $this->Flash->success(__('Transaction has been completed successfully'));
-                    else
-                        $this->Flash->error(__('Something went wrong and transaction was not completed.'));
-                }
-            }
-            else
-                $this->Flash->error(__('Something went wrong and transaction was not completed.'));
-        }
-        else
-        {
-            $this->Flash->error(__('Something went wrong.'));
-        }
-       return $this->redirect(['controller' => 'transactions', 'action' => 'index']);
+        */ 
     }
-}   
+}

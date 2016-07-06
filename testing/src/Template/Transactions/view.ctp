@@ -21,6 +21,10 @@
             <td><?= $this->Number->format($transaction->id) ?></td>
         </tr>
         <tr>
+            <th><?= __('Status') ?></th>
+            <td><?= $this->Number->format($transaction->status) ?></td>
+        </tr>
+        <tr>
             <th><?= __('Issue Date') ?></th>
             <td><?= h($transaction->issue_date) ?></td>
         </tr>

@@ -1,18 +1,10 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Request'), ['action' => 'edit', $request->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Request'), ['action' => 'delete', $request->id], ['confirm' => __('Are you sure you want to delete # {0}?', $request->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Requests'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Request'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Books'), ['controller' => 'Books', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Book'), ['controller' => 'Books', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Borrowers'), ['controller' => 'Users', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Borrower'), ['controller' => 'Users', 'action' => 'add']) ?> </li>
+        <li><?= $this->Form->postLink(__('Cancel Request'), ['action' => 'cancelIssueRequest', $request->id], ['confirm' => __('Are you sure you want to cancel # {0}?', $request->id)]) ?> </li>
     </ul>
 </nav>
 <div class="requests view large-9 medium-8 columns content">
-    <h3><?= h($request->id) ?></h3>
+    <h3><?php echo "Pay Rent for Request #$request->id" ?></h3>
     <table class="vertical-table">
         <tr>
             <th><?= __('Book') ?></th>
@@ -41,7 +33,6 @@
                         elseif($request->ownerAck == 1) echo 'Accepted';
                         elseif($request->ownerAck == 2) echo 'Declined';
                         elseif($request->ownerAck == 3) echo 'Cancelled by borrower';
-                        elseif($request->ownerAck == 4) echo 'Issued';
                     ?>
             </td>
         </tr>
@@ -50,4 +41,20 @@
             <td><?= $request->rentPaid ? __('Yes') : __('No'); ?></td>
         </tr>
     </table>
+    <h4>Deposits to be made</h4>
+    <table class="vertical-table" >
+        <tr>
+            <th><?= __('Security Deposit (Will be Refunded)') ?></th>
+            <td><?= h($securityDeposit) ?></td>
+        <tr>
+        <tr>
+            <th><?= __('Rent according to number of weeks (Rs. 2 per day) ') ?></th>
+            <td><?= h($rent) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Total') ?></th>
+            <td><b><?= h($total) ?></b></td>
+        </tr>
+    </table>
+    <?= $this->Form->postButton(__("Pay Rs. $total"), ['action' => 'confirmRentPaid', $request->id]) ?>
 </div>

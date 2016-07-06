@@ -119,13 +119,18 @@ class UsersController extends AppController
     //Login Function
     public function login()
     {
+        if($this->request->session()->read('Auth.User'))
+        {
+            $this->Flash->error(__('You are already logged in.'));
+            return $this->redirect(['controller' => 'home','action' => 'index']);
+        }
         if($this->request->is('post'))
         {
                $user = $this->Auth->identify();
                if($user)
                {
                    $this->Auth->setUser($user);
-                   return $this->redirect(['controller' => 'home']);
+                   return $this->redirect($this->Auth->redirectUrl());
                }
         }
         

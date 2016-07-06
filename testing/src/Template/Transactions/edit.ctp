@@ -18,6 +18,7 @@
         <legend><?= __('Edit Transaction') ?></legend>
         <?php
             echo $this->Form->input('request_id', ['options' => $requests]);
+            echo $this->Form->input('status');
             echo $this->Form->input('issue_date');
             echo $this->Form->input('return_date');
         ?>

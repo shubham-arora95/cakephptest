@@ -1,6 +1,20 @@
 <?php
 namespace App\Controller;
 
+/*
+* Book Status
+0. Available
+1. Requested
+2. Issued
+
+* Request ownerAck field
+0. Pending
+1. Accepted
+2. Declined
+3. Cancelled
+4. Issued
+*/
+
 use App\Controller\AppController;
 use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;

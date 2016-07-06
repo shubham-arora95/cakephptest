@@ -48,6 +48,11 @@ class TransactionsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
+            ->integer('status')
+            ->requirePresence('status', 'create')
+            ->notEmpty('status');
+
+        $validator
             ->date('issue_date')
             ->requirePresence('issue_date', 'create')
             ->notEmpty('issue_date');

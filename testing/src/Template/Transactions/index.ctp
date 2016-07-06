@@ -13,6 +13,7 @@
             <tr>
                 <th><?= $this->Paginator->sort('id') ?></th>
                 <th><?= $this->Paginator->sort('request_id') ?></th>
+                <th><?= $this->Paginator->sort('status') ?></th>
                 <th><?= $this->Paginator->sort('issue_date') ?></th>
                 <th><?= $this->Paginator->sort('return_date') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
@@ -23,6 +24,7 @@
             <tr>
                 <td><?= $this->Number->format($transaction->id) ?></td>
                 <td><?= $transaction->has('request') ? $this->Html->link($transaction->request->id, ['controller' => 'Requests', 'action' => 'view', $transaction->request->id]) : '' ?></td>
+                <td><?= $this->Number->format($transaction->status) ?></td>
                 <td><?= h($transaction->issue_date) ?></td>
                 <td><?= h($transaction->return_date) ?></td>
                 <td class="actions">

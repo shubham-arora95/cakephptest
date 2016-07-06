@@ -9,6 +9,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $request_id
  * @property \App\Model\Entity\Request $request
+ * @property int $status
  * @property \Cake\I18n\Time $issue_date
  * @property \Cake\I18n\Time $return_date
  */
