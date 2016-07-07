@@ -19,8 +19,6 @@
             echo $this->Form->input('course');
             echo $this->Form->input('description');
             echo $this->Form->input('price');
-            echo $this->Form->input('status');
-            echo $this->Form->input('user_id', ['options' => $users]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

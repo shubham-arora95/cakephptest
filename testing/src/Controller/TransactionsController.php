@@ -18,7 +18,7 @@ class TransactionsController extends AppController
      */
     public function index()
     {
-        $user_id = $this->request->session()->read('Auth.User.id');
+		$user_id = $this->request->session()->read('Auth.User.id');
         $this->paginate = [
             'contain' => ['Requests', 'Owners', 'Borrowers'],
             'conditions' => array(
@@ -51,7 +51,7 @@ class TransactionsController extends AppController
     public function view($id = null)
     {
         $transaction = $this->Transactions->get($id, [
-            'contain' => ['Requests', 'Owners', 'Borrowers']
+            'contain' => ['Books', 'Owners', 'Borrowers', 'Requests']
         ]);
 
         $this->set('transaction', $transaction);
@@ -75,10 +75,10 @@ class TransactionsController extends AppController
                 $this->Flash->error(__('The transaction could not be saved. Please, try again.'));
             }
         }
-        $requests = $this->Transactions->Requests->find('list', ['limit' => 200]);
+        $books = $this->Transactions->Books->find('list', ['limit' => 200]);
         $owners = $this->Transactions->Owners->find('list', ['limit' => 200]);
         $borrowers = $this->Transactions->Borrowers->find('list', ['limit' => 200]);
-        $this->set(compact('transaction', 'requests', 'owners', 'borrowers'));
+        $this->set(compact('transaction', 'books', 'owners', 'borrowers'));
         $this->set('_serialize', ['transaction']);
     }
 
@@ -103,10 +103,10 @@ class TransactionsController extends AppController
                 $this->Flash->error(__('The transaction could not be saved. Please, try again.'));
             }
         }
-        $requests = $this->Transactions->Requests->find('list', ['limit' => 200]);
+        $books = $this->Transactions->Books->find('list', ['limit' => 200]);
         $owners = $this->Transactions->Owners->find('list', ['limit' => 200]);
         $borrowers = $this->Transactions->Borrowers->find('list', ['limit' => 200]);
-        $this->set(compact('transaction', 'requests', 'owners', 'borrowers'));
+        $this->set(compact('transaction', 'books', 'owners', 'borrowers'));
         $this->set('_serialize', ['transaction']);
     }
 

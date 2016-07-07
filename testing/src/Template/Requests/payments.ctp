@@ -11,7 +11,8 @@
     </ul>
 </nav>
 <div class="requests index large-9 medium-8 columns content">
-    <h3><?= __('Requests') ?></h3>
+    <h3><?= __('Pending Payments') ?></h3>
+    <?php if($pendingPayments->count()): ?>
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
@@ -21,13 +22,13 @@
                 <th><?= $this->Paginator->sort('borrower_id') ?></th>
                 <th><?= $this->Paginator->sort('owner_id') ?></th>
                 <th><?= $this->Paginator->sort('Weeks') ?></th>
-                <th><?= $this->Paginator->sort('ownerAck') ?></th>
+                <th><?= $this->Paginator->sort('ownerAck', 'Status') ?></th>
                 <th><?= $this->Paginator->sort('rentPaid') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($requests as $request): ?>
+            <?php foreach ($pendingPayments as $request): ?>
             <tr>
                 <td><?= $this->Number->format($request->id) ?></td>
                 <td><?= $this->Html->link($request->transaction_id, ['controller' => 'Transactions', 'action' => 'view', $request->transaction_id]) ?></td>
@@ -61,4 +62,60 @@
         </ul>
         <p><?= $this->Paginator->counter() ?></p>
     </div>
+    <?php else: echo "Oops! It seems like there is nothing to show here."; endif;?>
+    <hr/>
+    
+    
+    <h3><?= __('Paid Payments') ?></h3>
+    <?php if($paidPayments->count()): ?>
+    <table cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th><?= $this->Paginator->sort('id') ?></th>
+                <th><?= $this->Paginator->sort('transaction_id') ?></th>
+                <th><?= $this->Paginator->sort('book_id') ?></th>
+                <th><?= $this->Paginator->sort('borrower_id') ?></th>
+                <th><?= $this->Paginator->sort('owner_id') ?></th>
+                <th><?= $this->Paginator->sort('Weeks') ?></th>
+                <th><?= $this->Paginator->sort('ownerAck', 'Status') ?></th>
+                <th><?= $this->Paginator->sort('rentPaid') ?></th>
+                <th class="actions"><?= __('Actions') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($paidPayments as $request): ?>
+            <tr>
+                <td><?= $this->Number->format($request->id) ?></td>
+                <td><?= $this->Html->link($request->transaction_id, ['controller' => 'Transactions', 'action' => 'view', $request->transaction_id]) ?></td>
+                <td><?= $request->has('book') ? $this->Html->link($request->book->title, ['controller' => 'Books', 'action' => 'view', $request->book->id]) : '' ?></td>
+                <td><?= $request->has('borrower') ? $this->Html->link($request->borrower->name, ['controller' => 'Users', 'action' => 'view', $request->borrower->id]) : '' ?></td>
+                <td><?= $request->has('owner') ? $this->Html->link($request->owner->name, ['controller' => 'Users', 'action' => 'view', $request->owner->id]) : '' ?></td>
+                <td><?= $this->Number->format($request->Weeks) ?></td>
+                <td><?php 
+                        if($request->ownerAck == 0) echo 'Pending';
+                        elseif($request->ownerAck == 1) echo 'Accepted';
+                        elseif($request->ownerAck == 2) echo 'Declined';
+                        elseif($request->ownerAck == 3) echo 'Cancelled by borrower';
+                        elseif($request->ownerAck == 4) echo 'Issued';
+                    ?>
+                </td>
+                <td><?= $request->rentPaid ? __('Yes') : __('No'); ?></td>
+                <td class="actions">
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $request->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $request->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $request->id], ['confirm' => __('Are you sure you want to delete # {0}?', $request->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <div class="paginator">
+        <ul class="pagination">
+            <?= $this->Paginator->prev('< ' . __('previous')) ?>
+            <?= $this->Paginator->numbers() ?>
+            <?= $this->Paginator->next(__('next') . ' >') ?>
+        </ul>
+        <p><?= $this->Paginator->counter() ?></p>
+    </div>
+    <?php else: echo "Oops! It seems like there is nothing to show here."; endif;?>
 </div>

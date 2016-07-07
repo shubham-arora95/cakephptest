@@ -6,6 +6,8 @@
         <li><?= $this->Html->link(__('New Book'), ['controller' => 'Books', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Borrowers'), ['controller' => 'Users', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Borrower'), ['controller' => 'Users', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Transactions'), ['controller' => 'Transactions', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Transaction'), ['controller' => 'Transactions', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="requests form large-9 medium-8 columns content">
@@ -13,6 +15,7 @@
     <fieldset>
         <legend><?= __('Add Request') ?></legend>
         <?php
+            echo $this->Form->input('transaction_id', ['options' => $transactions]);
             echo $this->Form->input('book_id', ['options' => $books]);
             echo $this->Form->input('borrower_id', ['options' => $borrowers]);
             echo $this->Form->input('owner_id', ['options' => $owners]);

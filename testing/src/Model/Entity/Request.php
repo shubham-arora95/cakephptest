@@ -7,6 +7,8 @@ use Cake\ORM\Entity;
  * Request Entity.
  *
  * @property int $id
+ * @property int $transaction_id
+ * @property \App\Model\Entity\Transaction $transaction
  * @property int $book_id
  * @property \App\Model\Entity\Book $book
  * @property int $borrower_id
@@ -14,9 +16,8 @@ use Cake\ORM\Entity;
  * @property int $owner_id
  * @property \App\Model\Entity\User $owner
  * @property int $Weeks
- * @property bool $ownerAck
+ * @property int $ownerAck
  * @property bool $rentPaid
- * @property \App\Model\Entity\User $user
  */
 class Request extends Entity
 {

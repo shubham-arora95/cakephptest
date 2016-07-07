@@ -106,11 +106,10 @@ class RequestsController extends AppController
                 $this->Flash->error(__('The request could not be saved. Please, try again.'));
             }
         }
-        $transactions = $this->Requests->Transactions->find('list', ['limit' => 200]);
         $books = $this->Requests->Books->find('list', ['limit' => 200]);
         $borrowers = $this->Requests->Borrowers->find('list', ['limit' => 200]);
         $owners = $this->Requests->owners->find('list', ['limit' => 200]);
-        $this->set(compact('request', 'books', 'borrowers', 'owners', 'transactions'));
+        $this->set(compact('request', 'books', 'borrowers', 'owners'));
         $this->set('_serialize', ['request']);
     }
 
@@ -297,13 +296,10 @@ class RequestsController extends AppController
         $request = $this->Requests->get($id, [
             'contain' => []
         ]);
-        //Get owner and borrower ids
+        //Get owne and borrower ids
         $owner_id = $request->owner_id;
         $borrower_id = $request->borrower_id;
         $book_id = $request->book_id;
-        
-        //Generate a random number
-        $random = substr(md5(rand()), 0, 7);
         
         //Calculate no of days according to weeks
         $weeks = $request->Weeks;
@@ -345,9 +341,7 @@ class RequestsController extends AppController
                     'issue_date' => $dateIssue,
                     'return_date' => $dateReturn,
                     'owner_id' => $owner_id,
-                    'borrower_id' => $borrower_id,
-                    'book_id' => $book_id,
-                    'random' => $random));
+                    'borrower_id' => $borrower_id));
                 $savedTransactionEntity = $this->transactions->save($transaction);
                 if($savedTransactionEntity)
                 {
@@ -387,31 +381,5 @@ class RequestsController extends AppController
                 $this->Books->save($book);
             }
         }
-    }
-    
-    public function payments()
-    {
-        $user_id = $this->request->session()->read('Auth.User.id');
-        $this->paginate = [
-            'contain' => ['Books', 'Borrowers', 'Owners'],
-            'conditions' => array(
-                "Requests.borrower_id = $user_id",
-                "Requests.rentPaid = 0"
-            )
-        ];
-        $pendingPayments = $this->paginate($this->Requests);
-        $this->set(compact('pendingPayments'));
-        $this->set('_serialize', ['pendingPayments']);
-        
-        $this->paginate = [
-            'contain' => ['Books', 'Borrowers', 'Owners'],
-            'conditions' => array(
-                "Requests.borrower_id = $user_id",
-                "Requests.rentPaid = 1"
-            )
-        ];
-        $paidPayments = $this->paginate($this->Requests);
-        $this->set(compact('paidPayments'));
-        $this->set('_serialize', ['paidPayments']);
     }
 }   

@@ -8,7 +8,8 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $request_id
- * @property \App\Model\Entity\Request $request
+ * @property int $book_id
+ * @property \App\Model\Entity\Book $book
  * @property int $status
  * @property int $owner_id
  * @property \App\Model\Entity\User $owner
@@ -16,6 +17,8 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\User $borrower
  * @property \Cake\I18n\Time $issue_date
  * @property \Cake\I18n\Time $return_date
+ * @property string $random
+ * @property \App\Model\Entity\Request[] $requests
  */
 class Transaction extends Entity
 {
