@@ -10,6 +10,10 @@ use Cake\ORM\Entity;
  * @property int $request_id
  * @property \App\Model\Entity\Request $request
  * @property int $status
+ * @property int $owner_id
+ * @property \App\Model\Entity\User $owner
+ * @property int $borrower_id
+ * @property \App\Model\Entity\User $borrower
  * @property \Cake\I18n\Time $issue_date
  * @property \Cake\I18n\Time $return_date
  */

@@ -11,6 +11,8 @@ use Cake\Validation\Validator;
  * Transactions Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Requests
+ * @property \Cake\ORM\Association\BelongsTo $Owners
+ * @property \Cake\ORM\Association\BelongsTo $Borrowers
  */
 class TransactionsTable extends Table
 {
@@ -33,6 +35,16 @@ class TransactionsTable extends Table
             'foreignKey' => 'request_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('Owners', [
+            'className' => 'Users',
+            'foreignKey' => 'owner_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Borrowers', [
+            'className' => 'Users',
+            'foreignKey' => 'borrower_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**
@@ -53,12 +65,12 @@ class TransactionsTable extends Table
             ->notEmpty('status');
 
         $validator
-            ->date('issue_date')
+            ->dateTime('issue_date')
             ->requirePresence('issue_date', 'create')
             ->notEmpty('issue_date');
 
         $validator
-            ->date('return_date')
+            ->dateTime('return_date')
             ->requirePresence('return_date', 'create')
             ->notEmpty('return_date');
 
@@ -75,6 +87,8 @@ class TransactionsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['request_id'], 'Requests'));
+        $rules->add($rules->existsIn(['owner_id'], 'Owners'));
+        $rules->add($rules->existsIn(['borrower_id'], 'Borrowers'));
         return $rules;
     }
 }

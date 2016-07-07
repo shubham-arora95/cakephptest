@@ -7,6 +7,8 @@
         <li><?= $this->Html->link(__('New Transaction'), ['action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Requests'), ['controller' => 'Requests', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Request'), ['controller' => 'Requests', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Owners'), ['controller' => 'Users', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Owner'), ['controller' => 'Users', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="transactions view large-9 medium-8 columns content">
@@ -15,6 +17,14 @@
         <tr>
             <th><?= __('Request') ?></th>
             <td><?= $transaction->has('request') ? $this->Html->link($transaction->request->id, ['controller' => 'Requests', 'action' => 'view', $transaction->request->id]) : '' ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Owner') ?></th>
+            <td><?= $transaction->has('owner') ? $this->Html->link($transaction->owner->name, ['controller' => 'Users', 'action' => 'view', $transaction->owner->id]) : '' ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Borrower') ?></th>
+            <td><?= $transaction->has('borrower') ? $this->Html->link($transaction->borrower->name, ['controller' => 'Users', 'action' => 'view', $transaction->borrower->id]) : '' ?></td>
         </tr>
         <tr>
             <th><?= __('Id') ?></th>

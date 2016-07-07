@@ -18,13 +18,27 @@ class TransactionsController extends AppController
      */
     public function index()
     {
+        $user_id = $this->request->session()->read('Auth.User.id');
         $this->paginate = [
-            'contain' => ['Requests']
+            'contain' => ['Requests', 'Owners', 'Borrowers'],
+            'conditions' => array(
+                "Transactions.owner_id = $user_id"
+            )
         ];
-        $transactions = $this->paginate($this->Transactions);
+        $issueTransactions = $this->paginate($this->Transactions);
 
-        $this->set(compact('transactions'));
-        $this->set('_serialize', ['transactions']);
+        $this->set(compact('issueTransactions'));
+        $this->set('_serialize', ['issueTransactions']);
+        $this->paginate = [
+            'contain' => ['Requests', 'Owners', 'Borrowers'],
+            'conditions' => array(
+                "Transactions.borrower_id = $user_id"
+            )
+        ];
+        $borrowTransactions = $this->paginate($this->Transactions);
+
+        $this->set(compact('borrowTransactions'));
+        $this->set('_serialize', ['borrowTransactions']);
     }
 
     /**
@@ -37,7 +51,7 @@ class TransactionsController extends AppController
     public function view($id = null)
     {
         $transaction = $this->Transactions->get($id, [
-            'contain' => ['Requests']
+            'contain' => ['Requests', 'Owners', 'Borrowers']
         ]);
 
         $this->set('transaction', $transaction);
@@ -62,7 +76,9 @@ class TransactionsController extends AppController
             }
         }
         $requests = $this->Transactions->Requests->find('list', ['limit' => 200]);
-        $this->set(compact('transaction', 'requests'));
+        $owners = $this->Transactions->Owners->find('list', ['limit' => 200]);
+        $borrowers = $this->Transactions->Borrowers->find('list', ['limit' => 200]);
+        $this->set(compact('transaction', 'requests', 'owners', 'borrowers'));
         $this->set('_serialize', ['transaction']);
     }
 
@@ -88,7 +104,9 @@ class TransactionsController extends AppController
             }
         }
         $requests = $this->Transactions->Requests->find('list', ['limit' => 200]);
-        $this->set(compact('transaction', 'requests'));
+        $owners = $this->Transactions->Owners->find('list', ['limit' => 200]);
+        $borrowers = $this->Transactions->Borrowers->find('list', ['limit' => 200]);
+        $this->set(compact('transaction', 'requests', 'owners', 'borrowers'));
         $this->set('_serialize', ['transaction']);
     }
 

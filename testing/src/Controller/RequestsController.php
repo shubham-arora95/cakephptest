@@ -296,6 +296,9 @@ class RequestsController extends AppController
         $request = $this->Requests->get($id, [
             'contain' => []
         ]);
+        //Get owne and borrower ids
+        $owner_id = $request->owner_id;
+        $borrower_id = $request->borrower_id;
         $book_id = $request->book_id;
         
         //Calculate no of days according to weeks
@@ -314,39 +317,67 @@ class RequestsController extends AppController
         $dateReturn = Time::now();
         $dateReturn = $dateReturn->modify('+5 hours 30 minutes');
         $dateReturn = $dateReturn->modify("+$days days");
-        
-        if($request->ownerAck == '1' && $request->borrower_id == $user_id)
+        try
         {
-            $request->set(array('ownerAck' => '4'));
-            if($this->Requests->save($request))
+            if($request->ownerAck == '1' && $request->borrower_id == $user_id && $request->rentPaid == '0')
+            {
+                $request->set(array('ownerAck' => '4', 'rentPaid' => '1'));
+                $savedRequestEntity = $this->Requests->save($request);
+                if($savedRequestEntity)
+                {
+                    $this->loadModel('Books');
+                    $book = $this->Books->get($book_id);
+                    $book->set(array('status' => '1', 'rentPaid' => '1'));
+                    $savedBookEntity = $this->Books->save($book);
+                    if($savedBookEntity)
+                    {
+                        //Adding a transaction
+                        $this->loadModel('transactions');
+                        $user_id = $this->request->session()->read('Auth.User.id');
+                        $transaction = $this->transactions->newEntity();
+                        $transaction->set(array(
+                            'request_id' => "$id",
+                            'status' => '0',
+                            'issue_date' => $dateIssue,
+                            'return_date' => $dateReturn,
+                            'owner_id' => $owner_id,
+                            'borrower_id' => $borrower_id));
+                        $savedTransactionEntity = $this->transactions->save($transaction);
+                        if($savedTransactionEntity)
+                            $this->Flash->success(__('Transaction has been completed successfully'));
+                        else
+                        {
+                            $this->Flash->error(__('Something went wrong and transaction was not completed.'));
+                            if($savedTransactionEntity) $this->transactions->delete($savedTransactionEntity);
+                        }
+                    }
+                }
+                else
+                    $this->Flash->error(__('Something went wrong and transaction was not completed.'));
+            }
+            else
+            {
+                $this->Flash->error(__('Something went wrong.'));
+            }
+           return $this->redirect(['controller' => 'transactions', 'action' => 'view', $savedTransactionEntity->id]);
+        }
+        catch(Exception $e)
+        {
+            if($savedTransactionEntity) $this->transactions->delete($savedTransactionEntity);
+            if($savedBookEntity)
             {
                 $this->loadModel('Books');
                 $book = $this->Books->get($book_id);
-                $book->set(array('status' => '1', 'rentPaid' => '1'));
-                if($this->Books->save($book))
-                {
-                    //Adding a transaction
-                    $this->loadModel('transactions');
-                    $user_id = $this->request->session()->read('Auth.User.id');
-                    $transaction = $this->transactions->newEntity();
-                    $transaction->set(array(
-                        'request_id' => "$id",
-                        'status' => '0',
-                        'issue_date' => $dateIssue,
-                        'return_date' => $dateReturn));
-                    if($this->transactions->save($transaction))
-                        $this->Flash->success(__('Transaction has been completed successfully'));
-                    else
-                        $this->Flash->error(__('Something went wrong and transaction was not completed.'));
-                }
+                $book->set(array('status' => '1', 'rentPaid' => '0'));
+                $this->Books->save($book);
             }
-            else
-                $this->Flash->error(__('Something went wrong and transaction was not completed.'));
+            if($savedRequestEntity)
+            {
+                $this->loadModel('Requests');
+                $request = $this->Requests->get($id);
+                $request->set(array('ownerAck' => '1', 'rentPaid' => '0'));
+                $this->Books->save($book);
+            }
         }
-        else
-        {
-            $this->Flash->error(__('Something went wrong.'));
-        }
-       return $this->redirect(['controller' => 'transactions', 'action' => 'index']);
     }
 }   

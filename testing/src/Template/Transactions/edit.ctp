@@ -10,6 +10,8 @@
         <li><?= $this->Html->link(__('List Transactions'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('List Requests'), ['controller' => 'Requests', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Request'), ['controller' => 'Requests', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Owners'), ['controller' => 'Users', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Owner'), ['controller' => 'Users', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="transactions form large-9 medium-8 columns content">
@@ -19,6 +21,8 @@
         <?php
             echo $this->Form->input('request_id', ['options' => $requests]);
             echo $this->Form->input('status');
+            echo $this->Form->input('owner_id', ['options' => $owners]);
+            echo $this->Form->input('borrower_id', ['options' => $borrowers]);
             echo $this->Form->input('issue_date');
             echo $this->Form->input('return_date');
         ?>

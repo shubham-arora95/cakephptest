@@ -18,6 +18,7 @@ use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\I18n\Time;
 use Cake\I18n\Date;
+use Cake\Datasource\ConnectionManager;
 
 /**
  * Application Controller
@@ -83,7 +84,8 @@ class AppController extends Controller
         else
             $this->set('loggedIn', false);
         
-        
+        // Creating a conn object for transactions
+        $conn = ConnectionManager::get('default');
         
         
         //$menus = $this->paginate($this->Menus);

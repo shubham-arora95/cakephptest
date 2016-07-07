@@ -36,6 +36,7 @@
                         elseif($request->ownerAck == 1) echo 'Accepted';
                         elseif($request->ownerAck == 2) echo 'Declined';
                         elseif($request->ownerAck == 3) echo 'Cancelled by borrower';
+                        elseif($request->ownerAck == 4) echo 'Issued';
                     ?>
                 </td>
                 <td><?= h($request->rentPaid)?'Yes':'No' ?></td>
