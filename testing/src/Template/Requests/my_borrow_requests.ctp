@@ -10,6 +10,8 @@
 </nav>
 <div class="requests index large-9 medium-8 columns content">
     <h3><?= __('Borrow Requests') ?></h3>
+    <?php if($requests->count()): ?>
+    <span>There seems a request accepted by the owner for which you have to pay rent now.</span><br/><br/>
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>  
@@ -47,8 +49,11 @@
                         if($request->ownerAck == 0 || $request->ownerAck == 1)
                             echo $this->Form->postLink(__(' | Cancel'), ['action' => 'cancelIssueRequest', $request->id], ['confirm' => __('Are you sure you want to cancel this request for this book?', $request->id)]);
                         if($request->ownerAck == '1')
-                            echo $this->Html->link(__(' | Pay Rent'), ['action' => 'payRent', $request->id]);
-                            
+                        {
+                            echo "</td><b>* Pay your rent for request id $request->id from";
+                            echo $this->Html->link(__(' here.'), ['action' => 'payRent', $request->id]);
+                            echo "</b>";
+                        }
                     ?>
                 </td>
             </tr>
@@ -63,4 +68,5 @@
         </ul>
         <p><?= $this->Paginator->counter() ?></p>
     </div>
+    <?php else: echo "Oops! It seems like there is nothing to show here."; endif;?>
 </div>

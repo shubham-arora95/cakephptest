@@ -128,4 +128,14 @@ class TransactionsController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+    
+    public function success($id = null)
+    {
+        $transaction = $this->Transactions->get($id, [
+            'contain' => ['Books', 'Owners', 'Borrowers', 'Requests']
+        ]);
+
+        $this->set('transaction', $transaction);
+        $this->set('_serialize', ['transaction']);
+    }
 }

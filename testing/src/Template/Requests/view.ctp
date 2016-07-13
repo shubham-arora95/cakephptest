@@ -17,10 +17,6 @@
     <h3><?= h($request->id) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th><?= __('Transaction') ?></th>
-            <td><?= $request->has('transaction') ? $this->Html->link($request->transaction->id, ['controller' => 'Transactions', 'action' => 'view', $request->transaction->id]) : '' ?></td>
-        </tr>
-        <tr>
             <th><?= __('Book') ?></th>
             <td><?= $request->has('book') ? $this->Html->link($request->book->title, ['controller' => 'Books', 'action' => 'view', $request->book->id]) : '' ?></td>
         </tr>
@@ -37,6 +33,10 @@
             <td><?= $this->Number->format($request->id) ?></td>
         </tr>
         <tr>
+            <th><?= __('Transaction Id') ?></th>
+            <td><?= $this->Number->format($request->transaction_id) ?></td>
+        </tr>
+        <tr>
             <th><?= __('Weeks') ?></th>
             <td><?= $this->Number->format($request->Weeks) ?></td>
         </tr>
@@ -45,7 +45,15 @@
             <td><?= $this->Number->format($request->ownerAck) ?></td>
         </tr>
         <tr>
-            <th><?= __('RentPaid') ?></th>
+            <th><?= __('Created') ?></th>
+            <td><?= h($request->created) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Payment Date') ?></th>
+            <td><?= h($request->payment_date) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Rent Paid') ?></th>
             <td><?= $request->rentPaid ? __('Yes') : __('No'); ?></td>
         </tr>
     </table>

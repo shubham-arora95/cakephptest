@@ -33,6 +33,8 @@ class RequestsTable extends Table
         $this->displayField('id');
         $this->primaryKey('id');
 
+        $this->addBehavior('Timestamp');
+
         $this->belongsTo('Transactions', [
             'foreignKey' => 'transaction_id',
             'joinType' => 'INNER'
@@ -82,6 +84,11 @@ class RequestsTable extends Table
             ->boolean('rentPaid')
             ->requirePresence('rentPaid', 'create')
             ->notEmpty('rentPaid');
+
+        $validator
+            ->dateTime('payment_date')
+            ->requirePresence('payment_date', 'create')
+            ->notEmpty('payment_date');
 
         return $validator;
     }

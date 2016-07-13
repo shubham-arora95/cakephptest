@@ -9,7 +9,8 @@
     </ul>
 </nav>
 <div class="requests index large-9 medium-8 columns content">
-    <h3><?= __('Requests') ?></h3>
+    <h3><?= __('Issue Requests') ?></h3>
+    <?php if($requests->count()): ?>
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>  
@@ -55,4 +56,5 @@
         </ul>
         <p><?= $this->Paginator->counter() ?></p>
     </div>
+    <?php else: echo "Oops! It seems like there is nothing to show here."; endif;?>
 </div>

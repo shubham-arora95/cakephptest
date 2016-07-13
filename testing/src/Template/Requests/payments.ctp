@@ -47,8 +47,15 @@
                 <td><?= $request->rentPaid ? __('Yes') : __('No'); ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $request->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $request->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $request->id], ['confirm' => __('Are you sure you want to delete # {0}?', $request->id)]) ?>
+                     <?php
+                        // Show pay rent button only if owner has accepted the request
+                        if($request->ownerAck == '1')
+                            echo $this->Html->link(__(' | Pay Rent'), ['action' => 'payRent', $request->id]);
+                        /* Show cancel button only if the status is pending */
+                        if($request->ownerAck == 0 || $request->ownerAck == 1)
+                            echo $this->Form->postLink(__(' | Cancel'), ['action' => 'cancelIssueRequest', $request->id], ['confirm' => __('Are you sure you want to cancel this request for this book?', $request->id)]);
+                    ?>
+                </td>
                 </td>
             </tr>
             <?php endforeach; ?>
@@ -71,24 +78,21 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
                 <th><?= $this->Paginator->sort('transaction_id') ?></th>
                 <th><?= $this->Paginator->sort('book_id') ?></th>
-                <th><?= $this->Paginator->sort('borrower_id') ?></th>
                 <th><?= $this->Paginator->sort('owner_id') ?></th>
                 <th><?= $this->Paginator->sort('Weeks') ?></th>
                 <th><?= $this->Paginator->sort('ownerAck', 'Status') ?></th>
-                <th><?= $this->Paginator->sort('rentPaid') ?></th>
+                <th><?= $this->Paginator->sort('rentPaid', 'Rent Paid') ?></th>
+                <th><?= $this->Paginator->sort('payment_date') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($paidPayments as $request): ?>
             <tr>
-                <td><?= $this->Number->format($request->id) ?></td>
                 <td><?= $this->Html->link($request->transaction_id, ['controller' => 'Transactions', 'action' => 'view', $request->transaction_id]) ?></td>
                 <td><?= $request->has('book') ? $this->Html->link($request->book->title, ['controller' => 'Books', 'action' => 'view', $request->book->id]) : '' ?></td>
-                <td><?= $request->has('borrower') ? $this->Html->link($request->borrower->name, ['controller' => 'Users', 'action' => 'view', $request->borrower->id]) : '' ?></td>
                 <td><?= $request->has('owner') ? $this->Html->link($request->owner->name, ['controller' => 'Users', 'action' => 'view', $request->owner->id]) : '' ?></td>
                 <td><?= $this->Number->format($request->Weeks) ?></td>
                 <td><?php 
@@ -100,10 +104,9 @@
                     ?>
                 </td>
                 <td><?= $request->rentPaid ? __('Yes') : __('No'); ?></td>
+                <td><?= h($request->payment_date) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $request->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $request->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $request->id], ['confirm' => __('Are you sure you want to delete # {0}?', $request->id)]) ?>
+                    <?= $this->Html->link(__('View'), ['controller' => 'transactions', 'action' => 'view', $request->transaction_id]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

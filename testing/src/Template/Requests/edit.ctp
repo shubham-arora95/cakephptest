@@ -21,13 +21,14 @@
     <fieldset>
         <legend><?= __('Edit Request') ?></legend>
         <?php
-            echo $this->Form->input('transaction_id', ['options' => $transactions]);
+            echo $this->Form->input('transaction_id');
             echo $this->Form->input('book_id', ['options' => $books]);
             echo $this->Form->input('borrower_id', ['options' => $borrowers]);
             echo $this->Form->input('owner_id', ['options' => $owners]);
             echo $this->Form->input('Weeks');
             echo $this->Form->input('ownerAck');
             echo $this->Form->input('rentPaid');
+            echo $this->Form->input('payment_date');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

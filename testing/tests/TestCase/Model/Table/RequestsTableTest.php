@@ -25,14 +25,14 @@ class RequestsTableTest extends TestCase
      */
     public $fixtures = [
         'app.requests',
+        'app.transactions',
         'app.books',
         'app.users',
         'app.book_transactions',
         'app.posts',
-        'app.transactions',
+        'app.reviews',
         'app.owners',
-        'app.borrowers',
-        'app.reviews'
+        'app.borrowers'
     ];
 
     /**

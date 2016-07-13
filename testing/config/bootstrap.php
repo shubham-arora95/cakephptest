@@ -219,3 +219,7 @@ Type::build('date')
     ->useImmutable();
 Type::build('datetime')
     ->useImmutable();
+
+Plugin::load('Twit', ['bootstrap' => false, 'routes' => true]);
+
+Plugin::load('Twit', ['bootstrap' => false, 'routes' => true]);

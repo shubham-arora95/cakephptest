@@ -106,10 +106,11 @@ class RequestsController extends AppController
                 $this->Flash->error(__('The request could not be saved. Please, try again.'));
             }
         }
+        $transactions = $this->Requests->Transactions->find('list', ['limit' => 200]);
         $books = $this->Requests->Books->find('list', ['limit' => 200]);
         $borrowers = $this->Requests->Borrowers->find('list', ['limit' => 200]);
         $owners = $this->Requests->owners->find('list', ['limit' => 200]);
-        $this->set(compact('request', 'books', 'borrowers', 'owners'));
+        $this->set(compact('request', 'books', 'borrowers', 'owners', 'transactions'));
         $this->set('_serialize', ['request']);
     }
 
@@ -296,10 +297,13 @@ class RequestsController extends AppController
         $request = $this->Requests->get($id, [
             'contain' => []
         ]);
-        //Get owne and borrower ids
+        //Get owner and borrower ids
         $owner_id = $request->owner_id;
         $borrower_id = $request->borrower_id;
         $book_id = $request->book_id;
+        
+        //Generate a random number
+        $random = substr(md5(rand()), 0, 7);
         
         //Calculate no of days according to weeks
         $weeks = $request->Weeks;
@@ -321,7 +325,7 @@ class RequestsController extends AppController
         {
             if($request->ownerAck == '1' && $request->borrower_id == $user_id && $request->rentPaid == '0')
             {
-                $request->set(array('ownerAck' => '4', 'rentPaid' => '1'));
+                /*$request->set(array('ownerAck' => '4', 'rentPaid' => '1'));
                 $savedRequestEntity = $this->Requests->save($request);
                 if($savedRequestEntity)
                 {
@@ -330,30 +334,34 @@ class RequestsController extends AppController
                     $book->set(array('status' => '1', 'rentPaid' => '1'));
                     $savedBookEntity = $this->Books->save($book);
                     if($savedBookEntity)
-                    {
-                        //Adding a transaction
-                        $this->loadModel('transactions');
-                        $user_id = $this->request->session()->read('Auth.User.id');
-                        $transaction = $this->transactions->newEntity();
-                        $transaction->set(array(
-                            'request_id' => "$id",
-                            'status' => '0',
-                            'issue_date' => $dateIssue,
-                            'return_date' => $dateReturn,
-                            'owner_id' => $owner_id,
-                            'borrower_id' => $borrower_id));
-                        $savedTransactionEntity = $this->transactions->save($transaction);
-                        if($savedTransactionEntity)
-                            $this->Flash->success(__('Transaction has been completed successfully'));
-                        else
-                        {
-                            $this->Flash->error(__('Something went wrong and transaction was not completed.'));
-                            if($savedTransactionEntity) $this->transactions->delete($savedTransactionEntity);
-                        }
-                    }
-                }
+                    { */
+                //Adding a transaction
+                $this->loadModel('transactions');
+                $user_id = $this->request->session()->read('Auth.User.id');
+                $transaction = $this->transactions->newEntity();
+                $transaction->set(array(
+                    'request_id' => "$id",
+                    'status' => '0',
+                    'issue_date' => $dateIssue,
+                    'return_date' => $dateReturn,
+                    'owner_id' => $owner_id,
+                    'borrower_id' => $borrower_id,
+                    'book_id' => $book_id,
+                    'random' => $random));
+                $savedTransactionEntity = $this->transactions->save($transaction);
+                if($savedTransactionEntity)
+                {
+                    $this->loadModel('Requests');
+                    $request->set(array('ownerAck' => '4', 'rentPaid' => '1', 'transaction_id' => $savedTransactionEntity->id));
+                    $savedRequestEntity = $this->Requests->save($request);
+                    if($savedRequestEntity)
+                        $this->Flash->success(__('Transaction has been completed successfully'));
+                }  
                 else
+                {
                     $this->Flash->error(__('Something went wrong and transaction was not completed.'));
+                    if($savedTransactionEntity) $this->transactions->delete($savedTransactionEntity);
+                }
             }
             else
             {
@@ -379,5 +387,31 @@ class RequestsController extends AppController
                 $this->Books->save($book);
             }
         }
+    }
+    
+    public function payments()
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $this->paginate = [
+            'contain' => ['Books', 'Borrowers', 'Owners', 'Transactions'],
+            'conditions' => array(
+                "Requests.borrower_id = $user_id",
+                "Requests.rentPaid = 0"
+            )
+        ];
+        $pendingPayments = $this->paginate($this->Requests);
+        $this->set(compact('pendingPayments'));
+        $this->set('_serialize', ['pendingPayments']);
+        
+        $this->paginate = [
+            'contain' => ['Books', 'Borrowers', 'Owners', 'Transactions'],
+            'conditions' => array(
+                "Requests.borrower_id = $user_id",
+                "Requests.rentPaid = 1"
+            )
+        ];
+        $paidPayments = $this->paginate($this->Requests);
+        $this->set(compact('paidPayments'));
+        $this->set('_serialize', ['paidPayments']);
     }
 }   

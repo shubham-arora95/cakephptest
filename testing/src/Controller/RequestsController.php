@@ -35,13 +35,29 @@ class RequestsController extends AppController
      */
     public function index()
     {
+        $user_id = $this->request->session()->read('Auth.User.id');
         $this->paginate = [
-            'contain' => ['Books', 'Borrowers', 'Owners']
-        ];
-        $requests = $this->paginate($this->Requests);
+            'contain' => ['Books', 'Borrowers', 'Owners', 'Transactions'],
+            'conditions' => array(
+                "Requests.owner_id = $user_id"/*,
+                'Requests.transaction_id = 0'*/
+        )];
+        $issueRequests = $this->paginate($this->Requests);
 
-        $this->set(compact('requests'));
-        $this->set('_serialize', ['requests']);
+        $this->set(compact('issueRequests'));
+        $this->set('_serialize', ['issueRequests']);
+        
+        $this->paginate = [
+            'contain' => ['Books', 'Borrowers', 'Owners', 'Transactions'],
+            'conditions' => array(
+                "Requests.borrower_id = $user_id",
+                'Requests.ownerAck = 1',
+                'Requests.transaction_id != 0'
+        )];
+        $borrowRequests = $this->paginate($this->Requests);
+
+        $this->set(compact('borrowRequests'));
+        $this->set('_serialize', ['borrowRequests']);
     }
 
     /**
@@ -209,7 +225,7 @@ class RequestsController extends AppController
             'contain' => ['Books', 'Borrowers', 'Owners'],
             'conditions' => array(
                 "Requests.borrower_id = $user_id",
-                /*'Requests.ownerAck = 0'*/
+                'Requests.ownerAck = 1'
             )
         ];
         $requests = $this->paginate($this->Requests);
@@ -352,7 +368,7 @@ class RequestsController extends AppController
                 if($savedTransactionEntity)
                 {
                     $this->loadModel('Requests');
-                    $request->set(array('ownerAck' => '4', 'rentPaid' => '1', 'transaction_id' => $savedTransactionEntity->id));
+                    $request->set(array('ownerAck' => '4', 'rentPaid' => '1', 'transaction_id' => $savedTransactionEntity->id, 'payment_date' => $dateIssue));
                     $savedRequestEntity = $this->Requests->save($request);
                     if($savedRequestEntity)
                         $this->Flash->success(__('Transaction has been completed successfully'));
@@ -367,7 +383,7 @@ class RequestsController extends AppController
             {
                 $this->Flash->error(__('Something went wrong.'));
             }
-           return $this->redirect(['controller' => 'transactions', 'action' => 'view', $savedTransactionEntity->id]);
+           return $this->redirect(['controller' => 'transactions', 'action' => 'success', $savedTransactionEntity->id]);
         }
         catch(Exception $e)
         {
@@ -376,7 +392,7 @@ class RequestsController extends AppController
             {
                 $this->loadModel('Books');
                 $book = $this->Books->get($book_id);
-                $book->set(array('status' => '1', 'rentPaid' => '0'));
+                $book->set(array('status' => '1', 'rentPaid' => '0', 'payment_date' => $dateIssue));
                 $this->Books->save($book);
             }
             if($savedRequestEntity)
@@ -393,7 +409,7 @@ class RequestsController extends AppController
     {
         $user_id = $this->request->session()->read('Auth.User.id');
         $this->paginate = [
-            'contain' => ['Books', 'Borrowers', 'Owners'],
+            'contain' => ['Books', 'Borrowers', 'Owners', 'Transactions'],
             'conditions' => array(
                 "Requests.borrower_id = $user_id",
                 "Requests.rentPaid = 0"
@@ -404,7 +420,7 @@ class RequestsController extends AppController
         $this->set('_serialize', ['pendingPayments']);
         
         $this->paginate = [
-            'contain' => ['Books', 'Borrowers', 'Owners'],
+            'contain' => ['Books', 'Borrowers', 'Owners', 'Transactions'],
             'conditions' => array(
                 "Requests.borrower_id = $user_id",
                 "Requests.rentPaid = 1"
