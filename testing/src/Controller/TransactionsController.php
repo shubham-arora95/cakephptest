@@ -11,10 +11,10 @@ use App\Controller\AppController;
 
 /*
 * Transaction Status
-*   1. Pending Code Verification
-*   2. Code Verified
-*   3. Return Requested
-*   4. Transaction closed
+*   0. Pending Code Verification
+*   1. Code Verified
+*   2. Return Requested
+*   3. Transaction closed
 */
 class TransactionsController extends AppController
 {
@@ -171,6 +171,31 @@ class TransactionsController extends AppController
         else
         {
             $this->Flash->error(__('You can\'t verify code for this transaction'));
+            return $this->redirect(['action' => 'index']);
+        }
+    }
+    
+    public function checkEnteredCode($id = null)
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $transaction = $this->Transactions->get($id, [
+            'contain' => ['Books', 'Owners', 'Borrowers', 'Requests']
+        ]);
+        
+        $enteredCode = $this->request->data['enteredCode'];
+        
+        if($enteredCode == $transaction->random)
+        {
+            $this->Flash->success(__('Code verified successfully'));
+            $transaction->set(array('status' => 1));
+            if($this->Transactions->save($transaction))
+                return $this->redirect(['action' => 'index']);
+            else
+                return $this->redirect(['action' => 'view', $transaction->id]);
+        }
+        else
+        {
+            $this->Flash->error(__('code was not verified'));
             return $this->redirect(['action' => 'index']);
         }
     }

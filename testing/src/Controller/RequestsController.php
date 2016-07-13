@@ -50,9 +50,7 @@ class RequestsController extends AppController
         $this->paginate = [
             'contain' => ['Books', 'Borrowers', 'Owners', 'Transactions'],
             'conditions' => array(
-                "Requests.borrower_id = $user_id",
-                'Requests.ownerAck = 1',
-                'Requests.transaction_id != 0'
+                "Requests.borrower_id = $user_id"
         )];
         $borrowRequests = $this->paginate($this->Requests);
 
@@ -234,7 +232,7 @@ class RequestsController extends AppController
         $this->set('_serialize', ['requests']);
     }
     
-    public function cancelIssueRequest($id = null)
+    public function cancelBorrowRequest($id = null)
     {
         $user_id = $this->request->session()->read('Auth.User.id');
         $request = $this->Requests->get($id, [
@@ -412,6 +410,7 @@ class RequestsController extends AppController
             'contain' => ['Books', 'Borrowers', 'Owners', 'Transactions'],
             'conditions' => array(
                 "Requests.borrower_id = $user_id",
+                "Requests.ownerAck = 1",
                 "Requests.rentPaid = 0"
             )
         ];
@@ -423,6 +422,7 @@ class RequestsController extends AppController
             'contain' => ['Books', 'Borrowers', 'Owners', 'Transactions'],
             'conditions' => array(
                 "Requests.borrower_id = $user_id",
+                "Requests.ownerAck = 1",
                 "Requests.rentPaid = 1"
             )
         ];

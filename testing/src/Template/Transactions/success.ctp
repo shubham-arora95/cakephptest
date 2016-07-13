@@ -46,7 +46,14 @@
         </tr>
         <tr>
             <th><?= __('Status') ?></th>
-            <td><?= $this->Number->format($transaction->status) ?></td>
+            <td>
+                <?php 
+                    if($transaction->status == 0) echo "Pending Code Verification"; 
+                    if($transaction->status == 1) echo "Code Verified";
+                    if($transaction->status == 2) echo "Return Requested";
+                    if($transaction->status == 3) echo "Transaction Closed";
+                ?>
+            </td>
         </tr>
         <tr>
             <th><?= __('Issue Date') ?></th>

@@ -41,8 +41,15 @@
             <td><?= $this->Number->format($request->Weeks) ?></td>
         </tr>
         <tr>
-            <th><?= __('OwnerAck') ?></th>
-            <td><?= $this->Number->format($request->ownerAck) ?></td>
+            <th><?= __('Status') ?></th>
+            <td><?php 
+                        if($request->ownerAck == 0) echo 'Pending';
+                        elseif($request->ownerAck == 1) echo 'Accepted';
+                        elseif($request->ownerAck == 2) echo 'Declined';
+                        elseif($request->ownerAck == 3) echo 'Cancelled by borrower';
+                        elseif($request->ownerAck == 4) echo 'Issued';
+                    ?>
+            </td>
         </tr>
         <tr>
             <th><?= __('Created') ?></th>
