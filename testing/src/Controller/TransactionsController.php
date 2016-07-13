@@ -8,6 +8,14 @@ use App\Controller\AppController;
  *
  * @property \App\Model\Table\TransactionsTable $Transactions
  */
+
+/*
+* Transaction Status
+*   1. Pending Code Verification
+*   2. Code Verified
+*   3. Return Requested
+*   4. Transaction closed
+*/
 class TransactionsController extends AppController
 {
 
@@ -20,7 +28,7 @@ class TransactionsController extends AppController
     {
 		$user_id = $this->request->session()->read('Auth.User.id');
         $this->paginate = [
-            'contain' => ['Requests', 'Owners', 'Borrowers'],
+            'contain' => ['Requests', 'Owners', 'Borrowers', 'Books'],
             'conditions' => array(
                 "Transactions.owner_id = $user_id"
             )
@@ -30,7 +38,7 @@ class TransactionsController extends AppController
         $this->set(compact('issueTransactions'));
         $this->set('_serialize', ['issueTransactions']);
         $this->paginate = [
-            'contain' => ['Requests', 'Owners', 'Borrowers'],
+            'contain' => ['Requests', 'Owners', 'Borrowers', 'Books'],
             'conditions' => array(
                 "Transactions.borrower_id = $user_id"
             )
@@ -137,5 +145,33 @@ class TransactionsController extends AppController
 
         $this->set('transaction', $transaction);
         $this->set('_serialize', ['transaction']);
+    }
+    
+    public function verifyCode($id = null)
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $transaction = $this->Transactions->get($id, [
+            'contain' => ['Books', 'Owners', 'Borrowers', 'Requests']
+        ]);
+        
+        if($transaction->owner_id == $user_id)
+        {
+            $this->Flash->success(__('Please enter the code below which was given by the borrower during pickup.'));
+            if($transaction->status == 0)
+            {
+                $this->set('transaction', $transaction);
+                $this->set('_serialize', ['transaction']);
+            }
+            else
+            {
+                $this->Flash->error(__('You have already verified code for this transaction'));
+                return $this->redirect(['action' => 'index']);
+            }
+        }
+        else
+        {
+            $this->Flash->error(__('You can\'t verify code for this transaction'));
+            return $this->redirect(['action' => 'index']);
+        }
     }
 }

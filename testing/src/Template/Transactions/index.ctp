@@ -34,7 +34,14 @@
                 <td><?= $this->Number->format($transaction->id) ?></td>
                 <td><?= $this->Html->link($transaction->request_id,['controller' => 'Requests', 'action' => 'view', $transaction->request_id]) ?></td>
                 <td><?= $transaction->has('book') ? $this->Html->link($transaction->book->title, ['controller' => 'Books', 'action' => 'view', $transaction->book->id]) : '' ?></td>
-                <td><?= $this->Number->format($transaction->status) ?></td>
+                <td>
+                    <?php 
+                        if($transaction->status == 0) echo "Pending Code Verification"; 
+                        if($transaction->status == 1) echo "Code Verified";
+                        if($transaction->status == 2) echo "Return Requested";
+                        if($transaction->status == 3) echo "Transaction Closed";
+                    ?>
+                </td>
                 <td><?= $transaction->has('owner') ? $this->Html->link($transaction->owner->name, ['controller' => 'Users', 'action' => 'view', $transaction->owner->id]) : '' ?></td>
                 <td><?= $transaction->has('borrower') ? $this->Html->link($transaction->borrower->name, ['controller' => 'Users', 'action' => 'view', $transaction->borrower->id]) : '' ?></td>
                 <td><?= h($transaction->issue_date) ?></td>
@@ -42,8 +49,11 @@
                 <td><?= h($transaction->random) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $transaction->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $transaction->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $transaction->id], ['confirm' => __('Are you sure you want to delete # {0}?', $transaction->id)]) ?>
+                    <?php 
+                        if($transaction->status == 0): 
+                    ?>
+                    <?= $this->Html->link(__(' | Verify Code'), ['action' => 'verifyCode', $transaction->id]) ?>
+                    <?php endif; ?>
                 </td>
             </tr>
             <?php endforeach; ?>
@@ -89,8 +99,6 @@
                 <td><?= h($transaction->random) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $transaction->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $transaction->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $transaction->id], ['confirm' => __('Are you sure you want to delete # {0}?', $transaction->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
