@@ -20,11 +20,9 @@
                 <th><?= $this->Paginator->sort('request_id') ?></th>
                 <th><?= $this->Paginator->sort('book_id') ?></th>
                 <th><?= $this->Paginator->sort('status') ?></th>
-                <th><?= $this->Paginator->sort('owner_id') ?></th>
                 <th><?= $this->Paginator->sort('borrower_id') ?></th>
                 <th><?= $this->Paginator->sort('issue_date') ?></th>
                 <th><?= $this->Paginator->sort('return_date') ?></th>
-                <th><?= $this->Paginator->sort('random') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -42,11 +40,9 @@
                         if($transaction->status == 3) echo "Transaction Closed";
                     ?>
                 </td>
-                <td><?= $transaction->has('owner') ? $this->Html->link($transaction->owner->name, ['controller' => 'Users', 'action' => 'view', $transaction->owner->id]) : '' ?></td>
                 <td><?= $transaction->has('borrower') ? $this->Html->link($transaction->borrower->name, ['controller' => 'Users', 'action' => 'view', $transaction->borrower->id]) : '' ?></td>
                 <td><?= h($transaction->issue_date) ?></td>
                 <td><?= h($transaction->return_date) ?></td>
-                <td><?= h($transaction->random) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $transaction->id]) ?>
                     <?php 
@@ -54,6 +50,9 @@
                     ?>
                     <?= $this->Html->link(__(' | Verify Code'), ['action' => 'verifyCode', $transaction->id]) ?>
                     <?php endif; ?>
+                    <?php 
+                        if($transaction->status == 2) echo $this->Html->link(__(' | Confirm Return'), ['action' => 'confirmReturn', $transaction->id], ['confirm' => __('Are you sure have collected this book for transaction id # {0}?', $transaction->id)]);
+                    ?>
                 </td>
             </tr>
             <?php endforeach; ?>
@@ -79,26 +78,36 @@
                 <th><?= $this->Paginator->sort('request_id') ?></th>
                 <th><?= $this->Paginator->sort('status') ?></th>
                 <th><?= $this->Paginator->sort('owner_id') ?></th>
-                <th><?= $this->Paginator->sort('borrower_id') ?></th>
                 <th><?= $this->Paginator->sort('issue_date') ?></th>
                 <th><?= $this->Paginator->sort('return_date') ?></th>
-                <th><?= $this->Paginator->sort('random') ?></th>
+                <th><?= $this->Paginator->sort('random', 'Unique Code') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($borrowTransactions as $transaction): ?>
+            <b><?php if($transaction->status == 0) echo "* Please ask the owner of book ".$transaction->book->title." to verify the unique code otherwise you will not be able to return this book. <br/> <br/>" ?></b>
             <tr>
                 <td><?= $this->Number->format($transaction->id) ?></td>
                 <td><?= $this->Html->link($transaction->request_id,['controller' => 'Requests', 'action' => 'view', $transaction->request_id]) ?></td>
-                <td><?= $this->Number->format($transaction->status) ?></td>
+                <td>
+                    <?php 
+                        if($transaction->status == 0) echo "Pending Code Verification"; 
+                        if($transaction->status == 1) echo "Code Verified";
+                        if($transaction->status == 2) echo "Return Requested";
+                        if($transaction->status == 3) echo "Transaction Closed";
+                    ?>
+                </td>
                 <td><?= $transaction->has('owner') ? $this->Html->link($transaction->owner->name, ['controller' => 'Users', 'action' => 'view', $transaction->owner->id]) : '' ?></td>
-                <td><?= $transaction->has('borrower') ? $this->Html->link($transaction->borrower->name, ['controller' => 'Users', 'action' => 'view', $transaction->borrower->id]) : '' ?></td>
                 <td><?= h($transaction->issue_date) ?></td>
                 <td><?= h($transaction->return_date) ?></td>
                 <td><?= h($transaction->random) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $transaction->id]) ?>
+                    <?php 
+                        if($transaction->status == 1)
+                            echo $this->Html->link(__('Return Book'), ['action' => 'returnBook', $transaction->id], ['confirm' => __('Are you sure you want to return this book for transaction id # {0}?', $transaction->id)])
+                    ?>
                 </td>
             </tr>
             <?php endforeach; ?>

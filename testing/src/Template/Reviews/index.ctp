@@ -14,8 +14,9 @@
         <thead>
             <tr>
                 <th><?= $this->Paginator->sort('id') ?></th>
+                <th><?= $this->Paginator->sort('created') ?></th>
+                <th><?= $this->Paginator->sort('modified') ?></th>
                 <th><?= $this->Paginator->sort('book_id') ?></th>
-                <th><?= $this->Paginator->sort('user_id') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -23,8 +24,9 @@
             <?php foreach ($reviews as $review): ?>
             <tr>
                 <td><?= $this->Number->format($review->id) ?></td>
+                <td><?= h($review->created) ?></td>
+                <td><?= h($review->modified) ?></td>
                 <td><?= $review->has('book') ? $this->Html->link($review->book->title, ['controller' => 'Books', 'action' => 'view', $review->book->id]) : '' ?></td>
-                <td><?= $review->has('user') ? $this->Html->link($review->user->name, ['controller' => 'Users', 'action' => 'view', $review->user->id]) : '' ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $review->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $review->id]) ?>

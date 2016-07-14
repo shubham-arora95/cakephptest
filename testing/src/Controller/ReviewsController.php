@@ -18,8 +18,12 @@ class ReviewsController extends AppController
      */
     public function index()
     {
+        $user_id = $this->request->session()->read('Auth.User.id');
         $this->paginate = [
-            'contain' => ['Books', 'Users']
+            'contain' => ['Books', 'Users'],
+            'conditions' => array(
+                'Reviews.user_id' => "$user_id"
+            )
         ];
         $reviews = $this->paginate($this->Reviews);
 
@@ -80,7 +84,12 @@ class ReviewsController extends AppController
                 $this->Flash->error(__('The review could not be saved. Please, try again.'));
             }
         }
-        $books = $this->Reviews->Books->find('list', ['limit' => 200]);
+        $books = $this->Reviews->Books->find('list', [
+            'limit' => 200,
+            'conditions' => array(
+                "Books.user_id = $user_id"
+            )
+        ]);
         $users = $this->Reviews->Users->find('list', ['limit' => 200]);
         $this->set(compact('review', 'books', 'users'));
         $this->set('_serialize', ['review']);

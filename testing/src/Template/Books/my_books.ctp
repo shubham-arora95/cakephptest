@@ -51,6 +51,8 @@
                     <?php if($book->user->id == $user_id) echo $this->Html->link(__('Edit'), ['action' => 'edit', $book->id]) ?>
                     <?php if($book->user->id != $user_id) echo $this->Html->link(__('Borrow'), ['action' => 'borrow', $book->id]) ?>
                     <?php if($book->user->id == $user_id) echo $this->Form->postLink(__('Delete'), ['action' => 'delete', $book->id], ['confirm' => __('Are you sure you want to delete # {0}?', $book->id)]) ?>
+                    <?= $this->Html->link(__('Add Review'), ['controller' => 'Reviews', 'action' => 'add', $book->id]) ?>
+                    
                 </td>
             </tr>
             <?php endforeach; ?>

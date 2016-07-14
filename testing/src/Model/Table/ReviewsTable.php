@@ -30,6 +30,8 @@ class ReviewsTable extends Table
         $this->displayField('id');
         $this->primaryKey('id');
 
+        $this->addBehavior('Timestamp');
+
         $this->belongsTo('Books', [
             'foreignKey' => 'book_id',
             'joinType' => 'INNER'

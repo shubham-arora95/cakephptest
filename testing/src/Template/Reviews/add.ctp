@@ -1,4 +1,4 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
+<<nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('List Reviews'), ['action' => 'index']) ?></li>
@@ -14,7 +14,7 @@
         <legend><?= __('Add Review') ?></legend>
         <?php
             echo $this->Form->input('review');
-            if($showAllBooks) echo $this->Form->input('book_id', ['options' => $books]);
+            if($showAllBooks) echo $this->Form->input('Select Book', ['options' => $books, 'name' => 'book_id', 'id' => 'book_id', 'required' => 'true']);
             //echo $this->Form->input('user_id', ['options' => $users]);
         ?>
     </fieldset>

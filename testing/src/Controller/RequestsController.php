@@ -173,7 +173,7 @@ class RequestsController extends AppController
         {
             $request->set(array('ownerAck' => '1'));
             if($this->Requests->save($request))
-                $this->Flash->success(__('Request has been accepted successfully'));
+                $this->Flash->success(__('You have successfully accepted this request. Please ask the borrower to give you the unique code otherwise you won\'t get your rent.'));
             else
                 $this->Flash->error(__('Something went wrong.'));
         }
@@ -422,7 +422,6 @@ class RequestsController extends AppController
             'contain' => ['Books', 'Borrowers', 'Owners', 'Transactions'],
             'conditions' => array(
                 "Requests.borrower_id = $user_id",
-                "Requests.ownerAck = 1",
                 "Requests.rentPaid = 1"
             )
         ];

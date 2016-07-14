@@ -7,6 +7,8 @@ use Cake\ORM\Entity;
  * Review Entity.
  *
  * @property int $id
+ * @property \Cake\I18n\Time $created
+ * @property \Cake\I18n\Time $modified
  * @property string $review
  * @property int $book_id
  * @property \App\Model\Entity\Book $book

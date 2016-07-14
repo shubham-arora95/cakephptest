@@ -26,6 +26,14 @@
             <th><?= __('Id') ?></th>
             <td><?= $this->Number->format($review->id) ?></td>
         </tr>
+        <tr>
+            <th><?= __('Created') ?></th>
+            <td><?= h($review->created) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Modified') ?></th>
+            <td><?= h($review->modified) ?></td>
+        </tr>
     </table>
     <div class="row">
         <h4><?= __('Review') ?></h4>
