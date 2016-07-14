@@ -1,13 +1,11 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-       <!-- <li><?= $this->Html->link(__('New Review'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('New Review'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Books'), ['controller' => 'Books', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Book'), ['controller' => 'Books', 'action' => 'add']) ?></li> -->
-        <li><?= $this->Html->link(__('List Books'), ['controller' => 'Books', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('Share a Book'), ['controller' => 'books', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Reviews'), ['controller' => 'Reviews', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Review'), ['controller' => 'Reviews', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('New Book'), ['controller' => 'Books', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="reviews index large-9 medium-8 columns content">
@@ -17,8 +15,8 @@
             <tr>
                 <th><?= $this->Paginator->sort('id') ?></th>
                 <th><?= $this->Paginator->sort('book_id') ?></th>
-                <th class="actions"><?= __('Review') ?></th>
-                <th class="actions"><?= __('Actions') ?></th>       
+                <th><?= $this->Paginator->sort('user_id') ?></th>
+                <th class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
@@ -26,7 +24,7 @@
             <tr>
                 <td><?= $this->Number->format($review->id) ?></td>
                 <td><?= $review->has('book') ? $this->Html->link($review->book->title, ['controller' => 'Books', 'action' => 'view', $review->book->id]) : '' ?></td>
-                <td><?= $review->has('book') ? $this->Html->link($review->review, ['controller' => 'Reviews', 'action' => 'view', $review->id]) : '' ?></td>
+                <td><?= $review->has('user') ? $this->Html->link($review->user->name, ['controller' => 'Users', 'action' => 'view', $review->user->id]) : '' ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $review->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $review->id]) ?>

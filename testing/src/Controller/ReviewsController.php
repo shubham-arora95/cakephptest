@@ -19,7 +19,7 @@ class ReviewsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Books']
+            'contain' => ['Books', 'Users']
         ];
         $reviews = $this->paginate($this->Reviews);
 
@@ -37,7 +37,7 @@ class ReviewsController extends AppController
     public function view($id = null)
     {
         $review = $this->Reviews->get($id, [
-            'contain' => ['Books']
+            'contain' => ['Books', 'Users']
         ]);
 
         $this->set('review', $review);
@@ -49,11 +49,30 @@ class ReviewsController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($id = null)
     {
+        if($id == null)
+        {
+            $this->set('showAllBooks', 1);
+        }
+        else
+            $this->set('showAllBooks', 0);
+        
+        $user_id = $this->request->session()->read('Auth.User.id');
         $review = $this->Reviews->newEntity();
         if ($this->request->is('post')) {
             $review = $this->Reviews->patchEntity($review, $this->request->data);
+            
+            if($id != null)
+            {
+                $review->set(array('user_id' => "$user_id", 'book_id' => "$id"));
+            }
+            else
+            {
+                $review->set(array('user_id' => "$user_id"));
+            }
+            
+            //$review->set(array('user_id' => "$user_id", 'book_id' => "$id"));
             if ($this->Reviews->save($review)) {
                 $this->Flash->success(__('The review has been saved.'));
                 return $this->redirect(['action' => 'index']);
@@ -62,7 +81,8 @@ class ReviewsController extends AppController
             }
         }
         $books = $this->Reviews->Books->find('list', ['limit' => 200]);
-        $this->set(compact('review', 'books'));
+        $users = $this->Reviews->Users->find('list', ['limit' => 200]);
+        $this->set(compact('review', 'books', 'users'));
         $this->set('_serialize', ['review']);
     }
 
@@ -88,7 +108,8 @@ class ReviewsController extends AppController
             }
         }
         $books = $this->Reviews->Books->find('list', ['limit' => 200]);
-        $this->set(compact('review', 'books'));
+        $users = $this->Reviews->Users->find('list', ['limit' => 200]);
+        $this->set(compact('review', 'books', 'users'));
         $this->set('_serialize', ['review']);
     }
 

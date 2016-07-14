@@ -10,6 +10,8 @@ use Cake\ORM\Entity;
  * @property string $review
  * @property int $book_id
  * @property \App\Model\Entity\Book $book
+ * @property int $user_id
+ * @property \App\Model\Entity\User $user
  */
 class Review extends Entity
 {

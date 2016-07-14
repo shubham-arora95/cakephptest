@@ -17,7 +17,14 @@ class ReviewsControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'app.reviews',
-        'app.books'
+        'app.books',
+        'app.users',
+        'app.book_transactions',
+        'app.posts',
+        'app.requests',
+        'app.transactions',
+        'app.owners',
+        'app.borrowers'
     ];
 
     /**

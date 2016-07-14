@@ -135,7 +135,7 @@ class UsersController extends AppController
         }
         
         //In case of bad login
-        $this->Flash->error('Bad Login Attempt');
+        $this->Flash->error('You must login first.');
     }
     
     //Logout action

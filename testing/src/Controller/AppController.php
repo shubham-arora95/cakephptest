@@ -84,6 +84,14 @@ class AppController extends Controller
         else
             $this->set('loggedIn', false);
         
+        if($this->request->session()->read('Auth.User.id') == '1')
+        {
+            $this->set('isAdmin', true);
+        }
+        
+        else
+            $this->set('isAdmin', false);
+        
         // Creating a conn object for transactions
         $conn = ConnectionManager::get('default');
         
