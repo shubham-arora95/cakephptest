@@ -1,0 +1,37 @@
+1. if no post request on borrow page then show a search box.
+
+2. if a post request is present then show details of the book along with confirm borrow button.
+
+3. Creating a stable menu.-- Done
+
+4. Creating a relation between borrowed books and the user who has borrowed it along with issueing date and time and returning date and time. 
+    IDEAS:
+    i.) Create a borrowedBooks table that contains Book id associated with books table, user-id associated with user            table, borrowed date & time and returning date & time. So, when a user confirm borrow then a new entity is created in      the borrowedBooks table.
+    
+    
+5. Creating a dashboard.
+6. Home page shows listing page.
+7. When user login show dashboard.
+8. When user logout show home page.
+9. when click on home show listing again.
+
+10. Book status
+    1. Available
+    2. Requested
+    3. Issued / Borrowed for the user who borrowed it
+    4. Returned
+    5. Available
+    6. Unavailable
+    
+    
+11. When the owner accept the request show him a message that borrower will reach you and will give you a unique code. Then enter the code and verify the borrower.
+
+12. Show a unique code along with owner's phone no and pickup address when the borrower pays the rent.
+    
+    
+    
+    
+    
+     <?php if($this->request->session()->read('Auth.User.role') == 1): ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $request->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $request->id], ['confirm' => __('Are you sure you want to delete # {0}?', $request->id)]) ?>

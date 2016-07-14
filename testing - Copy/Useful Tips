@@ -1,0 +1,69 @@
+1.Use double quotes for variables.
+
+2.If want something from session then use $this->request->session()->read('Auth.User.id');
+
+3. To logg for debugging use $this->log('Got here', 'debug');
+
+4. use <?= $this->Form->postButton(__('Confirm borrow'), ['action' => 'confirmBorrow', $book->id]) ?> to create buttons.
+        use  $this->Form->postButton
+
+5. To change a specific field use $book->set(array('is_borrowed' => '1')); where $book is fetched by  $book = $this->Books->get($id, ['contain' => ['Users', 'Reviews']]);
+
+
+6. For specific conditions in query use 
+$this->paginate = [
+            'contain' => ['Users']
+            'conditions' => array(
+                "Books.user_id = $user_id"
+                //'Books.user_id = 1'
+            )
+             ];
+             
+             
+7. If showing error helper class can't be converted into string then remove double quotes.
+
+8. Using relational operators $row['attended'] == 1 ? 'yes' : 'no'
+
+
+9. We did following to create a menu
+$this->loadModel('Menus');
+        $menus = $this->Menus->find('all');
+        $this->set('menus', $menus);
+        $this->set('_serialize', ['menu']);
+        
+        
+10. To get 1 step up in he url use ../
+
+11. To allow a specific method use this in beforeFilter method
+ public function beforeFilter(Event $event)
+    {
+        $this->Auth->allow('index');
+    }
+
+12. To get current date and time use 
+    $time = date("Y-m-d H:i:s");
+
+13. We can use only one model at a time also to save data in a table we have to load that model. To do so load only the model which is required. 
+
+14. 
+To get a field from a entity fetched from table use  
+    $book->is_borrowed == 1;
+where book was fethched by using
+    $book = $this->Books->get($id, [
+            'contain' => ['Users', 'Reviews']
+        ]);
+        
+15.
+For making 2 foreign keys change requestTable as
+ $this->belongsTo('Borrowers', [
+            'className' => 'Users',
+            'foreignKey' => 'borrower_id',
+            'joinType' => 'INNER'
+        ]);
+        
+where borrower_id is another foreign key
+
+
+
+
+        

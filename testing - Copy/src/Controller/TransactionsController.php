@@ -214,27 +214,19 @@ class TransactionsController extends AppController
         $transaction = $this->Transactions->get($id, [
             'contain' => ['Books', 'Owners', 'Borrowers', 'Requests']
         ]);
-        if($transaction->borrower_id == $user_id)
+        $transaction->set(array('status' => 2));
+        if($this->Transactions->save($transaction))
         {
-            $transaction->set(array('status' => 2));
-            if($this->Transactions->save($transaction))
-            {
-                $this->Flash->success(__('Your return request is accepted successfully. Drop the book to the owner and ask him/her to immediately confirm the return.'));
-                return $this->redirect(['action' => 'index']);
-            }
-            else
-            {
-                $this->Flash->error(__('Oops! It seem like something went weong.'));
-                $transaction->set(array('status' => 1));
-                $this->Transactions->save($transaction);
-                return $this->redirect(['action' => 'index']);
-            }
+            $this->Flash->success(__('Your return request is accepted successfully. Drop the book to the owner and ask him/her to immediately confirm the return.'));
+            return $this->redirect(['action' => 'index']);
         }
         else
         {
             $this->Flash->error(__('Oops! It seem like something went weong.'));
-             return $this->redirect(['action' => 'index']);
-        }
+            $transaction->set(array('status' => 1));
+            $this->Transactions->save($transaction);
+            return $this->redirect(['action' => 'view', $transaction->id]);
+        } 
     }
     
     public function confirmReturn($id = null)
@@ -243,30 +235,21 @@ class TransactionsController extends AppController
         $transaction = $this->Transactions->get($id, [
             'contain' => ['Books', 'Owners', 'Borrowers', 'Requests']
         ]);
-        if($transaction->owner_id == $user_id)
+        $transaction->set(array('status' => 3));
+        if($this->Transactions->save($transaction))
         {
-            $transaction->set(array('status' => 3));
-            if($this->Transactions->save($transaction))
-            {
-                $this->loadModel('Books');
-                $book = $this->Books->get($transaction->book_id);
-                $book->set(array('status' => 0));
-                $this->Books->save($book);
-                $this->Flash->success(__('Thanks! for the confirmation. You will get your rent soon. '));
-                return $this->redirect(['action' => 'index']);
-            }
-            else
-            {
-                $transaction->set(array('status' => 2));
-                $this->Flash->error('Oops! Something went wrong.');
-                return $this->redirect(['action' => 'index']);
-            }
+            $this->loadModel('Books');
+            $book = $this->Books->get($transaction->book_id);
+            $book->set(array('status' => 0));
+            $this->Books->save($book);
+            $this->Flash->success(__('Thanks! for the confirmation. You will get your rent soon. '));
+            return $this->redirect(['action' => 'index']);
         }
         else
         {
-            $this->Flash->error(__('Oops! It seem like something went weong.'));
-             return $this->redirect(['action' => 'index']);
-        }
-        
+            $transaction->set(array('status' => 2));
+            $this->Flash->error('Oops! Something went wrong.');
+            return $this->redirect(['action' => 'view', $transaction->id]);
+        } 
     }
 }
