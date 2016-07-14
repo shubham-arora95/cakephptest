@@ -7,13 +7,18 @@ use Cake\ORM\Entity;
  * User Entity.
  *
  * @property int $id
- * @property bool $role
  * @property string $name
  * @property string $email
  * @property string $password
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
+ * @property int $phone
+ * @property string $address
+ * @property \App\Model\Entity\BookTransaction[] $book_transactions
+ * @property \App\Model\Entity\Book[] $books
  * @property \App\Model\Entity\Post[] $posts
+ * @property \App\Model\Entity\Request[] $requests
+ * @property \App\Model\Entity\Transaction[] $transactions
  */
 class User extends Entity
 {

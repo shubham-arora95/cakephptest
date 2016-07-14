@@ -40,6 +40,8 @@ class AppController extends Controller
      *
      * @return void
      */
+    
+    //public $layout = false;
     public function initialize()
     {
         parent::initialize();

@@ -230,6 +230,7 @@ class BooksController extends AppController
         
 
         $this->set(compact('books'));
+        $this->set('title', 'My Books');
         $this->set('_serialize', ['books']);
     }
     

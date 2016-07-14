@@ -13,8 +13,7 @@ use Cake\Validation\Validator;
  * @property \Cake\ORM\Association\HasMany $BookTransactions
  * @property \Cake\ORM\Association\HasMany $Books
  * @property \Cake\ORM\Association\HasMany $Posts
- * @property \Cake\ORM\Association\HasMany $Requests
- * @property \Cake\ORM\Association\HasMany $Transactions
+ * @property \Cake\ORM\Association\HasMany $Reviews
  */
 class UsersTable extends Table
 {
@@ -44,10 +43,7 @@ class UsersTable extends Table
         $this->hasMany('Posts', [
             'foreignKey' => 'user_id'
         ]);
-        $this->hasMany('Requests', [
-            'foreignKey' => 'user_id'
-        ]);
-        $this->hasMany('Transactions', [
+        $this->hasMany('Reviews', [
             'foreignKey' => 'user_id'
         ]);
     }
@@ -65,11 +61,6 @@ class UsersTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->boolean('role')
-            ->requirePresence('role', 'create')
-            ->notEmpty('role');
-
-        $validator
             ->requirePresence('name', 'create')
             ->notEmpty('name');
 
@@ -81,6 +72,15 @@ class UsersTable extends Table
         $validator
             ->requirePresence('password', 'create')
             ->notEmpty('password');
+
+        $validator
+            ->integer('phone')
+            ->requirePresence('phone', 'create')
+            ->notEmpty('phone');
+
+        $validator
+            ->requirePresence('address', 'create')
+            ->notEmpty('address');
 
         return $validator;
     }

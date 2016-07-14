@@ -10,7 +10,7 @@
     </ul>
 </nav>
 <div class="books index large-9 medium-8 columns content">
-    <h3><?= __('Books') ?></h3>
+    <h3><?= __('My Books') ?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
