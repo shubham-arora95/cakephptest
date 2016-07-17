@@ -50,6 +50,7 @@ class BooksController extends AppController
 
         $this->set(compact('books'));
         $this->set('_serialize', ['books']);
+        $this->set('title', 'All Books');
     }
 
     /**
@@ -67,6 +68,19 @@ class BooksController extends AppController
 
         $this->set('book', $book);
         $this->set('_serialize', ['book']);
+        
+        $this->loadModel('Reviews');
+        $this->paginate = [
+            'contain' => ['Books', 'Users'],
+            'conditions' => array(
+                'Reviews.book_id' => "$book->id"
+            )
+        ];
+        $reviews = $this->paginate($this->Reviews);
+
+        $this->set(compact('reviews'));
+        $this->set('_serialize', ['reviews']);
+        
     }
 
     /**
@@ -141,21 +155,28 @@ class BooksController extends AppController
 
     public function borrow($id = null)
     {
+        $user_id = $this->request->session()->read('Auth.User.id');
         if($id == null)
-            return $this->redirect(['action' => 'index']);
+            return $this->redirect(['action' => 'search-book']);
         //echo "1234";
         $book = $this->Books->get($id, [
             'contain' => ['Users', 'Reviews']
         ]);
-    
-        $this->set('book', $book);
-        if($book->status == 1)
+        if($book->user_id != $user_id)
         {
-            $this->Flash->error("Book is already borrowed");
-            return $this->redirect(['action' => 'index']);
+            $this->set('book', $book);
+            if($book->status == 1)
+            {
+                $this->Flash->error("This book is already borrowed so you can't generate request for this book.");
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->set('_serialize', ['book']);
         }
-        $this->set('_serialize', ['book']);
-        
+        else
+            {
+                $this->Flash->error('How come you want to borrow your own book?');
+                return $this->redirect(['controller' => 'books', 'action' => 'index']);
+            }
         //redirect if the book is already borrowed with an error
     }
     
@@ -181,35 +202,48 @@ class BooksController extends AppController
         {    
             $owner_id = $book->user_id;
             $Weeks = $this->request->data['Weeks'];
+            if($Weeks == '0')
+            {
+                $this->Flash->error('Please select the number of weeks first!');
+                return $this->redirect(['controller' => 'books', 'action' => 'borrow', $id]);
+            }
+            
+            if($book->user_id != $user_id)
+            {
+                $this->loadModel('requests');
+                $request = $this->requests->newEntity();
+                $request->set(array(
+                    'book_id' => "$id",
+                    'borrower_id' => "$user_id",
+                    'owner_id' => "$owner_id",
+                    'Weeks' => "$Weeks",
+                    'ownerAck' => 0,
+                    'rentPaid' => 0
+                ));
 
-            $this->loadModel('requests');
-            $request = $this->requests->newEntity();
-            $request->set(array(
-                'book_id' => "$id",
-                'borrower_id' => "$user_id",
-                'owner_id' => "$owner_id",
-                'Weeks' => "$Weeks",
-                'ownerAck' => 0,
-                'rentPaid' => 0
-            ));
-
-            if($this->requests->save($request))
-            {    
-                 $book = $this->Books->get($id, [
-                'contain' => ['Users', 'Reviews']
-                ]);
-                $book->set(array('status' => '1'));
-                $this->loadModel('Books');
-                if($this->Books->save($book))
-                { 
-                    $this->Flash->success('Request successfully saved');
+                if($this->requests->save($request))
+                {    
+                     $book = $this->Books->get($id, [
+                    'contain' => ['Users', 'Reviews']
+                    ]);
+                    $book->set(array('status' => '1'));
+                    $this->loadModel('Books');
+                    if($this->Books->save($book))
+                    { 
+                        $this->Flash->success('Your request is sent to the owner. We will notify you once the owner accepts your request.');
+                        return $this->redirect(['controller' => 'requests', 'action' => 'index']);
+                    }
+                }
+                else
+                {
+                    $this->Flash->error('Something went wrong!');
                     return $this->redirect(['controller' => 'requests', 'action' => 'index']);
                 }
             }
             else
             {
-                $this->Flash->error('Something went wrong!');
-                return $this->redirect(['controller' => 'requests', 'action' => 'index']);
+                $this->Flash->error('How come you want to generate borrow request for your own book?');
+                return $this->redirect(['controller' => 'books', 'action' => 'index']);
             }
         }    
     }
@@ -243,6 +277,23 @@ class BooksController extends AppController
             'conditions' => array(
                 "Books.user_id != $user_id",
                 "Books.status = 0"
+                //'Books.user_id = 1'
+            )];
+        $books = $this->paginate($this->Books);
+        $this->set(compact('books'));
+        $this->set('_serialize', ['books']);
+    }
+    
+    public function issued()
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $this->log("user_id = $user_id", 'debug');
+        $this->paginate = [
+            'contain' => ['Users'],
+            //Show only the books added by the user by using condition
+            'conditions' => array(
+                "Books.user_id = $user_id",
+                "Books.status = 1"
                 //'Books.user_id = 1'
             )];
         $books = $this->paginate($this->Books);

@@ -5,30 +5,53 @@ scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html>
 <head>
-    <?= $this->Html->charset() ?>
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>
-        <?= $this->fetch('title') ?>
-    </title>
-    <?= $this->Html->meta('icon') ?>
-
-    <!-- <?//= $this->Html->css('base.css') ?>
-    <?//= $this->Html->css('cake.css') ?> -->
-    <?= $this->Html->css('AdminLTE.css') ?>
-    <?= $this->Html->css('skin-blue.css') ?>
-    <?= $this->Html->css('bootstrap.css') ?>
-
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
-    
+    <?php $this->layout = false; ?>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Home</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+        page. However, you can choose any other skin. Make sure you
+        apply the skin class to the body tag so the changes take effect.
+  -->
+  <link rel="stylesheet" href="/css/skin-blue.min.css">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
-    
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -36,7 +59,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="/home" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
@@ -68,7 +91,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a href="#">
                       <div class="pull-left">
                         <!-- User Image -->
-                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                        <img src="/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                       </div>
                       <!-- Message title and timestamp -->
                       <h4>
@@ -152,14 +175,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
               <span class="hidden-xs">Alexander Pierce</span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
                   Alexander Pierce - Web Developer
@@ -209,7 +232,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>Alexander Pierce</p>
@@ -232,22 +255,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
-        <li class="header">HEADER</li>
+        <li class="header">WHERE TO GO</li>
         <!-- Optionally, you can add icons to the links -->
         <li><a href="/books/add"><i class="fa fa-plus"></i> <span>Share Book</span></a></li>
         <li><a href="/books/search-book"><i class="fa fa-cart-plus"></i> <span>Borrow Book</span></a></li>
-        <li><a href="/books/my-books"><i class="fa fa-cart-plus"></i> <span>My Books</span></a></li>
+        <li><a href="/books/my-books"><i class="fa  fa-folder-o"></i> <span>My Books</span></a></li>
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
+          <a href="#"><i class="fa fa-book"></i> <span>My Books</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
-            <li><a href="#">Link in level 2</a></li>
-            <li><a href="#">Link in level 2</a></li>
+              <li><a href="/books/shared"><i class="fa  fa-book"></i>Shared Books</a></li>
+              <li><a href="/books/borrowed"><i class="fa  fa-book"></i>Borrowed Books</a></li>
           </ul>
         </li>
+          
+        <li class="treeview">
+          <a href="#"><i class="fa fa-envelope"></i> <span>My Requests</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+              <li><a href="/requests/issue"><i class="fa fa-envelope"></i>Issue Requests</a></li>
+              <li><a href="/requests/borrow"><i class="fa fa-envelope"></i>Borrow Requests</a></li>
+          </ul>
+        </li>
+          
+        <li class="treeview">
+          <a href="#"><i class="fa fa-exchange"></i> <span>My Transactions</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+              <li><a href="/transactions/issue"><i class="fa fa-exchange"></i>Issue Transactions</a></li>
+              <li><a href="/transactions/borrow"><i class="fa fa-exchange"></i>Borrow Transactions</a></li>
+          </ul>
+        </li>
+          
+        <li class="treeview">
+          <a href="#"><i class="fa fa-money"></i> <span>My Payments</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+              <li><a href="/payments/pending"><i class="fa fa-money"></i>Pending Payments</a></li>
+              <li><a href="/payments/paid"><i class="fa fa-money"></i>Payments You Made</a></li>
+          </ul>
+        </li>
+        
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -257,10 +301,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
         Home
-        <small>This page shows all books on site.</small>
+        <small>This page shows all books available.</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -270,61 +315,49 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Main content -->
     <section class="content">
-
       <!-- Your Page Content Here -->
-    <?php $this->layout = false; ?>
-    <table class="table no-margin">
-        <thead>
-            <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
-                <th><?= $this->Paginator->sort('title') ?></th>
-                <th><?= $this->Paginator->sort('writer') ?></th>
-                <th><?= $this->Paginator->sort('edition') ?></th>
-                <th><?= $this->Paginator->sort('course') ?></th>
-                <th><?= $this->Paginator->sort('price') ?></th>
-                <th><?= $this->Paginator->sort('status') ?></th>
-                <th><?= $this->Paginator->sort('user_id', 'Owner') ?></th>
-                <th class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($books as $book): ?>
-            <tr>
-                <td><?= $this->Number->format($book->id) ?></td>
-                <!-- Creating Book Title Clickable -->
-                <td><?= $this->Html->link("$book->title",['action' => 'view', $book->id]) ?><!--<?= h($book->title) ?>--></td>
-                <td><?= h($book->writer) ?></td>
-                <td><?= h($book->edition) ?></td>
-                <td><?= h($book->course) ?></td>
-                <td><?= $this->Number->format($book->price) ?></td>
-                <td><?php if($book->status == 0) echo "Available"; 
-                    elseif($book->status == 1) echo "Requeted"; 
-                    elseif($book->status == 2) echo "Not Available"; 
-                         ?>
-                </td>
-                <td><?= $book->has('user') ? $this->Html->link($book->user->name, ['controller' => 'Users', 'action' => 'view', $book->user->id]) : '' ?></td>
-                <td class="actions">
-                    <!-- Show edit and delete buttons only if the current user has added this book also hide borrow button in this case. -->
-                    <?php 
-                        $user_id = $this->request->session()->read('Auth.User.id');
-                        //echo "$user_id";       
-                    ?>
-                    <?= $this->Form->postButton(__('View'), ['controller' => 'books', 'action' => 'view', $book->id], ['class' => 'btn btn-block btn-primary']) ?>
-                   
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-        </ul>
-        <p><?= $this->Paginator->counter() ?></p>
-    </div>
+        <div class="row" style="position:relative">
+        <?php foreach ($books as $book): ?>
+        <div class="col-md-3">
 
+          <!-- Book info -->
+          <div class="box box-primary">
+            <div class="box-body box-profile">
+              <img class="profile-user-img img-responsive img-circle" src="/img/user4-128x128.jpg" alt="User profile picture">
+
+              <h3 class="profile-username text-center"><?= $this->Html->link("$book->title",['controller' => 'Books', 'action' => 'view', $book->id]) ?></h3>
+
+              <p class="text-muted text-center"><?= h($book->writer) ?></p>
+
+              <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                  <b>Edition</b> <a class="pull-right"><?= h($book->edition) ?></a>
+                </li>
+                <li class="list-group-item">
+                  <b>Course</b> <a class="pull-right"><?= h($book->course) ?></a>
+                </li>
+                <li class="list-group-item">
+                  <b>Price</b> <a class="pull-right"><?= h($book->price) ?></a>
+                </li>
+                <li class="list-group-item">
+                  <b>Owner</b> <a class="pull-right"><?= $this->Html->link($book->user->name, ['controller' => 'Users', 'action' => 'view', $book->user->id], ['class' => 'pull-right'])?></a>
+                </li>
+                <li class="list-group-item">
+                  <b>Status</b> <a class="pull-right"><?php if($book->status == 0) echo "Available"; 
+                    elseif($book->status == 1) echo "Requested"; 
+                    elseif($book->status == 2) echo "Not Available"; 
+                    ?></a>
+                </li>  
+              </ul>
+
+              <a href="#" class="btn btn-primary btn-block"><b>Borrow</b></a>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <?php endforeach; ?>
+        </div>       
     </section>
     <!-- /.content -->
   </div>
@@ -337,7 +370,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       Anything you want
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
   </footer>
 
   <!-- Control Sidebar -->
@@ -373,9 +406,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="javascript::;">
               <h4 class="control-sidebar-subheading">
                 Custom Template Design
-                <span class="pull-right-container">
-                  <span class="label label-danger pull-right">70%</span>
-                </span>
+                <span class="label label-danger pull-right">70%</span>
               </h4>
 
               <div class="progress progress-xxs">
@@ -421,17 +452,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- REQUIRED JS SCRIPTS -->
 
-<!-- jQuery 2.2.3 -->
-<script src="/js/jquery-2.2.3.min.js"></script>
+<!-- jQuery 2.2.0 -->
+<script src="/js/jQuery-2.2.0.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="/js/bootstrap.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
-<script src="dist/js/app.min.js"></script>
-
-
-    <?= $this->Html->script('jquery-2.2.3.min.js'); ?>
-    <?= $this->Html->script('app.min.js'); ?>
-    <!-- <?= $this->Html->script('bootstrap.js'); ?> -->
+<script src="/js/app.min.js"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
@@ -439,85 +465,3 @@ scratch. This page gets rid of all links and provides the needed markup only.
      fixed layout. -->
 </body>
 </html>
-
-
-
-
-
-
-
-
-<!----------------------------------------------------------------------------------------------------------------------------->
-
-
-
-
-
-<!-- 
-
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <?php if($loggedIn): ?>
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('My Books'), ['controller' => 'Books', 'action' => 'myBooks']) ?></li>
-        <li><?= $this->Html->link(__('Share Book'), ['controller' => 'Books', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Reviews'), ['controller' => 'Reviews', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Review'), ['controller' => 'Reviews', 'action' => 'add']) ?></li>
-    </ul>
-    <?php endif ?>
-</nav>
-<div class="books index large-9 medium-8 columns content">
-    <h3><?= __('Books') ?></h3>
-    <?php $this->layout = false; ?>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
-                <th><?= $this->Paginator->sort('title') ?></th>
-                <th><?= $this->Paginator->sort('writer') ?></th>
-                <th><?= $this->Paginator->sort('edition') ?></th>
-                <th><?= $this->Paginator->sort('course') ?></th>
-                <th><?= $this->Paginator->sort('price') ?></th>
-                <th><?= $this->Paginator->sort('status') ?></th>
-                <th><?= $this->Paginator->sort('user_id', 'Owner') ?></th>
-                <th class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($books as $book): ?>
-            <tr>
-                <td><?= $this->Number->format($book->id) ?></td>
-                <!-- Creating Book Title Clickable -->
-                <!-- <td><?= $this->Html->link("$book->title",['action' => 'view', $book->id]) ?><!--<?= h($book->title) ?>--></td>
-                <!-- <td><?= h($book->writer) ?></td>
-                <td><?= h($book->edition) ?></td>
-                <td><?= h($book->course) ?></td>
-                <td><?= $this->Number->format($book->price) ?></td>
-                <td><?php if($book->status == 0) echo "Available"; 
-                    elseif($book->status == 1) echo "Requeted"; 
-                    elseif($book->status == 2) echo "Not Available"; 
-                         ?>
-                </td>
-                <td><?= $book->has('user') ? $this->Html->link($book->user->name, ['controller' => 'Users', 'action' => 'view', $book->user->id]) : '' ?></td>
-                <td class="actions">
-                    <!-- Show edit and delete buttons only if the current user has added this book also hide borrow button in this case. -->
-                    <!-- <?php 
-                        $user_id = $this->request->session()->read('Auth.User.id');
-                        //echo "$user_id";       
-                    ?>
-                    <?= $this->Html->link(__('View'), ['controller' => 'books','action' => 'view', $book->id]) ?>
-                   
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-        </ul>
-        <p><?= $this->Paginator->counter() ?></p>
-    </div>
-</div> -->

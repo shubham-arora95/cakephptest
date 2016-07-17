@@ -1,66 +1,66 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List All Books'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Book'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Reviews'), ['controller' => 'Reviews', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Review'), ['controller' => 'Reviews', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="books index large-9 medium-8 columns content">
-    <h3><?= __('Books') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
-                <th><?= $this->Paginator->sort('title') ?></th>
-                <th><?= $this->Paginator->sort('writer') ?></th>
-                <th><?= $this->Paginator->sort('edition') ?></th>
-                <th><?= $this->Paginator->sort('course') ?></th>
-                <th><?= $this->Paginator->sort('price') ?></th>
-                <th><?= $this->Paginator->sort('status') ?></th>
-                <th><?= $this->Paginator->sort('user_id') ?></th>
-                <th class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($books as $book): ?>
-            <tr>
-                <td><?= $this->Number->format($book->id) ?></td>
-                <!-- Creating Book Title Clickable -->
-                <td><?= $this->Html->link("$book->title",['action' => 'view', $book->id]) ?><!--<?= h($book->title) ?>--></td>
-                <td><?= h($book->writer) ?></td>
-                <td><?= h($book->edition) ?></td>
-                <td><?= h($book->course) ?></td>
-                <td><?= $this->Number->format($book->price) ?></td>
-                <td><?php if($book->status == 0) echo "Available"; 
-                    elseif($book->status == 1) echo "Requeted"; 
+<section class="content-header">
+      <h1>
+        Borrow Books
+        <small>This page shows all books which you can borrow.</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Books</a></li>
+        <li class="active">Borrow</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <!-- Your Page Content Here -->
+        <div class="row" style="position:relative">
+        <?php foreach ($books as $book): ?>
+        <div class="col-md-3">
+
+          <!-- Book info -->
+          <div class="box box-primary">
+            <div class="box-body box-profile">
+              <img class="profile-user-img img-responsive img-circle" src="/img/user4-128x128.jpg" alt="User profile picture">
+
+              <h3 class="profile-username text-center"><?= $this->Html->link("$book->title",['controller' => 'Books', 'action' => 'view', $book->id]) ?></h3>
+
+              <p class="text-muted text-center"><?= h($book->writer) ?></p>
+
+              <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                  <b>Edition</b> <a class="pull-right"><?= h($book->edition) ?></a>
+                </li>
+                <li class="list-group-item">
+                  <b>Course</b> <a class="pull-right"><?= h($book->course) ?></a>
+                </li>
+                <li class="list-group-item">
+                  <b>Price</b> <a class="pull-right"><?= h($book->price) ?></a>
+                </li>
+                <li class="list-group-item">
+                  <b>Owner</b> <a class="pull-right"><?= $this->Html->link($book->user->name, ['controller' => 'Users', 'action' => 'view', $book->user->id], ['class' => 'pull-right'])?></a>
+                </li>
+                <li class="list-group-item">
+                  <b>Status</b> <a class="pull-right"><?php if($book->status == 0) echo "Available"; 
+                    elseif($book->status == 1) echo "Requested"; 
                     elseif($book->status == 2) echo "Not Available"; 
-                         ?></td>
-                <td><?= $book->has('user') ? $this->Html->link($book->user->name, ['controller' => 'Users', 'action' => 'view', $book->user->id]) : '' ?></td>
-                <td class="actions">
-                    <!-- Show edit and delete buttons only if the current user has added this book also hide borrow button in this case. -->
-                    <?php 
-                        $user_id = $this->request->session()->read('Auth.User.id');
-                        //echo "$user_id";       
-                    ?>
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $book->id]) ?>
-                    <?php if($book->user->id == $user_id) echo $this->Html->link(__('Edit'), ['action' => 'edit', $book->id]) ?>
-                    <?php if($book->user->id != $user_id) echo $this->Html->link(__('Borrow'), ['action' => 'borrow', $book->id]) ?>
-                    <?php if($book->user->id == $user_id) echo $this->Form->postLink(__('Delete'), ['action' => 'delete', $book->id], ['confirm' => __('Are you sure you want to delete # {0}?', $book->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-        </ul>
-        <p><?= $this->Paginator->counter() ?></p>
-    </div>
-</div>
+                    ?></a>
+                </li>  
+              </ul>
+
+              <a href="/books/borrow/<?php echo $book->id ?>" class="btn btn-primary btn-block"><b>Borrow</b></a>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <?php endforeach; ?>
+        </div>  
+        <div class="paginator">
+            <ul class="pagination">
+                <?= $this->Paginator->prev('< ' . __('previous')) ?>
+                <?= $this->Paginator->numbers() ?>
+                <?= $this->Paginator->next(__('next') . ' >') ?>
+            </ul>
+            <p><?= $this->Paginator->counter() ?></p>
+        </div>
+    </section>
+    <!-- /.content -->
