@@ -1,7 +1,7 @@
 <section class="content-header">
       <h1>
-        Home
-        <small>This page shows all books available.</small>
+        <?= $book->title ?>
+        <small>This page shows description and reviews of the book <?= $book->title ?>.</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -86,14 +86,22 @@
                 </div>
                 </li>
               </ul>
+            </div>
+            <!-- /.box-body -->
+              <div class="box-footer">
                 <?php if($book->user_id == $user_id): ?>
-                    <a href="/books/edit/<?php echo $book->id ?>" class="btn btn-primary btn-block"><b>Edit</b></a><br/>
-                    <?= $this->Form->postButton(__('Delete'), ['controller' => 'Books', 'action' => 'delete', $book->id], ['class' => 'btn btn-primary btn-block', 'confirm' => __('Are you sure you want to delete this book?')]) ?>
+                    <?php if($book->status == 0): ?>
+                        <a href="/books/edit/<?php echo $book->id ?>" class="btn btn-primary btn-block"><b>Edit</b></a><br/>
+                        <?= $this->Form->postButton(__('Delete'), ['controller' => 'Books', 'action' => 'delete', $book->id], ['class' => 'btn btn-primary btn-block', 'confirm' => __('Are you sure you want to delete this book?')]) ?>
+                    <?php else: ?>
+                        <div class="callout callout-warning">
+                            <h5>You can not edit or delete this book.</h5>    
+                        </div>
+                    <?php endif; ?>
                 <?php else: ?>
                     <a href="#" class="btn btn-primary btn-block"><b>Borrow</b></a>
                 <?php endif; ?>
-            </div>
-            <!-- /.box-body -->
+              </div>
           </div>
           <!-- /.box -->
         </div>     

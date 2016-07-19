@@ -80,6 +80,7 @@ class BooksController extends AppController
 
         $this->set(compact('reviews'));
         $this->set('_serialize', ['reviews']);
+        $this->set('title', "Book View - $book->title");
         
     }
 
@@ -106,6 +107,7 @@ class BooksController extends AppController
         $users = $this->Books->Users->find('list', ['limit' => 200]);
         $this->set(compact('book', 'users'));
         $this->set('_serialize', ['book']);
+        $this->set('title', "Share a Book");
     }
 
     /**
@@ -117,21 +119,31 @@ class BooksController extends AppController
      */
     public function edit($id = null)
     {
+        $user_id = $this->request->session()->read('Auth.User.id');
         $book = $this->Books->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $book = $this->Books->patchEntity($book, $this->request->data);
-            if ($this->Books->save($book)) {
-                $this->Flash->success(__('The book has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The book could not be saved. Please, try again.'));
+        if($book->status == 0 && $book->user_id == $user_id)
+        {
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $book = $this->Books->patchEntity($book, $this->request->data);
+                if ($this->Books->save($book)) {
+                    $this->Flash->success(__('The book has been saved.'));
+                    return $this->redirect(['action' => 'index']);
+                } else {
+                    $this->Flash->error(__('The book could not be saved. Please, try again.'));
+                }
             }
+            $users = $this->Books->Users->find('list', ['limit' => 200]);
+            $this->set(compact('book', 'users'));
+            $this->set('_serialize', ['book']);
+            $this->set('title', "Edit Book - $book->title");
         }
-        $users = $this->Books->Users->find('list', ['limit' => 200]);
-        $this->set(compact('book', 'users'));
-        $this->set('_serialize', ['book']);
+        else
+        {
+            $this->Flash->error(__('You can\'t edit this book.'));
+            return $this->redirect(['action' => 'myAddedBooks']);
+        }
     }
 
     /**
@@ -156,6 +168,7 @@ class BooksController extends AppController
     public function borrow($id = null)
     {
         $user_id = $this->request->session()->read('Auth.User.id');
+        $this->set('title', "Borrow $book->title");
         if($id == null)
             return $this->redirect(['action' => 'search-book']);
         //echo "1234";
@@ -249,7 +262,7 @@ class BooksController extends AppController
     }
     
     
-    public function myBooks($id = null)
+    public function myAddedBooks($id = null)
     {
         $user_id = $this->request->session()->read('Auth.User.id');
         $this->log("user_id = $user_id", 'debug');
@@ -265,6 +278,7 @@ class BooksController extends AppController
 
         $this->set(compact('books'));
         $this->set('_serialize', ['books']);
+        $this->set('title', 'My Added Book');
     }
     
     public function searchbook()
@@ -282,26 +296,38 @@ class BooksController extends AppController
         $books = $this->paginate($this->Books);
         $this->set(compact('books'));
         $this->set('_serialize', ['books']);
+        $this->set('title', 'Borrow Book');
     }
     
     public function issued()
     {
         $user_id = $this->request->session()->read('Auth.User.id');
-        $this->log("user_id = $user_id", 'debug');
+        $this->loadModel('Transactions');
         $this->paginate = [
-            'contain' => ['Users'],
-            //Show only the books added by the user by using condition
+            'contain' => ['Requests', 'Owners', 'Borrowers', 'Books'],
             'conditions' => array(
-                "Books.user_id = $user_id",
-                "Books.status = 1"
-                //'Books.user_id = 1'
-            )];
-        $books = $this->paginate($this->Books);
-        
-
-        $this->set(compact('books'));
-        $this->set('_serialize', ['books']);
+                "Transactions.owner_id = $user_id"
+            )
+        ];
+        $transactions = $this->paginate($this->Transactions);
+        $this->set(compact('transactions'));
+        $this->set('_serialize', ['transactions']);
+        $this->set('title', 'My Issued Books');
     }
-        
     
+    public function borrowed()
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $this->loadModel('Transactions');
+        $this->paginate = [
+            'contain' => ['Requests', 'Owners', 'Borrowers', 'Books'],
+            'conditions' => array(
+                "Transactions.borrower_id = $user_id"
+            )
+        ];
+        $transactions = $this->paginate($this->Transactions);
+        $this->set(compact('transactions'));
+        $this->set('_serialize', ['transactions']);
+        $this->set('title', 'My Borrowed Books');
+    }   
 }

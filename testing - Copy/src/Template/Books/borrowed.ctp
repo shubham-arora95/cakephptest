@@ -1,11 +1,11 @@
 <section class="content-header">
       <h1>
-        Issued Books
-        <small>This page shows all books which you have issued.</small>
+        Borrowed Books
+        <small>This page shows all books which you have borrowed.</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Books</a></li>
-        <li class="active">Issued</li>
+        <li class="active">Borrowed</li>
       </ol>
     </section>
 
@@ -36,19 +36,14 @@
                   <b>Price</b> <a class="pull-right"><?= h($transaction->book->price) ?></a>
                 </li>
                 <li class="list-group-item">
-                  <b>Borrower</b> <a class="pull-right"><?= $this->Html->link($transaction->borrower->name, ['controller' => 'Users', 'action' => 'view', $transaction->borrower->id], ['class' => 'pull-right'])?></a>
+                  <b>Owner</b> <a class="pull-right"><?= $this->Html->link($transaction->owner->name, ['controller' => 'Users', 'action' => 'view', $transaction->borrower->id], ['class' => 'pull-right'])?></a>
                 </li>
               </ul>
               <?= $this->Html->link(__('Add a Review'), ['controller' => 'reviews', 'action' => 'add', $transaction->book->id],['class' => 'btn btn-block btn-info']) ?>
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <?php if($transaction->book->status != 0): ?>
-                        <div class="callout callout-alert">
-                            <h5>You can request return of this book.</h5>    
-                        </div>
-                        <a href="/books/request-return/<?php echo $transaction->book->id ?>" class="btn btn-primary btn-block"><b>Request Return</b></a>
-                <?php endif; ?>
+                <a href="/transactions/return-book/<?php echo $transaction->id ?>" class="btn btn-primary btn-block"><b>Return Book</b></a>
             </div>
           </div>
           <!-- /.box -->

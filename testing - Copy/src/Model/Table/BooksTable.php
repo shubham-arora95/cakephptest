@@ -89,7 +89,7 @@ class BooksTable extends Table
             ->notEmpty('price');
 
         $validator
-            ->boolean('status')
+            ->integer('status')
             ->requirePresence('status', 'create')
             ->notEmpty('status');
 

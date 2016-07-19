@@ -13,10 +13,13 @@ use Cake\ORM\Entity;
  * @property string $course
  * @property string $description
  * @property float $price
- * @property bool $status
+ * @property int $status
  * @property int $user_id
  * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\BookTransaction[] $book_transactions
+ * @property \App\Model\Entity\Request[] $requests
  * @property \App\Model\Entity\Review[] $reviews
+ * @property \App\Model\Entity\Transaction[] $transactions
  */
 class Book extends Entity
 {

@@ -18,8 +18,13 @@ class BooksControllerTest extends IntegrationTestCase
     public $fixtures = [
         'app.books',
         'app.users',
+        'app.book_transactions',
         'app.posts',
-        'app.reviews'
+        'app.reviews',
+        'app.requests',
+        'app.transactions',
+        'app.owners',
+        'app.borrowers'
     ];
 
     /**
@@ -68,6 +73,56 @@ class BooksControllerTest extends IntegrationTestCase
      * @return void
      */
     public function testDelete()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test borrow method
+     *
+     * @return void
+     */
+    public function testBorrow()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test generateRequest method
+     *
+     * @return void
+     */
+    public function testGenerateRequest()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test myBooks method
+     *
+     * @return void
+     */
+    public function testMyBooks()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test searchbook method
+     *
+     * @return void
+     */
+    public function testSearchbook()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test issued method
+     *
+     * @return void
+     */
+    public function testIssued()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

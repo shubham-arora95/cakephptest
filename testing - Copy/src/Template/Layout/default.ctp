@@ -262,7 +262,8 @@ desired effect
         <li class="treeview">
           <a href="#"><i class="fa fa-book"></i> <span>My Books</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
-              <li><a href="/books/issued"><i class="fa  fa-book"></i>issued Books</a></li>
+              <li><a href="/books/my-added-books"><i class="fa  fa-book"></i>My Added Books</a></li>
+              <li><a href="/books/issued"><i class="fa  fa-book"></i>Issued Books</a></li>
               <li><a href="/books/borrowed"><i class="fa  fa-book"></i>Borrowed Books</a></li>
           </ul>
         </li>
@@ -270,6 +271,7 @@ desired effect
         <li class="treeview">
           <a href="#"><i class="fa fa-envelope"></i> <span>My Requests</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
+              <li><a href="/requests"><i class="fa fa-envelope"></i>All Requests</a></li>
               <li><a href="/requests/issue"><i class="fa fa-envelope"></i>Issue Requests</a></li>
               <li><a href="/requests/borrow"><i class="fa fa-envelope"></i>Borrow Requests</a></li>
           </ul>

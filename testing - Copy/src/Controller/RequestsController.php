@@ -41,7 +41,8 @@ class RequestsController extends AppController
             'conditions' => array(
                 "Requests.owner_id = $user_id"/*,
                 'Requests.transaction_id = 0'*/
-        )];
+        ),
+        'order' => ['Requests.id' => 'DESC']];
         $issueRequests = $this->paginate($this->Requests);
 
         $this->set(compact('issueRequests'));
@@ -51,11 +52,13 @@ class RequestsController extends AppController
             'contain' => ['Books', 'Borrowers', 'Owners', 'Transactions'],
             'conditions' => array(
                 "Requests.borrower_id = $user_id"
-        )];
+        ),
+        'order' => ['Requests.id' => 'DESC']];
         $borrowRequests = $this->paginate($this->Requests);
 
         $this->set(compact('borrowRequests'));
         $this->set('_serialize', ['borrowRequests']);
+        $this->set('title', 'All Requests');
     }
 
     /**
@@ -73,6 +76,7 @@ class RequestsController extends AppController
 
         $this->set('request', $request);
         $this->set('_serialize', ['request']);
+        $this->set('title', "Request id - $request->id");
     }
 
     /**
@@ -147,20 +151,40 @@ class RequestsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
     
-    public function myIssueRequests()
+    public function issue()
     {
         $user_id = $this->request->session()->read('Auth.User.id');
         $this->paginate = [
             'contain' => ['Books', 'Borrowers', 'Owners'],
             'conditions' => array(
                 "Requests.owner_id = $user_id",
-                'Requests.ownerAck = 0'
-            )
+                //'Requests.ownerAck = 0'
+            ),
+            'order' => ['Requests.id' => 'DESC']
         ];
         $requests = $this->paginate($this->Requests);
 
         $this->set(compact('requests'));
         $this->set('_serialize', ['requests']);
+        $this->set('title', 'Issue Requests');
+    }
+    
+    public function borrow()
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $this->paginate = [
+            'contain' => ['Books', 'Borrowers', 'Owners'],
+            'conditions' => array(
+                "Requests.borrower_id = $user_id",
+                //'Requests.ownerAck = 0'
+            ),
+            'order' => ['Requests.id' => 'DESC']
+        ];
+        $requests = $this->paginate($this->Requests);
+
+        $this->set(compact('requests'));
+        $this->set('_serialize', ['requests']);
+        $this->set('title', 'Borrow Requests');
     }
     
     public function acceptIssueRequest($id = null)
@@ -172,6 +196,7 @@ class RequestsController extends AppController
         if($request->owner_id == $user_id)
         {
             $request->set(array('ownerAck' => '1'));
+            //Changing book status pending
             if($this->Requests->save($request))
                 $this->Flash->success(__('You have successfully accepted this request. Please ask the borrower to give you the unique code otherwise you won\'t get your rent.'));
             else
@@ -368,6 +393,10 @@ class RequestsController extends AppController
                     $this->loadModel('Requests');
                     $request->set(array('ownerAck' => '4', 'rentPaid' => '1', 'transaction_id' => $savedTransactionEntity->id, 'payment_date' => $dateIssue));
                     $savedRequestEntity = $this->Requests->save($request);
+                    $this->loadModel('Books');
+                    $book = $this->Books->get($book_id);
+                    $book->set(array('status' => '2'));
+                    $savedBookEntity = $this->Books->save($book);
                     if($savedRequestEntity)
                         $this->Flash->success(__('Transaction has been completed successfully'));
                 }  

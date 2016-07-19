@@ -263,7 +263,7 @@ desired effect
         <li class="treeview">
           <a href="#"><i class="fa fa-book"></i> <span>My Books</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
-              <li><a href="/books/shared"><i class="fa  fa-book"></i>Shared Books</a></li>
+              <li><a href="/books/issued"><i class="fa  fa-book"></i>Issued Books</a></li>
               <li><a href="/books/borrowed"><i class="fa  fa-book"></i>Borrowed Books</a></li>
           </ul>
         </li>
