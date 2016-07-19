@@ -43,7 +43,30 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <a href="/transactions/return-book/<?php echo $transaction->id ?>" class="btn btn-primary btn-block"><b>Return Book</b></a>
+                <?php if($transaction->status == 0): ?>
+                    <div class="callout callout-warning">
+                        <h6>The owner needs to verify code for this.</h6>
+                    </div>
+                    <?= $this->Html->link(__('Contact Owner'), ['controller' => 'users', 'action' => 'view', $transaction->owner_id], ['class' => 'btn btn-block btn-primary']) ?>
+                    
+                <?php elseif($transaction->status == 1): ?>
+                    <div class="callout callout-info">
+                        <h>The owner has verified code for this.</h5>
+                    </div>
+                   <?= $this->Html->link(__('Return Book'), ['controller' => 'transactions', 'action' => 'returnBook', $transaction->id], ['class' => 'btn btn-block btn-primary']) ?>
+                
+                <?php elseif($transaction->status == 2): ?>
+                    <div class="callout callout-warning">
+                        <h5>You can now drop the book to owner.</h5>
+                    </div>
+                    <a class="btn btn-block"> Ask the owner to confirm the return asap.</a>
+                    
+                <?php elseif($transaction->status == 3): ?>
+                    <div class="callout callout-success">
+                        <h5>You have returned this book.</h5>
+                    </div>
+                    <a class="btn btn-block"> This transaction is closed.</a>
+                <?php endif ?>
             </div>
           </div>
           <!-- /.box -->

@@ -39,8 +39,8 @@ class RequestsController extends AppController
         $this->paginate = [
             'contain' => ['Books', 'Borrowers', 'Owners', 'Transactions'],
             'conditions' => array(
-                "Requests.owner_id = $user_id"/*,
-                'Requests.transaction_id = 0'*/
+                "Requests.owner_id = $user_id",
+                'Requests.transaction_id = 0'
         ),
         'order' => ['Requests.id' => 'DESC']];
         $issueRequests = $this->paginate($this->Requests);
@@ -158,7 +158,7 @@ class RequestsController extends AppController
             'contain' => ['Books', 'Borrowers', 'Owners'],
             'conditions' => array(
                 "Requests.owner_id = $user_id",
-                //'Requests.ownerAck = 0'
+                'Requests.transaction_id = 0'
             ),
             'order' => ['Requests.id' => 'DESC']
         ];
@@ -176,7 +176,7 @@ class RequestsController extends AppController
             'contain' => ['Books', 'Borrowers', 'Owners'],
             'conditions' => array(
                 "Requests.borrower_id = $user_id",
-                //'Requests.ownerAck = 0'
+                'Requests.transaction_id = 0'
             ),
             'order' => ['Requests.id' => 'DESC']
         ];
@@ -198,7 +198,7 @@ class RequestsController extends AppController
             $request->set(array('ownerAck' => '1'));
             //Changing book status pending
             if($this->Requests->save($request))
-                $this->Flash->success(__('You have successfully accepted this request. Please ask the borrower to give you the unique code otherwise you won\'t get your rent.'));
+                $this->Flash->success(__('You have successfully accepted this request. Please ask the borrower to give you the unique code at the time of pickup and verify it from transactions otherwise you won\'t get your rent.'));
             else
                 $this->Flash->error(__('Something went wrong.'));
         }
@@ -206,7 +206,7 @@ class RequestsController extends AppController
         {
             $this->Flash->error(__('Something went wrong.'));
         }
-        return $this->redirect(['action' => 'view', $id]);
+        return $this->redirect(['action' => 'issue']);
     }
     
     public function declineIssueRequest($id = null)
@@ -226,7 +226,7 @@ class RequestsController extends AppController
                 $book->set(array('status' => '0'));
                 if($this->Books->save($book))
                 {
-                   $this->Flash->success(__('Request has been declined successfully')); 
+                   $this->Flash->success(__('Request has been declined successfully.')); 
                 }
             }
             else
@@ -236,7 +236,7 @@ class RequestsController extends AppController
         {
             $this->Flash->error(__('Something went wrong.'));
         }
-        return $this->redirect(['action' => 'view', $id]);
+        return $this->redirect(['action' => 'issue']);
     }
     
     /* Function myBorrowRequests */
@@ -284,7 +284,7 @@ class RequestsController extends AppController
         {
             $this->Flash->error(__('Something went wrong.'));
         }
-        return $this->redirect(['action' => 'view', $id]);
+        return $this->redirect(['action' => 'borrow']);
     }
     
     public function payRent($id = null)
@@ -322,6 +322,7 @@ class RequestsController extends AppController
             $this->Flash->error(__('You can\'t pay rent for this request.'));
             return $this->redirect(['action' => 'view', $id]);
         }
+        $this->set('title', "Pay rent for - $book->title");
     }
     
     public function confirmRentPaid($id = null)
@@ -395,7 +396,7 @@ class RequestsController extends AppController
                     $savedRequestEntity = $this->Requests->save($request);
                     $this->loadModel('Books');
                     $book = $this->Books->get($book_id);
-                    $book->set(array('status' => '2'));
+                    $book->set(array('status' => '1'));
                     $savedBookEntity = $this->Books->save($book);
                     if($savedRequestEntity)
                         $this->Flash->success(__('Transaction has been completed successfully'));

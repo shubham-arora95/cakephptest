@@ -99,7 +99,7 @@ class BooksController extends AppController
             $book->set(array('user_id' => "$user_id", 'status' => '0'));
             if ($this->Books->save($book)) {
                 $this->Flash->success(__('The book has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'myAddedBooks']);
             } else {
                 $this->Flash->error(__('The book could not be saved. Please, try again.'));
             }
@@ -168,7 +168,6 @@ class BooksController extends AppController
     public function borrow($id = null)
     {
         $user_id = $this->request->session()->read('Auth.User.id');
-        $this->set('title', "Borrow $book->title");
         if($id == null)
             return $this->redirect(['action' => 'search-book']);
         //echo "1234";
@@ -190,6 +189,7 @@ class BooksController extends AppController
                 $this->Flash->error('How come you want to borrow your own book?');
                 return $this->redirect(['controller' => 'books', 'action' => 'index']);
             }
+        $this->set('title', "Borrow ".$book->title);
         //redirect if the book is already borrowed with an error
     }
     
@@ -244,7 +244,7 @@ class BooksController extends AppController
                     if($this->Books->save($book))
                     { 
                         $this->Flash->success('Your request is sent to the owner. We will notify you once the owner accepts your request.');
-                        return $this->redirect(['controller' => 'requests', 'action' => 'index']);
+                        return $this->redirect(['controller' => 'requests', 'action' => 'borrow']);
                     }
                 }
                 else
@@ -272,7 +272,8 @@ class BooksController extends AppController
             'conditions' => array(
                 "Books.user_id = $user_id"
                 //'Books.user_id = 1'
-            )];
+            ),
+        'order' => ['Books.id' => 'DESC']];
         $books = $this->paginate($this->Books);
         
 
@@ -307,8 +308,8 @@ class BooksController extends AppController
             'contain' => ['Requests', 'Owners', 'Borrowers', 'Books'],
             'conditions' => array(
                 "Transactions.owner_id = $user_id"
-            )
-        ];
+            ),
+            'order' => ['Transactions.id' => 'DESC']];
         $transactions = $this->paginate($this->Transactions);
         $this->set(compact('transactions'));
         $this->set('_serialize', ['transactions']);
@@ -323,8 +324,8 @@ class BooksController extends AppController
             'contain' => ['Requests', 'Owners', 'Borrowers', 'Books'],
             'conditions' => array(
                 "Transactions.borrower_id = $user_id"
-            )
-        ];
+            ),
+            'order' => ['Transactions.id' => 'DESC']];
         $transactions = $this->paginate($this->Transactions);
         $this->set(compact('transactions'));
         $this->set('_serialize', ['transactions']);

@@ -98,7 +98,7 @@
                             <h5>You can not edit or delete this book.</h5>    
                         </div>
                     <?php endif; ?>
-                <?php else: ?>
+                <?php elseif($book->user_id != $user_id && $book->status ==0): ?>
                     <a href="#" class="btn btn-primary btn-block"><b>Borrow</b></a>
                 <?php endif; ?>
               </div>

@@ -36,7 +36,7 @@
                 <?php echo $this->Form->input('description', ['class' => 'form-control', 'placeholder' => 'Enter Book Description', 'type' => 'textarea']);?>
             </div>
             <div class="form-group">
-                <?php echo $this->Form->input('price', ['class' => 'form-control', 'placeholder' => 'Enter Book Price', 'type' => 'float']);?>
+                <?php echo $this->Form->input('price', ['class' => 'form-control', 'placeholder' => 'Enter Book Price', 'type' => 'number']);?>
             </div>
             <div class="box-footer">
                 <?php echo $this->Form->button('Submit', ['class' => 'btn btn-primary']);?>

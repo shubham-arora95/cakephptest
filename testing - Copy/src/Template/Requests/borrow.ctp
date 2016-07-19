@@ -11,6 +11,7 @@
 
     <!-- Main content -->
     <section class="content">
+        <?php if($requests->count()): ?>
       <!-- Your Page Content Here -->
         <div class="row" style="position:relative">
         <?php foreach ($requests as $request): ?>
@@ -31,9 +32,11 @@
                 </li>
                 <li class="list-group-item">
                   <b>Status</b> <a class="pull-right"><?php 
-                        if($request->ownerAck == 0) echo 'Your response pending';
+                        if($request->ownerAck == 0) echo 'Owner response pending';
                         elseif($request->ownerAck == 1) echo 'Accepted';
                         elseif($request->ownerAck == 2) echo 'Declined';
+                        elseif($request->ownerAck == 3) echo 'Cancelled by borrower';
+                        elseif($request->ownerAck == 4) echo 'Book Issued';
                     ?></a>
                 </li>
                 <li class="list-group-item">
@@ -51,18 +54,29 @@
             <div class="box-footer">
                 <?php if($request->ownerAck == 0): ?>
                     <div class="callout callout-info">
-                        <h5>Owner acknowledgement is stil pending.</h5>    
+                        <h5>Owner response is pending.</h5>    
                     </div>
-                    <?= $this->Form->postLink(__('Cancel'), ['action' => 'cancelBorrowRequest', $request->id],['class' => 'btn btn-block btn-danger']) ?>
+                    <?= $this->Html->link(__('Cancel'), ['action' => 'cancelBorrowRequest', $request->id],['class' => 'btn btn-block btn-danger']) ?>
                 <?php elseif($request->ownerAck == 1): ?>
                     <div class="callout callout-success">
                         <h5>Owner has accepted this request.</h5>    
                     </div>
-                    <?= $this->Form->postLink(__('Pay Rent'), ['action' => 'payRent', $request->id],['class' => 'btn btn-block btn-success']) ?>
+                    <?= $this->Html->link(__('Pay Rent'), ['action' => 'payRent', $request->id],['class' => 'btn btn-block btn-primary']) ?>
                 <?php elseif($request->ownerAck == 2): ?>
                     <div class="callout callout-warning">
                         <h5>Owner has declined this request.</h5>
                     </div>
+                    <a class="btn btn-block"> This request is closed.</a>
+                <?php elseif($request->ownerAck == 3): ?>
+                    <div class="callout callout-warning">
+                        <h5>You have cancelled this request.</h5>
+                    </div>
+                    <a class="btn btn-block"> This request is closed.</a>
+                <?php elseif($request->ownerAck == 4): ?>
+                    <div class="callout callout-info">
+                        <h5>The book is already issued to you.</h5>
+                    </div>
+                    <a class="btn btn-block"> You may return this book.</a>
                 <?php endif ?>
             </div> 
         </div>
@@ -78,5 +92,6 @@
             </ul>
             <p><?= $this->Paginator->counter() ?></p>
         </div>
+        <?php else: echo "Oops! It seems like there is nothing to show you here."; endif;?>
     </section>
     <!-- /.content -->

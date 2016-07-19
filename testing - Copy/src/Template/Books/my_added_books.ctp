@@ -49,7 +49,7 @@
                 <?php if($book->user_id == $user_id): ?>
                     <?php if($book->status == 0): ?>
                         <div class="callout callout-info">
-                            <h5>You can edit, delete or add review for this book.</h5>    
+                            <h5>You can edit or add review for this book.</h5>    
                         </div>
                         <a class="btn btn-block btn-warning" href="/books/edit/<?php echo $book->id ?>">Edit Book</a>&nbsp;
                         <?= $this->Html->link(__('Add a Review'), ['controller' => 'reviews', 'action' => 'add', $book->id],['class' => 'btn btn-block btn-info']) ?>

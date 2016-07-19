@@ -31,9 +31,11 @@ class TransactionsController extends AppController
             'contain' => ['Requests', 'Owners', 'Borrowers', 'Books'],
             'conditions' => array(
                 "Transactions.owner_id = $user_id"
-            )
-        ];
+            ),
+            'order' => ['Transactions.id' => 'DESC']];
         $issueTransactions = $this->paginate($this->Transactions);
+        $this->set(compact('issueTransactions'));
+        $this->set('_serialize', ['issueTransactions']);
 
         $this->set(compact('issueTransactions'));
         $this->set('_serialize', ['issueTransactions']);
@@ -41,12 +43,13 @@ class TransactionsController extends AppController
             'contain' => ['Requests', 'Owners', 'Borrowers', 'Books'],
             'conditions' => array(
                 "Transactions.borrower_id = $user_id"
-            )
-        ];
+            ),
+            'order' => ['Transactions.id' => 'DESC']];
         $borrowTransactions = $this->paginate($this->Transactions);
 
         $this->set(compact('borrowTransactions'));
         $this->set('_serialize', ['borrowTransactions']);
+        $this->set('title', 'All Transactions');
     }
 
     /**
@@ -125,7 +128,7 @@ class TransactionsController extends AppController
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    /*public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $transaction = $this->Transactions->get($id);
@@ -135,7 +138,7 @@ class TransactionsController extends AppController
             $this->Flash->error(__('The transaction could not be deleted. Please, try again.'));
         }
         return $this->redirect(['action' => 'index']);
-    }
+    }*/
     
     public function success($id = null)
     {
@@ -145,6 +148,7 @@ class TransactionsController extends AppController
 
         $this->set('transaction', $transaction);
         $this->set('_serialize', ['transaction']);
+        $this->set('title', 'Transaction Details');
     }
     
     public function verifyCode($id = null)
@@ -173,6 +177,7 @@ class TransactionsController extends AppController
             $this->Flash->error(__('You can\'t verify code for this transaction'));
             return $this->redirect(['action' => 'index']);
         }
+        $this->set('title', "Verify Code for transaction id: ".$transaction->id);
     }
     
     public function checkEnteredCode($id = null)
@@ -183,17 +188,18 @@ class TransactionsController extends AppController
         ]);
         
         $enteredCode = $this->request->data['enteredCode'];
+        $this->set('random', $enteredCode);
         
         if($transaction->owner_id == $user_id)
         {
            if($enteredCode == $transaction->random)
             {
-                $this->Flash->success(__('Code verified successfully'));
+                $this->Flash->success(__('Code verified successfully. You will now get your rent as soon as the borrower return the book.'));
                 $transaction->set(array('status' => 1));
                 if($this->Transactions->save($transaction))
-                    return $this->redirect(['action' => 'index']);
+                    return $this->redirect(['action' => 'issue']);
                 else
-                    return $this->redirect(['action' => 'view', $transaction->id]);
+                    return $this->redirect(['action' => 'issue']);
             }
             else
             {
@@ -204,7 +210,7 @@ class TransactionsController extends AppController
         else
         {
             $this->Flash->error(__('You are not permitted to verify this code.'));
-            return $this->redirect(['action' => 'index']);
+            return $this->redirect(['action' => 'issue']);
         }
     }
     
@@ -214,19 +220,27 @@ class TransactionsController extends AppController
         $transaction = $this->Transactions->get($id, [
             'contain' => ['Books', 'Owners', 'Borrowers', 'Requests']
         ]);
-        $transaction->set(array('status' => 2));
-        if($this->Transactions->save($transaction))
+        if($transaction->status == 1)
         {
-            $this->Flash->success(__('Your return request is accepted successfully. Drop the book to the owner and ask him/her to immediately confirm the return.'));
-            return $this->redirect(['action' => 'index']);
+            $transaction->set(array('status' => 2));
+            if($this->Transactions->save($transaction))
+            {
+                $this->Flash->success(__('Your return request is accepted successfully. Drop the book to the owner and ask him/her to immediately confirm the return.'));
+                return $this->redirect(['action' => 'borrow']);
+            }
+            else
+            {
+                $this->Flash->error(__('Oops! It seem like something went weong.'));
+                $transaction->set(array('status' => 1));
+                $this->Transactions->save($transaction);
+                return $this->redirect(['action' => 'borrow']);
+            }
         }
         else
         {
-            $this->Flash->error(__('Oops! It seem like something went weong.'));
-            $transaction->set(array('status' => 1));
-            $this->Transactions->save($transaction);
-            return $this->redirect(['action' => 'view', $transaction->id]);
-        } 
+            $this->Flash->error(__('The code for this transaction is not verified yet. Please ask the owner to verify the code so that you may return this book'));
+            return $this->redirect(['action' => 'borrow']);
+        }
     }
     
     public function confirmReturn($id = null)
@@ -243,13 +257,44 @@ class TransactionsController extends AppController
             $book->set(array('status' => 0));
             $this->Books->save($book);
             $this->Flash->success(__('Thanks! for the confirmation. You will get your rent soon. '));
-            return $this->redirect(['action' => 'index']);
+            return $this->redirect(['action' => 'issue']);
         }
         else
         {
             $transaction->set(array('status' => 2));
-            $this->Flash->error('Oops! Something went wrong.');
-            return $this->redirect(['action' => 'view', $transaction->id]);
+            $this->Transactions->save($transaction);
+            $this->Flash->error('Oops! Something went wrong. Please write to us about this.');
+            return $this->redirect(['action' => 'issue']);
         } 
+    }
+    
+    public function issue()
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $this->paginate = [
+            'contain' => ['Requests', 'Owners', 'Borrowers', 'Books'],
+            'conditions' => array(
+                "Transactions.owner_id = $user_id"
+            ),
+            'order' => ['Transactions.id' => 'DESC']];
+        $transactions = $this->paginate($this->Transactions);
+        $this->set(compact('transactions'));
+        $this->set('_serialize', ['transactions']);
+        $this->set('title', 'Issue Transactions');
+    }
+    
+    public function borrow()
+    {
+        $user_id = $this->request->session()->read('Auth.User.id');
+        $this->paginate = [
+            'contain' => ['Requests', 'Owners', 'Borrowers', 'Books'],
+            'conditions' => array(
+                "Transactions.borrower_id = $user_id"
+            ),
+            'order' => ['Transactions.id' => 'DESC']];
+        $transactions = $this->paginate($this->Transactions);
+        $this->set(compact('transactions'));
+        $this->set('_serialize', ['transactions']);
+        $this->set('title', 'Borrow Transactions');
     }
 }

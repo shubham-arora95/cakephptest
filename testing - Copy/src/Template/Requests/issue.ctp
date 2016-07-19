@@ -11,6 +11,7 @@
 
     <!-- Main content -->
     <section class="content">
+        <?php if($requests->count()): ?>
       <!-- Your Page Content Here -->
         <div class="row" style="position:relative">
         <?php foreach ($requests as $request): ?>
@@ -34,6 +35,8 @@
                         if($request->ownerAck == 0) echo 'Your response pending';
                         elseif($request->ownerAck == 1) echo 'Accepted';
                         elseif($request->ownerAck == 2) echo 'Declined';
+                        elseif($request->ownerAck == 3) echo 'Cancelled by borrower';
+                        elseif($request->ownerAck == 4) echo 'Book Issued';
                     ?></a>
                 </li>
                 <li class="list-group-item">
@@ -51,18 +54,30 @@
             <div class="box-footer">
                 <?php if($request->ownerAck == 0): ?>
                     <div class="callout callout-info">
-                        <h5>You need to accept or decline this request.</h5>
+                        <h5>You can accept or decline this request.</h5>
                     </div>
-                    <span style="float:left; width:45%;"><?= $this->Form->postButton(__('Accept'), ['action' => 'acceptIssueRequest', $request->id], ['class' => 'btn btn-block btn-success']) ?></span>
-                    <span style="float:right; width:45%;"><?= $this->Form->postButton(__('Decline'), ['action' => 'declineIssueRequest', $request->id], ['confirm' => __('Are you sure you want to decline this request for this book?', $request->id), 'class' => 'btn btn-block btn-danger']) ?></span>
+                    <span style="float:left; width:45%;"><?= $this->Html->link(__('Accept'), ['action' => 'acceptIssueRequest', $request->id], ['class' => 'btn btn-block btn-success']) ?></span>
+                    <span style="float:right; width:45%;"><?= $this->Html->link(__('Decline'), ['action' => 'declineIssueRequest', $request->id], ['confirm' => __('Are you sure you want to decline this request for this book?', $request->id), 'class' => 'btn btn-block btn-danger']) ?></span>
                 <?php elseif($request->ownerAck == 1): ?>
                     <div class="callout callout-success">
                         <h5>You have accepted this request.</h5>
                     </div>
+                    <a class="btn btn-block"> Borrower still needs to pay rent.</a>
                 <?php elseif($request->ownerAck == 2): ?>
-                    <div class="callout callout-warning">
+                    <div class="callout callout-danger">
                         <h5>You have declined this request.</h5>
                     </div>
+                    <a class="btn btn-block"> This request is closed.</a>
+                <?php elseif($request->ownerAck == 3): ?>
+                    <div class="callout callout-warning">
+                        <h5>Borrower has cancelled this request.</h5>
+                    </div>
+                    <a class="btn btn-block"> This request is closed.</a>                   
+                <?php elseif($request->ownerAck == 4): ?>
+                    <div class="callout callout-success">
+                        <h5>This book is issued to the borrower.</h5>
+                    </div>
+                    <a class="btn btn-block"> You can request return of this book.</a>
                 <?php endif ?>
             </div>
             
@@ -79,6 +94,7 @@
             </ul>
             <p><?= $this->Paginator->counter() ?></p>
         </div>
+         <?php else: echo "Oops! It seems like there is nothing to show you here."; endif;?>
     </section>
     <!-- /.content -->
 
@@ -98,7 +114,7 @@
 
 
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!-----------------------------------------------------------------------------------------------------------------
 
 
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
@@ -120,7 +136,7 @@
                  <th><?= $this->Paginator->sort('id') ?></th>
                 <th><?= $this->Paginator->sort('book_id') ?></th>
                 <th><?= $this->Paginator->sort('borrower_id') ?></th>
-               <!-- <th><?= $this->Paginator->sort('owner_id') ?></th> -->
+               <!-- <th><?= $this->Paginator->sort('owner_id') ?></th>
                 <th><?= $this->Paginator->sort('Weeks') ?></th>
                 <th><?= $this->Paginator->sort('ownerAck','Status') ?></th>
                 <th><?= $this->Paginator->sort('rentPaid') ?></th>
@@ -133,7 +149,7 @@
                 <td><?= $this->Number->format($request->id) ?></td>
                 <td><?= $request->has('book') ? $this->Html->link($request->book->title, ['controller' => 'Books', 'action' => 'view', $request->book->id]) : '' ?></td>
                 <td><?= $request->has('borrower') ? $this->Html->link($request->borrower->name, ['controller' => 'Users', 'action' => 'view', $request->borrower->id]) : '' ?></td>
-                <!-- <td><?= $request->has('owner') ? $this->Html->link($request->owner->name, ['controller' => 'Users', 'action' => 'view', $request->owner->id]) : '' ?></td> -->
+                <!-- <td><?= $request->has('owner') ? $this->Html->link($request->owner->name, ['controller' => 'Users', 'action' => 'view', $request->owner->id]) : '' ?></td>
                 <td><?= $this->Number->format($request->Weeks) ?></td>
                 <td><?php 
                         if($request->ownerAck == 0) echo 'Pending';
@@ -160,4 +176,4 @@
         <p><?= $this->Paginator->counter() ?></p>
     </div>
     <?php else: echo "Oops! It seems like there is nothing to show here."; endif;?>
-</div>
+</div> -->

@@ -4,13 +4,13 @@
         <small>Please verify the details and generate a request for book.</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-        <li class="active">Here</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Books</a></li>
+        <li class="active">Borrow</li>
       </ol>
-    </section>
+</section>
 
     <!-- Main content -->
-    <section class="content">
+<section class="content">
       <!-- Your Page Content Here -->
         <div class="col-md-3" style="width:100%">
 
@@ -87,15 +87,15 @@
               </div>
               <div class="box-footer">
                 <?php if($book->user_id != $user_id && $book->status == 0): ?>
-                    <?= $this->Form->button(__('Generate Request'), ['class' => 'btn btn-primary btn-block']) ?>
+                    <?= $this->Form->button(__('Generate Request'), ['class' => 'btn btn-primary btn-primary']) ?>
                         <?= $this->Form->end(); 
                     ?>
-                    <a href="/books/search-book/" class="btn btn-primary btn-block"><b>Cancel</b></a><br/>
+                    <a href="/books/search-book/" class="btn btn-primary btn-danger"><b>Cancel</b></a><br/>
                 <?php endif; ?>
             </div>
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
         </div>     
-    </section>
+</section>
     <!-- /.content -->

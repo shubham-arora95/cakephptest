@@ -5,7 +5,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Requests</a></li>
-        <li class="active">Issue</li>
+        <li class="active">All</li>
       </ol>
     </section>
 
@@ -13,6 +13,7 @@
     <section class="content">
       <!-- Your Page Content Here -->
         <h3>Issue Requests</h3>
+        <?php if($issueRequests->count()): ?>
         <div class="row" style="position:relative">
         <?php foreach ($issueRequests as $request): ?>
         <div class="col-md-3">
@@ -35,6 +36,8 @@
                         if($request->ownerAck == 0) echo 'Your response pending';
                         elseif($request->ownerAck == 1) echo 'Accepted';
                         elseif($request->ownerAck == 2) echo 'Declined';
+                        elseif($request->ownerAck == 3) echo 'Cancelled by borrower';
+                        elseif($request->ownerAck == 4) echo 'Book Issued';
                     ?></a>
                 </li>
                 <li class="list-group-item">
@@ -60,10 +63,22 @@
                     <div class="callout callout-success">
                         <h5>You have accepted this request.</h5>
                     </div>
+                    <a class="btn btn-block"> Borrower still needs to pay rent.</a>
                 <?php elseif($request->ownerAck == 2): ?>
-                    <div class="callout callout-warning">
+                    <div class="callout callout-danger">
                         <h5>You have declined this request.</h5>
                     </div>
+                    <a class="btn btn-block"> This request is closed.</a>
+                <?php elseif($request->ownerAck == 3): ?>
+                    <div class="callout callout-warning">
+                        <h5>Borrower has cancelled this request.</h5>
+                    </div>
+                    <a class="btn btn-block"> This request is closed.</a>                   
+                <?php elseif($request->ownerAck == 4): ?>
+                    <div class="callout callout-info">
+                        <h5>This book is issued to the borrower.</h5>
+                    </div>
+                    <a class="btn btn-block"> You can request return of this book.</a>
                 <?php endif ?>
             </div>
             
@@ -80,12 +95,14 @@
             </ul>
             <p><?= $this->Paginator->counter() ?></p>
         </div>
+        <?php else: echo "Oops! It seems like there is nothing to show you here."; endif;?>
         <hr/>
         
         
         <!----- Borrow Request Start ------->
         <div class="row" style="position:relative">
         <h3>Borrow Requests</h3>
+        <?php if($borrowRequests->count()): ?>
         <?php foreach ($borrowRequests as $request): ?>
         <div class="col-md-3">
 
@@ -107,6 +124,8 @@
                         if($request->ownerAck == 0) echo 'Your response pending';
                         elseif($request->ownerAck == 1) echo 'Accepted';
                         elseif($request->ownerAck == 2) echo 'Declined';
+                        elseif($request->ownerAck == 3) echo 'Cancelled by borrower';
+                        elseif($request->ownerAck == 4) echo 'Book Issued';
                     ?></a>
                 </li>
                 <li class="list-group-item">
@@ -124,25 +143,37 @@
             <div class="box-footer">
                 <?php if($request->ownerAck == 0): ?>
                     <div class="callout callout-info">
-                        <h5>Owner acknowledgement is stil pending.</h5>    
+                        <h5>Owner response is pending.</h5>    
                     </div>
                     <?= $this->Form->postLink(__('Cancel'), ['action' => 'cancelBorrowRequest', $request->id],['class' => 'btn btn-block btn-danger']) ?>
                 <?php elseif($request->ownerAck == 1): ?>
                     <div class="callout callout-success">
                         <h5>Owner has accepted this request.</h5>    
                     </div>
-                    <?= $this->Form->postLink(__('Pay Rent'), ['action' => 'payRent', $request->id],['class' => 'btn btn-block btn-success']) ?>
+                    <?= $this->Html->link(__('Pay Rent'), ['action' => 'payRent', $request->id],['class' => 'btn btn-block btn-primary']) ?>
                 <?php elseif($request->ownerAck == 2): ?>
                     <div class="callout callout-warning">
                         <h5>Owner has declined this request.</h5>
                     </div>
+                    <a class="btn btn-block"> This request is closed.</a>
+                <?php elseif($request->ownerAck == 3): ?>
+                    <div class="callout callout-warning">
+                        <h5>You have cancelled this request.</h5>
+                    </div>
+                    <a class="btn btn-block"> This request is closed.</a>
+                <?php elseif($request->ownerAck == 4): ?>
+                    <div class="callout callout-info">
+                        <h5>The book is already issued to you.</h5>
+                    </div>
+                    <a class="btn btn-block"> You may return this book.</a>
                 <?php endif ?>
             </div> 
         </div>
           <!-- /.box -->
         </div>
         <?php endforeach; ?>
-        </div>  
+        </div>
+        <?php else: echo "Oops! It seems like there is nothing to show you here."; endif;?>
     </section>
     <!-- /.content -->
 
@@ -163,7 +194,7 @@
 
 
 
-<!-------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------
 
 
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
@@ -171,10 +202,10 @@
     </ul>
 </nav>
 
-<!-- Issue Request div start -->
+<!-- Issue Request div start 
 <div class="requests index large-9 medium-8 columns content">
     <h3><?= __('Issue Requests') ?></h3>
-    <!-- <h4><?= __('Pending Actions') ?></h4> -->  
+    <!-- <h4><?= __('Pending Actions') ?></h4> 
     <?php if($issueRequests->count()): ?>
     <table cellpadding="0" cellspacing="0">
         <thead>
@@ -236,7 +267,7 @@
 <!-- Issue Request div ends -->
 
 
-<!-- Borrow Request div start -->
+<!-- Borrow Request div start 
 
 <div class="requests index large-9 medium-8 columns content">
     <h3><?= __('Borrow Requests') ?></h3>
