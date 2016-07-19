@@ -34,12 +34,27 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
+        $user_id = $this->request->session()->read('Auth.User.id');
         $user = $this->Users->get($id, [
             'contain' => ['Posts']
         ]);
 
         $this->set('user', $user);
         $this->set('_serialize', ['user']);
+        
+        //Load books and reviews related to the user
+        
+        $this->loadModel('Books');
+        $books = $this->Books->find('all', ['contain' => ['Users', 'Reviews'],
+            'conditions' => array(
+                "Books.user_id = $user->id")]);
+        $this->set('books', $books);
+        $this->set('_serialize', ['books']);
+        
+        if($user->id == $user_id)
+            $this->set('title', 'Your Profile');
+        else
+            $this->set('title', "$user->name's Profile");
     }
 
     /**
