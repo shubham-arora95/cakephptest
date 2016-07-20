@@ -53,7 +53,7 @@ class UsersTable extends Table
                 // our S3 adapter
                 // This can also be in a class that implements
                 // the TransformerInterface or any callable type.
-                'path' => 'static{DS}{model}{DS}{field}{DS}{primaryKey}',
+                'path' => 'webroot{DS}files{DS}{model}{DS}{field}{DS}{primaryKey}',
                 'transformer' => function (\Cake\Datasource\RepositoryInterface $table, \Cake\Datasource\EntityInterface $entity, $data, $field, $settings) {
                     // get the extension from the file
                     // there could be better ways to do this, and it will fail

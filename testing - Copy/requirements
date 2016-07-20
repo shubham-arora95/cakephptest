@@ -35,3 +35,13 @@
      <?php if($this->request->session()->read('Auth.User.role') == 1): ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $request->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $request->id], ['confirm' => __('Are you sure you want to delete # {0}?', $request->id)]) ?>
+                    
+                    
+
+13. Add reviews from borrower and owner after transaction
+
+14. Add loyalty points for users and books so that the book with more point appears upper
+
+15. Add categories and sub-categories and add filtering according to categories.
+
+16. Add email system.

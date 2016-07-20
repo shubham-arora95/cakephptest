@@ -16,12 +16,13 @@
     <section class="content">
       <!-- Your Page Content Here -->
         <div class="row" style="position:relative">
+            
         <div class="col-md-3" style="width:100%">
 
-          <!-- Book info -->
+          <!-- User info -->
           <div class="box box-primary" >
             <div class="box-body box-profile">
-                <a href="/files/Users/image/Tulips.jpg" target="_blank"><img class="profile-user-img img-responsive img-circle" src="/files/Users/image/Tulips.jpg" alt="Book Picture"></a>
+            <img class="profile-user-img img-responsive img-circle" src="/files/users/photo/<?= $user->id?>/thumbnail-<?= $user->photo?>" alt="Book Picture">
 
               <h3 class="profile-username text-center"><?= $user->name ?></h3>
 
@@ -108,7 +109,8 @@
                     <?php endif ?>
                 </div>
             </div>
-        </div>   
+        </div>
+        <?php if($user->id == $user_id) echo $this->Html->link(__('Edit Profile'),['action' => 'edit', $user->id],['class' => 'btn btn-primary btn-primary']) ?>
     </section>
     <!-- /.content -->
 

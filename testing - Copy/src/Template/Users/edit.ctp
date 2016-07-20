@@ -1,3 +1,49 @@
+<section class="content-header">
+      <h1>
+        Edit Your Profile
+        <small>Edit the details you want to change.</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="/books"><i class="fa fa-dashboard"></i>Books</a></li>
+        <li class="active">Edit</li>
+      </ol>
+</section>
+
+    <!-- Main content -->
+<section class="content">
+<!-- Your Page Content Here -->
+    <div class="box box-primary">
+        <div class="box-header with-border">
+        </div>
+        <?= $this->Form->create($user, ['type' => 'file']) ?>
+        <div class="box-body">    
+            <fieldset>
+            <div class="form-group">
+                <?php echo $this->Form->input('name', ['class' => 'form-control', 'placeholder' => 'Enter Book Title']);?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->Form->input('email', ['class' => 'form-control', 'placeholder' => 'Enter Book Writer', 'type' => 'email']);?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->Form->input('phone', ['class' => 'form-control', 'placeholder' => 'Enter Book Course', 'type' => 'number']);?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->Form->input('address', ['class' => 'form-control', 'placeholder' => 'Enter Book Description', 'type' => 'textarea']);?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->Form->input('photo', ['type' => 'file', 'required' => 'false']);?>
+            </div>
+            <div class="box-footer">
+                <?php echo $this->Form->button('Submit', ['class' => 'btn btn-primary']);?>
+            </div>
+        <?= $this->Form->end() ?>
+        </div>
+    </div>
+</section>
+
+
+
+<!----------------------------------------------------------------------->
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
@@ -28,7 +74,7 @@
             echo $this->Form->input('password');
             echo $this->Form->input('phone');
             echo $this->Form->input('address');
-            echo $this->Form->input('photo', ['type' => 'file']);
+            echo $this->Form->input('photo', ['type' => 'file', 'required' => 'false']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

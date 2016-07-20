@@ -90,14 +90,19 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
+        $photo = $user->photo;
         if($id == $this->request->session()->read('Auth.User.id'))
         {
             if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
+            if($this->request->data['photo']['name'] == null)
+            {
+                $user->photo = $photo;
+            }
             $user->set(array('image_dir' => 'img'));
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                $this->Flash->success(__('Your profile has been updated successfully.'));
+                return $this->redirect(['action' => 'view',$id]);
             } else {
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
@@ -110,7 +115,6 @@ class UsersController extends AppController
             $this->Flash->error(__('You are not authorized to do this.'));
             return $this->redirect(['controller' => 'home','action' => 'index']);
         }
-        
     }
 
     /**
@@ -120,17 +124,20 @@ class UsersController extends AppController
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->Flash->error(__('You are not authorized to do this.'));
+        return $this->redirect(['controller' => 'home','action' => 'index']);
+         
+        /* $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
         if ($this->Users->delete($user)) {
             $this->Flash->success(__('The user has been deleted.'));
         } else {
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
         }
-        return $this->redirect(['action' => 'index']);
-    }
+        return $this->redirect(['action' => 'index']); */
+    } 
     
     //Login Function
     public function login()
