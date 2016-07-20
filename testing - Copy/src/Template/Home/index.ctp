@@ -48,8 +48,15 @@
                 ?></a>
             </li>  
           </ul>
-
-          <a href="/books/borrow/<?= $book->id ?>" class="btn btn-primary btn-block"><b>Borrow</b></a>
+        <?php if($loggedIn): ?>
+            <?php if($book->user_id != $user_id): ?>
+              <a href="/books/borrow/<?= $book->id ?>" class="btn btn-primary btn-block"><b>Borrow</b></a>
+            <?php elseif($book->user_id == $user_id): ?>
+              <a class="btn btn-block"> You own this book.</a>
+            <?php endif; ?>
+        <?php else: ?>
+            <a href="/books/borrow/<?= $book->id ?>" class="btn btn-primary btn-block"><b>Borrow</b></a>
+        <?php endif; ?>
         </div>
         <!-- /.box-body -->
       </div>

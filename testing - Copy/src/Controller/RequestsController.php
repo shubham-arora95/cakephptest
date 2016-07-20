@@ -51,7 +51,8 @@ class RequestsController extends AppController
         $this->paginate = [
             'contain' => ['Books', 'Borrowers', 'Owners', 'Transactions'],
             'conditions' => array(
-                "Requests.borrower_id = $user_id"
+                "Requests.borrower_id = $user_id",
+                'Requests.transaction_id = 0'
         ),
         'order' => ['Requests.id' => 'DESC']];
         $borrowRequests = $this->paginate($this->Requests);
@@ -442,8 +443,8 @@ class RequestsController extends AppController
                 "Requests.borrower_id = $user_id",
                 "Requests.ownerAck = 1",
                 "Requests.rentPaid = 0"
-            )
-        ];
+            ),
+            'order' => ['Requests.id' => 'DESC']];
         $pendingPayments = $this->paginate($this->Requests);
         $this->set(compact('pendingPayments'));
         $this->set('_serialize', ['pendingPayments']);
@@ -453,10 +454,11 @@ class RequestsController extends AppController
             'conditions' => array(
                 "Requests.borrower_id = $user_id",
                 "Requests.rentPaid = 1"
-            )
-        ];
+            ),
+            'order' => ['Requests.id' => 'DESC']];
         $paidPayments = $this->paginate($this->Requests);
         $this->set(compact('paidPayments'));
         $this->set('_serialize', ['paidPayments']);
+        $this->set('title', 'My Payments');
     }
 }   

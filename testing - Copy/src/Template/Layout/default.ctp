@@ -60,9 +60,9 @@ desired effect
     <!-- Logo -->
     <a href="/home" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>A</b>LT</span>
+      <span class="logo-mini"><b>B</b>T</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>LTE</span>
+      <span class="logo-lg"><b>Books</b>Trade.com</span>
     </a>
 
     <!-- Header Navbar -->
@@ -76,9 +76,9 @@ desired effect
         <ul class="nav navbar-nav">
         <?php if($loggedIn): ?>
           <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown messages-menu">
+          <!-- <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>
               <span class="label label-success">4</span>
             </a>
@@ -86,35 +86,35 @@ desired effect
               <li class="header">You have 4 messages</li>
               <li>
                 <!-- inner menu: contains the messages -->
-                <ul class="menu">
+                <!-- <ul class="menu">
                   <li><!-- start message -->
-                    <a href="#">
+                    <!-- <a href="#">
                       <div class="pull-left">
                         <!-- User Image -->
-                        <img src="/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                        <!-- <img src="/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                       </div>
                       <!-- Message title and timestamp -->
-                      <h4>
+                      <!-- <h4>
                         Support Team
                         <small><i class="fa fa-clock-o"></i> 5 mins</small>
                       </h4>
                       <!-- The message -->
-                      <p>Why not buy a new awesome theme?</p>
+                      <!-- <p>Why not buy a new awesome theme?</p>
                     </a>
                   </li>
                   <!-- end message -->
-                </ul>
+                <!-- </ul>
                 <!-- /.menu -->
-              </li>
+              <!-- </li>
               <li class="footer"><a href="#">See All Messages</a></li>
             </ul>
-          </li>
+          </li> -->
           <!-- /.messages-menu -->
 
           <!-- Notifications Menu -->
-          <li class="dropdown notifications-menu">
+          <!-- <li class="dropdown notifications-menu">
             <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
               <span class="label label-warning">10</span>
             </a>
@@ -122,22 +122,22 @@ desired effect
               <li class="header">You have 10 notifications</li>
               <li>
                 <!-- Inner Menu: contains the notifications -->
-                <ul class="menu">
+                <!-- <ul class="menu">
                   <li><!-- start notification -->
-                    <a href="#">
+                    <!-- <a href="#">
                       <i class="fa fa-users text-aqua"></i> 5 new members joined today
                     </a>
                   </li>
                   <!-- end notification -->
-                </ul>
+                <!-- </ul>
               </li>
               <li class="footer"><a href="#">View all</a></li>
             </ul>
-          </li>
+          </li> -->
           <!-- Tasks Menu -->
-          <li class="dropdown tasks-menu">
+          <!-- <li class="dropdown tasks-menu">
             <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-flag-o"></i>
               <span class="label label-danger">9</span>
             </a>
@@ -145,31 +145,31 @@ desired effect
               <li class="header">You have 9 tasks</li>
               <li>
                 <!-- Inner menu: contains the tasks -->
-                <ul class="menu">
+                <!-- <ul class="menu">
                   <li><!-- Task item -->
-                    <a href="#">
+                    <!-- <a href="#">
                       <!-- Task title and progress text -->
-                      <h3>
+                      <!-- <h3>
                         Design some buttons
                         <small class="pull-right">20%</small>
                       </h3>
                       <!-- The progress bar -->
-                      <div class="progress xs">
+                      <!-- <div class="progress xs">
                         <!-- Change the css width attribute to simulate progress -->
-                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                        <!-- <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
                           <span class="sr-only">20% Complete</span>
                         </div>
                       </div>
                     </a>
                   </li>
                   <!-- end task item -->
-                </ul>
-              </li>
+                <!--</ul>
+              <!--</li>
               <li class="footer">
                 <a href="#">View all tasks</a>
               </li>
             </ul>
-          </li>
+          </li> -->
           <!-- User Account Menu -->
           <li class="dropdown user user-menu">
             <!-- Menu Toggle Button -->
@@ -237,16 +237,16 @@ desired effect
     <section class="sidebar">
 
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel">
+      <!--<div class="user-panel">
         <div class="pull-left image">
           <img src="/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p><?= $user_name ?></p>
           <!-- Status
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a> 
         </div>
-      </div>
+      </div>-->
 
       <!-- search form (Optional) -->
       <form action="#" method="get" class="sidebar-form">
@@ -266,7 +266,7 @@ desired effect
         <!-- Optionally, you can add icons to the links -->
         <li><a href="/books/add"><i class="fa fa-plus"></i> <span>Share Book</span></a></li>
         <li><a href="/books/search-book"><i class="fa fa-cart-plus"></i> <span>Borrow Book</span></a></li>
-        <li><a href="/books/my-books"><i class="fa  fa-folder-o"></i> <span>My Books</span></a></li>
+        
         <li class="treeview">
           <a href="#"><i class="fa fa-book"></i> <span>My Books</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
@@ -293,13 +293,7 @@ desired effect
           </ul>
         </li>
           
-        <li class="treeview">
-          <a href="#"><i class="fa fa-money"></i> <span>My Payments</span> <i class="fa fa-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">
-              <li><a href="/payments/pending"><i class="fa fa-money"></i>Pending Payments</a></li>
-              <li><a href="/payments/paid"><i class="fa fa-money"></i>Payments You Made</a></li>
-          </ul>
-        </li>
+        <li><a href="/requests/payments"><i class="fa fa-money"></i> <span>My Payments</span></a></li>
         
       </ul>
       <!-- /.sidebar-menu -->

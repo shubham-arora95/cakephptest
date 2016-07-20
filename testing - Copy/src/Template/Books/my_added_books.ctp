@@ -58,7 +58,7 @@
                             <h5>You can not edit or delete this book.</h5>    
                         </div>
                         <?= $this->Html->link(__('Add a Review'), ['controller' => 'reviews', 'action' => 'add', $book->id],['class' => 'btn btn-block btn-info']) ?>&nbsp;
-                        <?= $this->Html->link(__('Request Return'), ['action' => 'requestReturn', $book->id],['class' => 'btn btn-block btn-info']) ?>
+                        <?= $this->Html->link(__('Request Return'), ['action' => 'requestReturn', $book->id],['class' => 'btn btn-block btn-primary']) ?>
                     <?php endif; ?>
                 <?php endif ?>
             </div> 

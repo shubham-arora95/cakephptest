@@ -41,7 +41,7 @@
                 </li>
 
                 <li class="list-group-item">
-                    <b>Unique Code</b> <a class="pull-right"><?= $transaction->random ?></a>
+                    <b>Unique Code</b> <a class="pull-right"><?php if($transaction->status == 0) echo "You haven't entered yet."; else echo $transaction->random; ?></a>
                 </li>
 
                 <li class="list-group-item">
