@@ -90,10 +90,11 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
-        if($id == $this->request->session()->read('Auth.User.id') || $this->request->session()->read('Auth.User.role') == 1)
+        if($id == $this->request->session()->read('Auth.User.id'))
         {
             if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
+            $user->set(array('image_dir' => 'img'));
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
                 return $this->redirect(['action' => 'index']);

@@ -14,11 +14,11 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Time $modified
  * @property int $phone
  * @property string $address
+ * @property string $photo
  * @property \App\Model\Entity\BookTransaction[] $book_transactions
  * @property \App\Model\Entity\Book[] $books
  * @property \App\Model\Entity\Post[] $posts
- * @property \App\Model\Entity\Request[] $requests
- * @property \App\Model\Entity\Transaction[] $transactions
+ * @property \App\Model\Entity\Review[] $reviews
  */
 class User extends Entity
 {

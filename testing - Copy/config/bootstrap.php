@@ -223,3 +223,5 @@ Type::build('datetime')
 Plugin::load('Twit', ['bootstrap' => false, 'routes' => true]);
 
 Plugin::load('Twit', ['bootstrap' => false, 'routes' => true]);
+
+Plugin::load('Josegonzalez/Upload');

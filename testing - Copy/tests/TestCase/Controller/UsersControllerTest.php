@@ -17,7 +17,14 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'app.users',
-        'app.posts'
+        'app.book_transactions',
+        'app.books',
+        'app.requests',
+        'app.transactions',
+        'app.owners',
+        'app.posts',
+        'app.reviews',
+        'app.borrowers'
     ];
 
     /**
@@ -66,6 +73,46 @@ class UsersControllerTest extends IntegrationTestCase
      * @return void
      */
     public function testDelete()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test login method
+     *
+     * @return void
+     */
+    public function testLogin()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test logout method
+     *
+     * @return void
+     */
+    public function testLogout()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test register method
+     *
+     * @return void
+     */
+    public function testRegister()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test beforeFilter method
+     *
+     * @return void
+     */
+    public function testBeforeFilter()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

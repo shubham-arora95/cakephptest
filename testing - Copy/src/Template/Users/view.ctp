@@ -21,7 +21,7 @@
           <!-- Book info -->
           <div class="box box-primary" >
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="/img/user4-128x128.jpg" alt="Book Picture">
+                <a href="/files/Users/image/Tulips.jpg" target="_blank"><img class="profile-user-img img-responsive img-circle" src="/files/Users/image/Tulips.jpg" alt="Book Picture"></a>
 
               <h3 class="profile-username text-center"><?= $user->name ?></h3>
 
