@@ -15,9 +15,9 @@
     <!-- Your Page Content Here -->
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title"><?= __('Add Book') ?></h3>
+            <h3 class="box-title"><?= __('Edit Book') ?></h3>
         </div>
-        <?= $this->Form->create($book) ?>
+        <?= $this->Form->create($book, ['type' => 'file']) ?>
         <div class="box-body">    
             <fieldset>
             <div class="form-group">
@@ -38,19 +38,14 @@
             <div class="form-group">
                 <?php echo $this->Form->input('price', ['class' => 'form-control', 'placeholder' => 'Enter Book Price', 'type' => 'float']);?>
             </div>
+            <div class="form-group">
+                <?php echo $this->Form->input('photo', ['type' => 'file']);?>
+            </div>
             <div class="box-footer">
                 <?php echo $this->Form->button('Submit', ['class' => 'btn btn-primary']);?>
+                <?= $this->Html->link(__('Delete Book'), ['action' => 'delete', $book->id], ['confirm' => __('Are you sure you want to delete this book # {0}?', $book->id), 'class' => 'btn btn-primary btn-danger']) ?>
             </div>
-                <!-- <?php
-                    echo $this->Form->input('title');
-                    echo $this->Form->input('writer');
-                    echo $this->Form->input('edition');
-                    echo $this->Form->input('course');
-                    echo $this->Form->input('description');
-                    echo $this->Form->input('price');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?> -->
+    
         <?= $this->Form->end() ?>
         </div>
     </div>

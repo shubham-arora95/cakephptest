@@ -16,6 +16,7 @@ use Cake\ORM\Entity;
  * @property int $status
  * @property int $user_id
  * @property \App\Model\Entity\User $user
+ * @property string $photo
  * @property \App\Model\Entity\BookTransaction[] $book_transactions
  * @property \App\Model\Entity\Request[] $requests
  * @property \App\Model\Entity\Review[] $reviews

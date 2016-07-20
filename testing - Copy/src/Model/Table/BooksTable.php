@@ -49,6 +49,37 @@ class BooksTable extends Table
         $this->hasMany('Transactions', [
             'foreignKey' => 'book_id'
         ]);
+        
+        $this->addBehavior('Josegonzalez/Upload.Upload', [
+            'photo' => [
+                // Ensure the default filesystem writer writes using
+                // our S3 adapter
+                // This can also be in a class that implements
+                // the TransformerInterface or any callable type.
+                'path' => 'webroot{DS}files{DS}{model}{DS}{field}{DS}{primaryKey}',
+                'transformer' => function (\Cake\Datasource\RepositoryInterface $table, \Cake\Datasource\EntityInterface $entity, $data, $field, $settings) {
+                    // get the extension from the file
+                    // there could be better ways to do this, and it will fail
+                    // if the file has no extension
+                    $extension = pathinfo($data['name'], PATHINFO_EXTENSION);
+                    // Store the thumbnail in a temporary file
+                    $tmp = tempnam(sys_get_temp_dir(), 'upload') . '.' . $extension;
+                    // Use the Imagine library to DO THE THING
+                    $size = new \Imagine\Image\Box(128, 128);
+                    $mode = \Imagine\Image\ImageInterface::THUMBNAIL_INSET;
+                    $imagine = new \Imagine\Gd\Imagine();
+                    // Save that modified file to our temp file
+                    $imagine->open($data['tmp_name'])
+                            ->thumbnail($size, $mode)
+                            ->save($tmp);
+                    // Now return the original *and* the thumbnail
+                    return [
+                        $data['tmp_name'] => $data['name'],
+                        $tmp => 'thumbnail-' . $data['name'],
+                    ];
+                },
+            ],
+        ]);
     }
 
     /**
@@ -92,6 +123,10 @@ class BooksTable extends Table
             ->integer('status')
             ->requirePresence('status', 'create')
             ->notEmpty('status');
+        
+        $validator
+            ->requirePresence('photo', 'create')
+            ->notEmpty('photo');
 
         return $validator;
     }

@@ -38,11 +38,10 @@ class BooksController extends AppController
         $user_id = $this->request->session()->read('Auth.User.id');
         $this->log("user_id = $user_id", 'debug');
         $this->paginate = [
-            'contain' => ['Users']
-            /*'conditions' => array(
+            'contain' => ['Users'],
+            'conditions' => array(
                 "Books.user_id = $user_id"
-                //'Books.user_id = 1'
-            )*/
+            )
             
         ];
         $books = $this->paginate($this->Books);
@@ -129,7 +128,7 @@ class BooksController extends AppController
                 $book = $this->Books->patchEntity($book, $this->request->data);
                 if ($this->Books->save($book)) {
                     $this->Flash->success(__('The book has been saved.'));
-                    return $this->redirect(['action' => 'index']);
+                    return $this->redirect(['action' => 'view', $id]);
                 } else {
                     $this->Flash->error(__('The book could not be saved. Please, try again.'));
                 }
@@ -155,14 +154,14 @@ class BooksController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        //$this->request->allowMethod(['post', 'delete']);
         $book = $this->Books->get($id);
         if ($this->Books->delete($book)) {
             $this->Flash->success(__('The book has been deleted.'));
         } else {
             $this->Flash->error(__('The book could not be deleted. Please, try again.'));
         }
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'myAddedBooks']);
     }
 
     public function borrow($id = null)

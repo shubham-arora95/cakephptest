@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 30, 2016 at 01:25 PM
+-- Generation Time: Jul 20, 2016 at 02:16 PM
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -34,28 +34,17 @@ CREATE TABLE IF NOT EXISTS `books` (
   `course` varchar(265) NOT NULL,
   `description` text NOT NULL,
   `price` float NOT NULL,
-  `is_borrowed` tinyint(1) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+  `status` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `photo` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `books`
 --
 
-INSERT INTO `books` (`id`, `title`, `writer`, `edition`, `course`, `description`, `price`, `is_borrowed`, `user_id`) VALUES
-(1, 'finearts', 'abcd', '2', 'b.tech', 'book for finearts in english', 250, 0, 0),
-(2, 'C++', 'E balaguruswamy', '3rd', 'B.tech CSE', 'Very good book for C++', 300, 0, 0),
-(3, 'new book', 'abcd', '11', 'B.tech CSE', 'abcd1234567890', 500, 1, 1),
-(4, 'new book2', 'abcd', '2', 'B.tech CSE', 'abcd1234', 200, 0, 2),
-(5, 'C++', 'E balaguruswamy', '3rd', 'b.tech', 'abcd1234 test desc 1', 300, 1, 1),
-(7, 'new book for user_id test', 'abcd', '11', 'b.tech', 'abcd1234', 300, 0, 1),
-(8, 'new book2 for user_id test', 'E balaguruswamy', '11', 'B.tech CSE', 'dfertgrshgrst', 250, 0, 3),
-(9, 'logging testing', 'abcd', '11', 'B.tech CSE', 'abcd 1234567890000', 200, 0, 1),
-(10, 'logging testing', 'abcd', '11', 'B.tech CSE', 'abcd 1234567890000', 200, 0, 1),
-(11, 'logging testing', 'abcd', '11', 'B.tech CSE', 'abcd 1234567890000', 200, 0, 1),
-(12, 'logging testing', 'abcd', '11', 'B.tech CSE', 'abcd 1234567890000', 200, 0, 1),
-(13, 'logging testing', 'abcd', '11', 'B.tech CSE', 'abcd 1234567890000', 200, 0, 1),
-(14, 'logging testing', 'abcd', '11', 'B.tech CSE', 'abcd 1234567890000', 200, 0, 1);
+INSERT INTO `books` (`id`, `title`, `writer`, `edition`, `course`, `description`, `price`, `status`, `user_id`, `photo`) VALUES
+(22, '19-7 final 1st test', '19-7 final 1st test writer', '2', 'B.tech CSE', 'dnfcjivhfdkvgfhgh', 100, 1, 1, '');
 
 -- --------------------------------------------------------
 
@@ -103,25 +92,28 @@ CREATE TABLE IF NOT EXISTS `book_transactions` (
 
 CREATE TABLE IF NOT EXISTS `menus` (
   `id` int(11) unsigned NOT NULL,
+  `place` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
   `controller` varchar(255) NOT NULL,
   `action` varchar(255) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `menus`
 --
 
-INSERT INTO `menus` (`id`, `name`, `controller`, `action`, `created`, `modified`) VALUES
-(1, 'List All Books', 'Books', 'index', '2016-06-24 07:30:12', '2016-06-24 07:30:12'),
-(2, 'My Books', 'Books', 'myBooks', '2016-06-24 07:30:52', '2016-06-24 07:30:52'),
-(3, 'Share Book', 'Books', 'add', '2016-06-24 08:56:09', '2016-06-24 08:59:06'),
-(4, 'Add Review', 'Reviews', 'add', '2016-06-24 08:57:04', '2016-06-24 08:57:04'),
-(5, 'Add Menu', 'Menus', 'add', '2016-06-24 09:00:31', '2016-06-24 09:00:31'),
-(6, 'Home', 'home', 'index', '2016-06-24 11:19:35', '2016-06-24 11:19:35'),
-(7, 'Borrow Book', 'Books', 'searchBook', '2016-06-28 06:22:35', '2016-06-28 06:22:35');
+INSERT INTO `menus` (`id`, `place`, `name`, `controller`, `action`, `created`, `modified`) VALUES
+(2, 3, 'My Books', 'Books', 'myBooks', '2016-06-24 07:30:52', '2016-07-05 04:37:11'),
+(3, 1, 'Share Book', 'Books', 'add', '2016-06-24 08:56:09', '2016-07-05 04:36:28'),
+(4, 4, 'Add Review', 'Reviews', 'add', '2016-06-24 08:57:04', '2016-07-05 04:37:32'),
+(5, 20, 'Add Menu', 'Menus', 'add', '2016-06-24 09:00:31', '2016-07-07 05:32:05'),
+(6, 0, 'Home', 'home', 'index', '2016-06-24 11:19:35', '2016-06-24 11:19:35'),
+(7, 2, 'Borrow Book', 'Books', 'searchBook', '2016-06-28 06:22:35', '2016-07-05 04:36:52'),
+(10, 8, 'My Transactions', 'transactions', 'index', '2016-07-07 05:33:11', '2016-07-07 05:33:11'),
+(11, 9, 'My Payments', 'requests', 'payments', '2016-07-07 11:14:09', '2016-07-07 11:14:09'),
+(12, 5, 'My Requests', 'requests', 'index', '2016-07-12 17:51:54', '2016-07-12 17:51:54');
 
 -- --------------------------------------------------------
 
@@ -146,23 +138,29 @@ CREATE TABLE IF NOT EXISTS `posts` (
 
 CREATE TABLE IF NOT EXISTS `requests` (
   `id` int(11) NOT NULL,
+  `transaction_id` int(11) NOT NULL,
   `book_id` int(11) NOT NULL,
-  `borrowerid` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `borrower_id` int(11) NOT NULL,
+  `owner_id` int(11) NOT NULL,
   `Weeks` int(11) NOT NULL,
-  `ownerAck` tinyint(1) NOT NULL,
-  `rentPaid` tinyint(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  `ownerAck` int(1) NOT NULL,
+  `rentPaid` tinyint(1) NOT NULL,
+  `created` datetime NOT NULL,
+  `payment_date` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `requests`
 --
 
-INSERT INTO `requests` (`id`, `book_id`, `borrowerid`, `user_id`, `Weeks`, `ownerAck`, `rentPaid`) VALUES
-(1, 4, 1, 2, 1, 0, 0),
-(2, 4, 1, 2, 1, 0, 0),
-(3, 4, 1, 2, 3, 0, 0),
-(4, 4, 1, 2, 3, 1, 1);
+INSERT INTO `requests` (`id`, `transaction_id`, `book_id`, `borrower_id`, `owner_id`, `Weeks`, `ownerAck`, `rentPaid`, `created`, `payment_date`) VALUES
+(54, 63, 22, 2, 1, 2, 4, 1, '2016-07-19 11:54:04', '2016-07-19 17:26:19'),
+(55, 64, 22, 2, 1, 3, 4, 1, '2016-07-19 11:58:48', '2016-07-19 17:29:09'),
+(56, 0, 22, 2, 1, 1, 3, 0, '2016-07-20 06:18:27', '0000-00-00 00:00:00'),
+(57, 65, 22, 2, 1, 2, 4, 1, '2016-07-20 06:46:17', '2016-07-20 12:16:48'),
+(58, 66, 22, 2, 1, 2, 4, 1, '2016-07-20 06:48:30', '2016-07-20 12:18:54'),
+(59, 67, 23, 2, 1, 2, 4, 1, '2016-07-20 08:32:15', '2016-07-20 14:03:29'),
+(60, 68, 23, 2, 1, 1, 4, 1, '2016-07-20 10:09:02', '2016-07-20 15:40:11');
 
 -- --------------------------------------------------------
 
@@ -172,18 +170,12 @@ INSERT INTO `requests` (`id`, `book_id`, `borrowerid`, `user_id`, `Weeks`, `owne
 
 CREATE TABLE IF NOT EXISTS `reviews` (
   `id` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
   `review` text NOT NULL,
-  `book_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `reviews`
---
-
-INSERT INTO `reviews` (`id`, `review`, `book_id`) VALUES
-(1, 'abcd1234', 0),
-(3, 'abcd review', 6),
-(4, 'abcd test review 1for item new book2', 4);
+  `book_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -193,22 +185,27 @@ INSERT INTO `reviews` (`id`, `review`, `book_id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `transactions` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `request_id` int(11) NOT NULL,
   `book_id` int(11) NOT NULL,
-  `issue_date` date NOT NULL,
-  `return_date` date NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+  `status` int(11) NOT NULL,
+  `owner_id` int(11) NOT NULL,
+  `borrower_id` int(11) NOT NULL,
+  `issue_date` datetime NOT NULL,
+  `return_date` datetime NOT NULL,
+  `random` varchar(265) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `transactions`
 --
 
-INSERT INTO `transactions` (`id`, `user_id`, `book_id`, `issue_date`, `return_date`) VALUES
-(1, 1, 4, '0000-00-00', '0000-00-00'),
-(2, 1, 8, '2016-06-28', '2016-06-28'),
-(3, 1, 4, '2016-06-28', '2016-06-28'),
-(4, 1, 4, '2016-06-30', '2016-06-30'),
-(5, 1, 8, '2016-06-30', '2016-06-30');
+INSERT INTO `transactions` (`id`, `request_id`, `book_id`, `status`, `owner_id`, `borrower_id`, `issue_date`, `return_date`, `random`) VALUES
+(63, 54, 22, 3, 1, 2, '2016-07-19 17:26:19', '2016-08-02 17:26:19', 'e649284'),
+(64, 55, 22, 3, 1, 2, '2016-07-19 17:29:09', '2016-08-09 17:29:09', 'e140dba'),
+(65, 57, 22, 3, 1, 2, '2016-07-20 12:16:48', '2016-08-03 12:16:48', 'ac65fa3'),
+(66, 58, 22, 0, 1, 2, '2016-07-20 12:18:54', '2016-08-03 12:18:54', '5557b67'),
+(67, 59, 23, 3, 1, 2, '2016-07-20 14:03:29', '2016-08-03 14:03:29', '15a676c'),
+(68, 60, 23, 3, 1, 2, '2016-07-20 15:40:11', '2016-07-27 15:40:11', '2d95666');
 
 -- --------------------------------------------------------
 
@@ -222,17 +219,20 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(265) NOT NULL,
   `password` varchar(265) NOT NULL,
   `created` datetime NOT NULL,
-  `modified` datetime NOT NULL
+  `modified` datetime NOT NULL,
+  `phone` int(10) NOT NULL,
+  `address` text NOT NULL,
+  `photo` varchar(255) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `created`, `modified`) VALUES
-(1, 'Shubham1', 'arora.shubham95@gmail.com', '$2y$10$Oa0OhSyTj46/lq3pCRAjke31MIslhhmN1S.zONJNNm5asuYsQBT7.', '2016-06-21 08:01:44', '2016-06-22 10:37:45'),
-(2, 'Shubham2', 'arora.shubham96@gmail.com', '$2y$10$fCDml9f8SwUci29fVTk9OuRA59npsM96T0w3OI7Hjj3s31pHyrNJG', '2016-06-21 10:27:38', '2016-06-22 10:37:51'),
-(3, 'Shubham3', 'arora.shubham97@gmail.com', '$2y$10$fWmy7.nFAImzPb6axMDJNuoUF6zXJWBF30jEAsC8i4owLoDRpIOja', '2016-06-22 07:08:59', '2016-06-22 10:37:58');
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `created`, `modified`, `phone`, `address`, `photo`) VALUES
+(1, 'Shubham1', 'arora.shubham95@gmail.com', '$2y$10$fCDml9f8SwUci29fVTk9OuRA59npsM96T0w3OI7Hjj3s31pHyrNJG', '2016-06-21 08:01:44', '2016-07-20 09:59:42', 5, 'vdvrrrrrrrfggggggggg', 'Penguins.jpg'),
+(2, 'Shubham2', 'arora.shubham96@gmail.com', '$2y$10$fCDml9f8SwUci29fVTk9OuRA59npsM96T0w3OI7Hjj3s31pHyrNJG', '2016-06-21 10:27:38', '2016-07-20 11:26:16', 15, 'dsdfdgvfg', 'Penguins.jpg'),
+(3, 'Shubham3', 'arora.shubham97@gmail.com', '$2y$10$fWmy7.nFAImzPb6axMDJNuoUF6zXJWBF30jEAsC8i4owLoDRpIOja', '2016-06-22 07:08:59', '2016-06-22 10:37:58', 0, '', '');
 
 --
 -- Indexes for dumped tables
@@ -300,7 +300,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `booksavailable`
 --
@@ -315,7 +315,7 @@ ALTER TABLE `book_transactions`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `posts`
 --
@@ -325,17 +325,17 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `requests`
 --
 ALTER TABLE `requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=61;
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=69;
 --
 -- AUTO_INCREMENT for table `users`
 --

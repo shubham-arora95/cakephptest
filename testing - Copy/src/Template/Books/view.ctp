@@ -91,15 +91,15 @@
               <div class="box-footer">
                 <?php if($book->user_id == $user_id): ?>
                     <?php if($book->status == 0): ?>
-                        <a href="/books/edit/<?php echo $book->id ?>" class="btn btn-primary btn-block"><b>Edit</b></a><br/>
-                        <?= $this->Form->postButton(__('Delete'), ['controller' => 'Books', 'action' => 'delete', $book->id], ['class' => 'btn btn-primary btn-block', 'confirm' => __('Are you sure you want to delete this book?')]) ?>
+                        <a href="/books/edit/<?php echo $book->id ?>" class="btn btn-primary btn-primary"><b>Edit Book</b></a>
+                        <?= $this->Html->link(__('Delete Book'), ['action' => 'delete', $book->id], ['confirm' => __('Are you sure you want to delete # {0}?', $book->id), 'class' => 'btn btn-primary btn-danger']) ?>
                     <?php else: ?>
                         <div class="callout callout-warning">
                             <h5>You can not edit or delete this book.</h5>    
                         </div>
                     <?php endif; ?>
                 <?php elseif($book->user_id != $user_id && $book->status ==0): ?>
-                    <a href="#" class="btn btn-primary btn-block"><b>Borrow</b></a>
+                    <a href="/books/borrow/<?= $book->id ?>" class="btn btn-primary"><b>Borrow</b></a>
                 <?php endif; ?>
               </div>
           </div>

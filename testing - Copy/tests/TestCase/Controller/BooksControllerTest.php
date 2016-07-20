@@ -98,11 +98,11 @@ class BooksControllerTest extends IntegrationTestCase
     }
 
     /**
-     * Test myBooks method
+     * Test myAddedBooks method
      *
      * @return void
      */
-    public function testMyBooks()
+    public function testMyAddedBooks()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -123,6 +123,16 @@ class BooksControllerTest extends IntegrationTestCase
      * @return void
      */
     public function testIssued()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test borrowed method
+     *
+     * @return void
+     */
+    public function testBorrowed()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
