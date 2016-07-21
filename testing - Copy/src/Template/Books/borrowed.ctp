@@ -19,7 +19,9 @@
           <!-- Book info -->
           <div class="box box-primary">
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="/img/user4-128x128.jpg" alt="User profile picture">
+                <a href="/files/books/photo/<?= $transaction->book->id?>/<?= $transaction->book->photo ?>" data-lightbox="image-1" data-title="<?php echo $transaction->book->photo ?>">
+                    <img style="width:200px" class="profile-user-img img-responsive img-circle" src="/files/books/photo/<?= $transaction->book->id?>/thumbnail-<?= $transaction->book->photo ?>" alt="Book Picture">
+                </a>
 
               <h3 class="profile-username text-center"><?= $this->Html->link($transaction->book->title,['controller' => 'Books', 'action' => 'view', $transaction->book_id]) ?></h3>
 

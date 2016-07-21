@@ -38,6 +38,9 @@
             <div class="form-group">
                 <?php echo $this->Form->input('price', ['class' => 'form-control', 'placeholder' => 'Enter Book Price', 'type' => 'number']);?>
             </div>
+            <div class="form-group">
+                <?php echo $this->Form->input('photo', ['type' => 'file']);?>
+            </div>
             <div class="box-footer">
                 <?php echo $this->Form->button('Submit', ['class' => 'btn btn-primary']);?>
             </div>

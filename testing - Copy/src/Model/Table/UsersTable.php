@@ -62,7 +62,7 @@ class UsersTable extends Table
                     // Store the thumbnail in a temporary file
                     $tmp = tempnam(sys_get_temp_dir(), 'upload') . '.' . $extension;
                     // Use the Imagine library to DO THE THING
-                    $size = new \Imagine\Image\Box(128, 128);
+                    $size = new \Imagine\Image\Box(200, 200);
                     $mode = \Imagine\Image\ImageInterface::THUMBNAIL_INSET;
                     $imagine = new \Imagine\Gd\Imagine();
                     // Save that modified file to our temp file

@@ -22,8 +22,9 @@
           <!-- User info -->
           <div class="box box-primary" >
             <div class="box-body box-profile">
-            <img class="profile-user-img img-responsive img-circle" src="/files/users/photo/<?= $user->id?>/thumbnail-<?= $user->photo?>" alt="Book Picture">
-
+            <a href="/files/users/photo/<?= $user->id?>/<?= $user->photo ?>" data-lightbox="image-1" data-title="<?php echo $user->photo ?>">
+                <img style="width:200px" class="profile-user-img img-responsive img-circle" src="/files/users/photo/<?= $user->id?>/thumbnail-<?= $user->photo?>" alt="User Picture">
+            </a>
               <h3 class="profile-username text-center"><?= $user->name ?></h3>
 
               <p class="text-muted text-center"><?php echo "Member since - ".$user->created; ?></p>
@@ -66,7 +67,9 @@
                       <!-- Book info -->
                       <div class="box box-primary">
                         <div class="box-body box-profile">
-                          <img class="profile-user-img img-responsive img-circle" src="/img/user4-128x128.jpg" alt="User profile picture">
+                          <a href="/files/books/photo/<?= $book->id?>/<?= $book->photo ?>" data-lightbox="image-1" data-title="<?php echo $book->photo ?>">
+                            <img style="" class="profile-user-img img-responsive img-circle" src="/files/books/photo/<?= $book->id?>/thumbnail-<?= $book->photo ?>" alt="Book Picture">
+                          </a>
 
                           <h3 class="profile-username text-center"><?= $this->Html->link("$book->title",['controller' => 'Books', 'action' => 'view', $book->id]) ?></h3>
 

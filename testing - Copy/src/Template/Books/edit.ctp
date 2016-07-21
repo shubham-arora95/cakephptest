@@ -39,6 +39,10 @@
                 <?php echo $this->Form->input('price', ['class' => 'form-control', 'placeholder' => 'Enter Book Price', 'type' => 'float']);?>
             </div>
             <div class="form-group">
+                <legend>Edit Photo</legend>
+                <a href="/files/books/photo/<?= $book->id?>/<?= $book->photo ?>" data-lightbox="image-1" data-title="<?php echo $book->photo ?>">
+                    <img style="width:200px" class="profile-user-img img-responsive img-circle" src="/files/books/photo/<?= $book->id?>/thumbnail-<?= $book->photo ?>" alt="Book Picture">
+                </a>
                 <?php echo $this->Form->input('photo', ['type' => 'file']);?>
             </div>
             <div class="box-footer">

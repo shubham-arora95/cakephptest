@@ -92,9 +92,14 @@ class BooksController extends AppController
     {
         $user_id = $this->request->session()->read('Auth.User.id');
         $book = $this->Books->newEntity();
+        $photo = $book->photo;
         $this->log($this->request->data, 'debug');
         if ($this->request->is('post')) {
             $book = $this->Books->patchEntity($book, $this->request->data);
+            if($this->request->data['photo']['name'] == null)
+            {
+                $book->photo = $photo;
+            }
             $book->set(array('user_id' => "$user_id", 'status' => '0'));
             if ($this->Books->save($book)) {
                 $this->Flash->success(__('The book has been saved.'));
@@ -122,10 +127,15 @@ class BooksController extends AppController
         $book = $this->Books->get($id, [
             'contain' => []
         ]);
+        $photo = $book->photo;
         if($book->status == 0 && $book->user_id == $user_id)
         {
             if ($this->request->is(['patch', 'post', 'put'])) {
                 $book = $this->Books->patchEntity($book, $this->request->data);
+                if($this->request->data['photo']['name'] == null)
+                {
+                    $book->photo = $photo;
+                }
                 if ($this->Books->save($book)) {
                     $this->Flash->success(__('The book has been saved.'));
                     return $this->redirect(['action' => 'view', $id]);
